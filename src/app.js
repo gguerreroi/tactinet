@@ -25,6 +25,6 @@ app.use(json());
 app.use("/", appRoutes);
 app.use("/api", apiRoutes);
 
-app.use(express.static("public"));
+app.use(express.static(join(__dirname, '/public')));
 
 export default app;
