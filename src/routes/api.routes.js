@@ -2,7 +2,7 @@ import { Router } from "express";
 
 const router = Router();
 
-router.get('/', function(request, response) {
+router.get('/auth', function(request, response) {
     response.json({Hello: 'World'});
 });
     

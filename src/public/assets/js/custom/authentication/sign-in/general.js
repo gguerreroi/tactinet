@@ -1,5 +1,6 @@
 "use strict";
 
+const url = `${window.location.origin}/api`;
 // Class definition
 var KTSigninGeneral = function() {
     // Elements
@@ -17,17 +18,17 @@ var KTSigninGeneral = function() {
                     'email': {
                         validators: {
                             notEmpty: {
-                                message: 'Email address is required'
+                                message: 'Email es obligatorio'
                             },
                             emailAddress: {
-                                message: 'The value is not a valid email address'
+                                message: 'Los datos ingresados no son un correo valido'
                             }
                         }
                     },
                     'password': {
                         validators: {
                             notEmpty: {
-                                message: 'The password is required'
+                                message: 'Se necesita un password'
                             }
                         }
                     }
@@ -56,35 +57,44 @@ var KTSigninGeneral = function() {
                     submitButton.disabled = true;
 
 
-                    // Simulate ajax request
-                    setTimeout(function() {
-                        // Hide loading indication
-                        submitButton.removeAttribute('data-kt-indicator');
+                    // // Simulate ajax request
+                    // setTimeout(function() {
+                    //     // Hide loading indication
+                    //     submitButton.removeAttribute('data-kt-indicator');
 
-                        // Enable button
-                        submitButton.disabled = false;
+                    //     // Enable button
+                    //     submitButton.disabled = false;
 
-                        // Show message popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
-                        Swal.fire({
-                            text: "You have successfully logged in!",
-                            icon: "success",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn btn-primary"
-                            }
-                        }).then(function (result) {
-                            if (result.isConfirmed) {
-                                form.querySelector('[name="email"]').value= "";
-                                form.querySelector('[name="password"]').value= "";
-                                //form.submit(); // submit form
-                            }
-                        });
-                    }, 2000);
+                    //     // Show message popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
+                    //     Swal.fire({
+                    //         text: "You have successfully logged in!",
+                    //         icon: "success",
+                    //         buttonsStyling: false,
+                    //         confirmButtonText: "Ok, got it!",
+                    //         customClass: {
+                    //             confirmButton: "btn btn-primary"
+                    //         }
+                    //     }).then(function (result) {
+                    //         if (result.isConfirmed) {
+                    //             form.querySelector('[name="email"]').value= "";
+                    //             form.querySelector('[name="password"]').value= "";
+                    //             //form.submit(); // submit form
+                    //         }
+                    //     });
+                    // }, 2000);
+
+                    $.ajax({
+                        url: 'http://localhost:3000',
+                        type: 'get',
+                        onsuccess: function(response){
+
+                        }
+                    });
+
                 } else {
                     // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                     Swal.fire({
-                        text: "Lo siento, algun error fue detectado, intenta de nuevo.",
+                        text: "Los datos de ingreso estan vacios",
                         icon: "error",
                         buttonsStyling: false,
                         confirmButtonText: "Ok",
