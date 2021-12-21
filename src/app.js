@@ -4,7 +4,7 @@ import express, {urlencoded, json} from "express";
 import morgan from "morgan";
 
 //db
-import { getConnection } from "./middlewares/db";
+import { getConnection } from "./middlewares/database";
 
 //routes
 import appRoutes from "./routes/app.routes";

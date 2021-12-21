@@ -83,13 +83,41 @@ var KTSigninGeneral = function() {
                     //     });
                     // }, 2000);
 
-                    $.ajax({
-                        url: 'http://localhost:3000',
-                        type: 'get',
-                        onsuccess: function(response){
+                    const split = document.getElementsByName('email')[0].value.split('@')
+                    const user = split[0]
+                    const entity = split[1]
+                    const pass = document.getElementsByName('password')[0].value
 
+                    $.ajax({
+                        url: `${url}/auth`,
+                        type: 'post',
+                        dataType: 'json',
+                        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                        data: {
+                            username: user,
+                            password: pass,
+                            database: entity
                         }
-                    });
+                    }).done(function(data){
+                        console.log("done", data)
+                        // Hide loading indication && Enable button
+
+                    }).fail(function(error){
+                        const {Message} = error.responseJSON.state;
+                        Swal.fire({
+                            text: `${error.status} - ${Message}`,
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok",
+                            customClass: {
+                                confirmButton: "btn btn-primary"
+                            }
+                        });
+                    }).always(function(){
+                        // Hide loading indication && Enable button
+                        submitButton.removeAttribute('data-kt-indicator');
+                        submitButton.disabled = false;
+                    })
 
                 } else {
                     // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
