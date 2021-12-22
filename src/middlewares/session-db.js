@@ -1,13 +1,30 @@
 "use strict";
 
-import {getConnection} from "./database";
+
 import config from "../config/config";
+const mssql = require('mssql')
 
-const a = await getConnection(
-    config.DB.USER,
-    config.DB.PASSWORD,
-    config.DB.HOST,
-    config.DB.DATABASE
-)
+export function getConnection(){
+    let connection;
 
-export default a
+    try{
+        const ConnectionString = {
+            user: config.DB.USER,
+            password: config.DB.PASSWORD,
+            server: config.DB.HOST,
+            database: config.DB.DATABASE,
+            options: {
+                encrypt: false,
+                enableArithAbort: true
+            }
+        }
+
+        mssql.connect(ConnectionString, function(err){
+            return mssql.connect();
+        })
+
+
+    }catch (e){
+        console.log(e)
+    }
+}
