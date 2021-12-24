@@ -1,6 +1,13 @@
 "use strict";
-
+// const btn = document.getElementById('kt_sign_in_submit');
+// btn.disabled = true;
+//
 const url = `${window.location.origin}/api`;
+// $.ajax({
+//     url: `${url}/api/failure`,
+//     type: 'get',
+//
+// })
 // Class definition
 var KTSigninGeneral = function() {
     // Elements
@@ -103,16 +110,17 @@ var KTSigninGeneral = function() {
                         // Hide loading indication && Enable button
 
                     }).fail(function(error){
-                        const {Message} = error.responseJSON.state;
-                        Swal.fire({
-                            text: `${error.status} - ${Message}`,
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok",
-                            customClass: {
-                                confirmButton: "btn btn-primary"
-                            }
-                        });
+                        console.log("error fail: ", error)
+                        // const {Message} = error.responseJSON.state;
+                        // Swal.fire({
+                        //     text: `${error.status} - ${Message}`,
+                        //     icon: "error",
+                        //     buttonsStyling: false,
+                        //     confirmButtonText: "Ok",
+                        //     customClass: {
+                        //         confirmButton: "btn btn-primary"
+                        //     }
+                        // });
                     }).always(function(){
                         // Hide loading indication && Enable button
                         submitButton.removeAttribute('data-kt-indicator');

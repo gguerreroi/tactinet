@@ -1,19 +1,34 @@
 import {Router} from "express";
 
-import passport from "passport";
+const passport = require('passport');
 
-const router = Router();
 
-router.post('/auth',
+import {JsonOut} from "../middlewares/JsonOut";
 
-    function (request, response, next) {
+const r = Router();
+
+r.post('/auth',
+
+    (request, response, next) => {
 
         passport.authenticate('local', {
-            successRedirect: '/',
-            failureRedirect: '/login',
-            failureMessage: true
-        })(request, response, next)
+            successRedirect: '/api/success',
+            failureRedirect: '/api/failure'
+        })(request, response, next);
     }
 )
 
-export default router;
+r.get('/failure',
+    function (request, response) {
+        console.log("Session", request.session.message)
+        console.log("request: ", request.session)
+        response.status(401).send(JsonOut(401, 'Usuario o contraseña invalida'))
+
+    });
+
+r.get('/success', (request, response, next) => {
+    console.log(request.session.message)
+    response.status(200).send(JsonOut(200, 'All Ok, US Logged'))
+});
+
+export default r;

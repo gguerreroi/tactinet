@@ -20,22 +20,26 @@
   },
   "homepage": "https://github.com/gguerreroi/tactinet#readme",
   "dependencies": {
-    "@babel/node": "^7.16.0",
+    "@babel/node": "^7.14.7",
     "@babel/polyfill": "^7.12.1",
     "axios": "^0.24.0",
+    "connect-flash": "^0.1.1",
+    "connect-session-sequelize": "^7.1.1",
+    "cookie-parser": "^1.4.5",
+    "cron": "^1.8.2",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "morgan": "^1.10.0",
     "mssql": "^7.3.0",
-    "mssql-session-store": "^1.0.0",
-    "passport": "^0.5.2",
-    "passport-local": "^1.0.0"
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "sequelize": "^6.6.5"
   },
   "devDependencies": {
-    "@babel/cli": "^7.16.0",
-    "@babel/core": "^7.16.0",
-    "@babel/preset-env": "^7.16.4",
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
     "nodemon": "^2.0.15"
   }
 }

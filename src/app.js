@@ -1,23 +1,31 @@
 "use strict";
-//node modules
 import express, {urlencoded, json} from "express";
 import morgan from "morgan";
-
-const passport = require('passport');
-
-//routes
 import appRoutes from "./routes/app.routes";
 import apiRoutes from "./routes/api.routes";
 import config from "./config/config";
 
 const session = require('express-session');
-const mssqlstore = require('mssql-session-store')(session);
-const mssql = require('mssql');
-
+const flash = require('connect-flash');
+const cookieParser = require('cookie-parser');
 const {join} = require('path');
+const Sequelize = require("sequelize");
+const passport = require('passport');
 
 const app = express();
-require('./middlewares/passport')
+
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+require('./middlewares/local.passport');
+
+let dbsession = new Sequelize({
+    dialect: 'mssql',
+    host: config.DB.HOST,
+    username: config.DB.USER,
+    password: config.DB.PASSWORD,
+    database: config.DB.DATABASE
+});
+
+
 
 app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'ejs');
@@ -25,33 +33,21 @@ app.set('views', join(__dirname, 'views'));
 
 //middlewares
 app.use(morgan('dev'));
-app.use(urlencoded({extended: false}));
+app.use(urlencoded({extended: true}));
 app.use(json());
-
+app.use(cookieParser('TACTINETAPP'))
 app.use(session({
-    store: new mssqlstore({
-        connection: mssql.connect({user: config.DB.USER,
-            password: config.DB.PASSWORD,
-            server: config.DB.HOST,
-            database: config.DB.DATABASE,
-            options: {
-                encrypt: false,
-                enableArithAbort: true
-            }}),
-        ttl: 3600,
-        reapInterval: 3600,
-        reapCallback: function () {
-            console.log('expired sessions were removed');
-        }
-    }),
     secret: 'TACTINETAPP',
-    resave: false,
-    saveUninitialized: false
-}))
+    resave: true,
+    saveUninitialized: true,
+    store: new SequelizeStore({
+        db: dbsession
+    })
+}));
 
-
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/", appRoutes);
 app.use("/api", apiRoutes);

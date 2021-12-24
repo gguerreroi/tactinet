@@ -3,7 +3,6 @@ const mssql = require('mssql')
 let pool;
 
 export async function getConnection(user, password, server, database) {
-
     let connPool;
 
     try {
@@ -33,7 +32,6 @@ export async function getConnection(user, password, server, database) {
         return pool;
     } catch (e) {
         pool = null
-
         return {
             code: 500,
             message: `${e.code} ${e.originalError}`
