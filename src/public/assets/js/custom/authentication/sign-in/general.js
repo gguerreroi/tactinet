@@ -108,19 +108,30 @@ var KTSigninGeneral = function() {
                     }).done(function(data){
                         console.log("done", data)
                         // Hide loading indication && Enable button
+                        window.location.href = "/"
 
                     }).fail(function(error){
-                        console.log("error fail: ", error)
-                        // const {Message} = error.responseJSON.state;
-                        // Swal.fire({
-                        //     text: `${error.status} - ${Message}`,
-                        //     icon: "error",
-                        //     buttonsStyling: false,
-                        //     confirmButtonText: "Ok",
-                        //     customClass: {
-                        //         confirmButton: "btn btn-primary"
-                        //     }
-                        // });
+                        //console.log("error fail: ", error)
+                        if (error.responseJSON != undefined){
+                            const {state, data} = error.responseJSON;
+                            let code, message;
+                            console.log(state, data)
+                            code = state.Code
+                            message = state.Message
+                            if (data != undefined)
+                                message = data.message;
+
+                            Swal.fire({
+                                text: `${code} - ${message}`,
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok",
+                                customClass: {
+                                    confirmButton: "btn btn-primary"
+                                }
+                            });
+                        }
+                         
                     }).always(function(){
                         // Hide loading indication && Enable button
                         submitButton.removeAttribute('data-kt-indicator');

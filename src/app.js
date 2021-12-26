@@ -6,7 +6,7 @@ import apiRoutes from "./routes/api.routes";
 import config from "./config/config";
 
 const session = require('express-session');
-const flash = require('connect-flash');
+
 const cookieParser = require('cookie-parser');
 const {join} = require('path');
 const Sequelize = require("sequelize");
@@ -45,7 +45,7 @@ app.use(session({
     })
 }));
 
-app.use(flash());
+
 app.use(passport.initialize());
 app.use(passport.session());
 

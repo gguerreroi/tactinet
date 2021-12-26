@@ -23,7 +23,6 @@
     "@babel/node": "^7.14.7",
     "@babel/polyfill": "^7.12.1",
     "axios": "^0.24.0",
-    "connect-flash": "^0.1.1",
     "connect-session-sequelize": "^7.1.1",
     "cookie-parser": "^1.4.5",
     "cron": "^1.8.2",

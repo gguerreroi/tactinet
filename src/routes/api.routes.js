@@ -11,6 +11,8 @@ r.post('/auth',
 
     (request, response, next) => {
 
+        request.session.message = {};
+
         passport.authenticate('local', {
             successRedirect: '/api/success',
             failureRedirect: '/api/failure'
@@ -20,15 +22,24 @@ r.post('/auth',
 
 r.get('/failure',
     function (request, response) {
-        console.log("Session", request.session.message)
-        console.log("request: ", request.session)
-        response.status(401).send(JsonOut(401, 'Usuario o contraseña invalida'))
+        let mess = "Usuario o contraseña invalida"
 
+       if (request.session.message !== undefined )
+           mess = request.session.message.data.message;
+
+        response.status(401).send(JsonOut(401, mess))
     });
 
-r.get('/success', (request, response, next) => {
-    console.log(request.session.message)
-    response.status(200).send(JsonOut(200, 'All Ok, US Logged'))
+r.get('/success', (request, response) => {
+    
+    response.status(200).send(JsonOut(200, 'Login Success', request.session.message))
 });
+
+r.get('/logout', 
+function(request, response) {
+    request.session.destroy();
+    request.logOut();
+    response.redirect('/auth');
+})
 
 export default r;

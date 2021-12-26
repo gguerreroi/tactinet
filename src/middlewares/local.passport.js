@@ -27,10 +27,16 @@ LocalPassport.use('local', new passportLocal({
                         Code: 200,
                         Message: 'Login Success'
                     },
-                    data: rows.recordsets[0][0]
+                    data: {
+                        CodEmpleado: rows.recordsets[0][0].CODEMPLEADO,
+                        NombreCompleto: rows.recordsets[0][0].NombreCompleto,
+                        Username: rows.recordsets[0][0].username,
+                        CodEstado: rows.recordsets[0][0].CODESTADO,
+                        Password: password
+                    }
                 }
                 request.session.message = user;
-                return done(null, user, request.flash('message', user))
+                return done(null, user,  user)
             } else {
                 const a = {
                     state: {
@@ -40,7 +46,7 @@ LocalPassport.use('local', new passportLocal({
                     data: err
                 }
                 request.session.message = a;
-                return done(null, null, request.flash('message', a))
+                return done(null, null, a)
             }
         })
     } catch (e) {
@@ -52,20 +58,20 @@ LocalPassport.use('local', new passportLocal({
             data: e
         }
         request.session.message = a;
-        return done(null, null, request.flash('message', a))
+        return done(null, null, a)
     }
 }));
 
-LocalPassport.serializeUser(function (user, cb) {
+LocalPassport.serializeUser(function (user, done) {
     // process.nextTick(function () {
     console.log("serializeUser", user)
-    cb(null, user)
+    done(null, user)
     //})
 });
 
-LocalPassport.deserializeUser(function (user, cb) {
+LocalPassport.deserializeUser(function (user, done) {
     //process.nextTick(function () {
-    cb(null, user)
+    done(null, user)
     //})
 })
 
