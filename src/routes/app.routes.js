@@ -3,7 +3,11 @@ import { isAuth } from "../middlewares/isAuth";
 const router = Router();
 
 router.get('/',isAuth, function (request, response) {
-    response.render('index');
+    const info = {
+        UserInfo: request.session.message,
+
+    }
+    response.render('index', info);
 });
 
 router.get('/auth', function (request, response) {

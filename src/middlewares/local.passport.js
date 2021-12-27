@@ -29,9 +29,11 @@ LocalPassport.use('local', new passportLocal({
                     },
                     data: {
                         CodEmpleado: rows.recordsets[0][0].CODEMPLEADO,
+                        Avatar: rows.recordsets[0][0].avatar,
                         NombreCompleto: rows.recordsets[0][0].NombreCompleto,
                         Username: rows.recordsets[0][0].username,
                         CodEstado: rows.recordsets[0][0].CODESTADO,
+                        Database: rows.recordsets[0][0].Database,
                         Password: password
                     }
                 }
