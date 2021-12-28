@@ -39,7 +39,7 @@ app.use(cookieParser('TACTINETAPP'))
 app.use(session({
     secret: 'TACTINETAPP',
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: new SequelizeStore({
         db: dbsession
     })
