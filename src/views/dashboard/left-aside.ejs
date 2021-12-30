@@ -1,31 +1,3 @@
-<% function section(section, css=""){ %>
-    <div class="menu-item">
-        <div class="menu-content <%- css %> pb-2">
-            <span class="menu-section text-muted text-uppercase fs-8 ls-1"><%- section %></span>
-        </div>
-    </div>
-<% } %>
-<% function menuitem(flgactive, link, name, icon="", expand=false) { %>
-    <div class="menu-item">
-        <a class="menu-link <%- flgactive ? "active" : '' %>" href="<%- link %>">
-            <% if (icon != "bullet"){ %>
-            <span class="menu-icon"><i class="bi <%- icon %> fs-3"></i></span>
-            <% } else { %>
-            <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-            <% } %>            
-            <span class="menu-title"><%- name %></span>
-            <% if (expand) { %> <span class="menu-arrow"></span> <% } %>
-        </a>
-    </div>
-<% } %>
-<% function menulink(options){ %>
-
-<% } %>
-<% function menuLevel3(options){ %>
-
-<% } %>
-
-
 <% if (false) { %>
     <!--begin::Aside-->
     <div id="kt_aside" class="aside aside-dark aside-hoverable" data-kt-drawer="true"
@@ -191,50 +163,50 @@
         <span class="menu-bullet">
         <span class="bullet bullet-dot"></span>
         </span>
-                                                    <span class="menu-title">Targets</span>
-                                                </a>
-                                            </div>
-                                            <div class="menu-item">
-                                                <a class="menu-link" href="../../demo13/dist/pages/projects/budget.html">
+                                            <span class="menu-title">Targets</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a class="menu-link" href="../../demo13/dist/pages/projects/budget.html">
         <span class="menu-bullet">
         <span class="bullet bullet-dot"></span>
         </span>
-                                                    <span class="menu-title">Budget</span>
-                                                </a>
-                                            </div>
-                                            <div class="menu-item">
-                                                <a class="menu-link" href="../../demo13/dist/pages/projects/users.html">
+                                            <span class="menu-title">Budget</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a class="menu-link" href="../../demo13/dist/pages/projects/users.html">
         <span class="menu-bullet">
         <span class="bullet bullet-dot"></span>
         </span>
-                                                    <span class="menu-title">Users</span>
-                                                </a>
-                                            </div>
-                                            <div class="menu-item">
-                                                <a class="menu-link" href="../../demo13/dist/pages/projects/files.html">
+                                            <span class="menu-title">Users</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a class="menu-link" href="../../demo13/dist/pages/projects/files.html">
         <span class="menu-bullet">
         <span class="bullet bullet-dot"></span>
         </span>
-                                                    <span class="menu-title">Files</span>
-                                                </a>
-                                            </div>
-                                            <div class="menu-item">
-                                                <a class="menu-link" href="../../demo13/dist/pages/projects/activity.html">
+                                            <span class="menu-title">Files</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a class="menu-link" href="../../demo13/dist/pages/projects/activity.html">
         <span class="menu-bullet">
         <span class="bullet bullet-dot"></span>
         </span>
-                                                    <span class="menu-title">Activity</span>
-                                                </a>
-                                            </div>
-                                            <div class="menu-item">
-                                                <a class="menu-link" href="../../demo13/dist/pages/projects/settings.html">
+                                            <span class="menu-title">Activity</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a class="menu-link" href="../../demo13/dist/pages/projects/settings.html">
         <span class="menu-bullet">
         <span class="bullet bullet-dot"></span>
         </span>
-                                                    <span class="menu-title">Settings</span>
-                                                </a>
-                                            </div>
-                                        </div>
+                                            <span class="menu-title">Settings</span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                             <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
 <span class="menu-link">
@@ -1689,15 +1661,24 @@
                 <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                      id="#kt_aside_menu" data-kt-menu="true">
                     <!-- begin : items menu -->
-                    <%- section('Dashboard') %>
+                    <%- include("menu-section", {title: 'Dashboard', style:""}) %>
+                    <%- include("menu-item", {active: "active", href: "/", icon: 'bi-grid', title:'Dashboard'}) %>
+                    <%- include("menu-section", {title: 'Modulos', style:"pt-8"}) %>
+
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                        <%- include("menu-accordion",{title:'Clientes',icon:'bi-people'}) %>
+
+                        <div class="menu-sub menu-sub-accordion menu-active-bg">
+                            <%- include('menu-subaccordion', {title: "Mantenimiento"}) %>
+                            <div class="menu-sub menu-sub-accordion ">
+                                <%- include("menu-item", {active: "", href: "/", icon: 'bullet', title:'Clientes'}) %>
+                            </div>
+                        </div>
+                    </div>
                     <!--   end : items menu -->
-                    <%- menuitem(true, "/", "Dashboard", "bi-grid") %>
-                    <%- section('Modulos', 'pt-8') %>
-                    
                 </div>
             </div>
         </div>
         <!-- end: menu -->
     </div>
-
 <% } %>
