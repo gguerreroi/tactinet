@@ -74,21 +74,21 @@
                     <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                         <span class="menu-link">
                             <span class="menu-icon"><i class="bi bi-archive fs-3"></i></span>
-                            <span class="menu-title">Pages</span>
+                            <span class="menu-title">Clientes</span>
                             <span class="menu-arrow"></span>
                         </span>
                         <div class="menu-sub menu-sub-accordion menu-active-bg">
                             <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                                 <span class="menu-link">
                                     <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                                    <span class="menu-title">Profile</span>
+                                    <span class="menu-title">Mantenimiento</span>
                                     <span class="menu-arrow"></span>
                                 </span>
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
                                     <div class="menu-item">
                                         <a class="menu-link" href="../../demo13/dist/pages/profile/overview.html">
                                             <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                                            <span class="menu-title">Overview</span>
+                                            <span class="menu-title">Clientes</span>
                                         </a>
                                     </div>
                                     <div class="menu-item">
@@ -1667,12 +1667,14 @@
 
                     <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                         <%- include("menu-accordion",{title:'Clientes',icon:'bi-people'}) %>
-
                         <div class="menu-sub menu-sub-accordion menu-active-bg">
+                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                             <%- include('menu-subaccordion', {title: "Mantenimiento"}) %>
-                            <div class="menu-sub menu-sub-accordion ">
-                                <%- include("menu-item", {active: "", href: "/", icon: 'bullet', title:'Clientes'}) %>
-                            </div>
+                                <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                    <%- include("menu-item", {active: "", href: "/", icon: 'bullet', title:'Clientes'}) %>
+                                
+                                </div>
+                            </div>                            
                         </div>
                     </div>
                     <!--   end : items menu -->
