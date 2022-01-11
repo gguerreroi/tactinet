@@ -1662,7 +1662,7 @@
                      id="#kt_aside_menu" data-kt-menu="true">
                     <!-- begin : items menu -->
                     <%- include("menu-section", {title: 'Dashboard', style:""}) %>
-                    <%- include("menu-item", {active: "active", href: "/", icon: 'bi-grid', title:'Dashboard'}) %>
+                    <%- include("menu-item", {me: `${me}`, href: "/", icon: 'bi-grid', title:'Dashboard'}) %>
                     <%- include("menu-section", {title: 'Modulos', style:"pt-8"}) %>
 
                     <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
@@ -1671,10 +1671,23 @@
                             <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                             <%- include('menu-subaccordion', {title: "Mantenimiento"}) %>
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                    <%- include("menu-item", {active: "", href: "/", icon: 'bullet', title:'Clientes'}) %>
+                                    <%- include("menu-item", {me: `${me}`, href: "/customers", icon: 'bullet', title:'Clientes'}) %>
                                 
                                 </div>
                             </div>                            
+                        </div>
+                    </div>
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                        <%- include("menu-accordion",{title:'Servicios',icon:'bi-tv'}) %>
+                        <div class="menu-sub menu-sub-accordion menu-active-bg">
+                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                                <%- include('menu-subaccordion', {title: "Gestiones"}) %>
+                                <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                    <%- include("menu-item", {me: `${me}`, href: "/services/pendings", icon: 'bullet', title:'Pendientes'}) %>
+                                    <%- include("menu-item", {me: `${me}`, href: "/services/complete", icon: 'bullet', title:'Completadas'}) %>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!--   end : items menu -->

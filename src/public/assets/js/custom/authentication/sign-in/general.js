@@ -3,6 +3,8 @@
 // btn.disabled = true;
 //
 const url = `${window.location.origin}/api`;
+
+
 // $.ajax({
 //     url: `${url}/api/failure`,
 //     type: 'get',
@@ -106,9 +108,14 @@ var KTSigninGeneral = function() {
                             database: entity
                         }
                     }).done(function(data){
-                        console.log("done", data)
-                        // Hide loading indication && Enable button
-                        window.location.href = "/"
+
+
+                        // set time out 1000ms
+                        setTimeout(function(){
+                            window.location.href = "/"
+                        }, 2000)
+
+
 
                     }).fail(function(error){
                         //console.log("error fail: ", error)
