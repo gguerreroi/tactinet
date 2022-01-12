@@ -14,11 +14,19 @@ router.get('/',isAuth, function (request, response) {
     response.render('index', info);
 });
 
-router.get('/services/pendings', isAuth, function (request, response) {
+router.get('/services/tasks/pending', isAuth, function (request, response) {
     const info = {
         UserInfo: request.session.message,
         me: request.path
     }
-    response.render('services/pendings', info);
+    response.render('services/tasks/pending', info);
+});
+
+router.get('/services/tasks/complete', isAuth, function (request, response) {
+    const info = {
+        UserInfo: request.session.message,
+        me: request.path
+    }
+    response.render('services/tasks/complete', info);
 });
 export default router;

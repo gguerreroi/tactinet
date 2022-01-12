@@ -2,9 +2,8 @@ import {Router} from "express";
 
 const passport = require('passport');
 
-
 import {JsonOut} from "../middlewares/JsonOut";
-
+import * as apic   from "../controllers/api.controllers";
 const r = Router();
 
 r.post('/auth',
@@ -40,6 +39,10 @@ function(request, response) {
     request.session.destroy();
     request.logOut();
     response.redirect('/auth');
+})
+
+r.get('/tasks/pending', (request, response) => {
+    apic.getAllTasksPending(request, response);
 })
 
 export default r;
