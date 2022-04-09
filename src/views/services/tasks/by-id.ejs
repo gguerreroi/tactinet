@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--begin::Head-->
+<head>
+    <base href="/">
+    <title>pilar 1.0</title>
+    <meta charset="utf-8"/>
+    <meta name="description" content="Sistema de administracion de clientes CRM"/>
+    <meta name="keywords" content="crm, pilar, tactinet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta property="og:locale" content="es_GT"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="pilar"/>
+    <meta property="og:url" content="http://tactinet.sonivitac.com"/>
+    <meta property="og:site_name" content="crm"/>
+    <link rel="canonical" href="http://tactinet.sonivitac.com"/>
+    <link rel="shortcut icon" href="assets/media/logos/favicon.ico"/>
+    <!--begin::Fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
+    <!--end::Fonts-->
+    <!--begin::Page Vendor Stylesheets(used by this page)-->
+    <link href="assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css"/>
+
+    <!--end::Page Vendor Stylesheets-->
+    <!--begin::Global Stylesheets Bundle(used by all pages)-->
+    <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css"/>
+    <!--end::Global Stylesheets Bundle-->
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <%- include('../../dashboard/left-aside.ejs') %>
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <!--begin::Header-->
+            <div id="kt_header" style="" class="header align-items-stretch">
+                <!--begin::Container-->
+                <div class="container-fluid d-flex align-items-stretch justify-content-between">
+                    <!--begin::Aside mobile toggle-->
+                    <div class="d-flex align-items-center d-lg-none ms-n3 me-1" title="Show aside menu">
+                        <div class="btn btn-icon btn-active-color-white" id="kt_aside_mobile_toggle">
+                            <i class="bi bi-list fs-1"></i>
+                        </div>
+                    </div>
+                    <!--end::Aside mobile toggle-->
+                    <!--begin::Mobile logo-->
+                    <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
+                        <a href="../../demo13/dist/index.html" class="d-lg-none">
+                            <img alt="Logo" src="assets/media/logos/logo-demo13-compact.svg" class="h-25px"/>
+                        </a>
+                    </div>
+                    <!--end::Mobile logo-->
+                    <%- include('../../dashboard/top-navbar.ejs', UserInfo) %>
+                </div>
+                <!--end::Container-->
+            </div>
+            <!--end::Header-->
+            <!--begin::Content
+            TODO: show only one task
+            -->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <!--begin::Entry-->
+                <div class="d-flex flex-column-fluid">
+                    <!--begin::Container-->
+                    <div class="container">
+                        <!--begin::Row-->
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <!-- begin:: card one task  -->
+                                <%
+                                const tasks = task.order === undefined ? {
+                                    CODACTIVIDAD: '19',
+                                    _FCHCREACION: '2020-05-29 15:05:49.393',
+                                    _FCHPROGRAMADO: "2020-05-29 15:05:49.393",
+                                    _FCHFINALIZADO: '',
+                                    STRDESCRIPCION: 'INSTALACION + SEVICIO DE INTERNT ',
+                                    CODESTADO: 'EE',
+                                    CODENTIDAD: '10',
+                                    CODCLASIFICACION: 'ISI',
+                                    STRCLASIFICACION: 'INSTALACION DE SERVICIO DE INTERNET',
+                                    CODPRIORIDAD: 'B',
+                                    _CODEMPLEADOAPERTURO: '6',
+                                    STREMPLEADO: 'GABRIEL ANTONIO  GUERRERO ISEM',
+                                    STRNOMBRESER: 'CARLOS ENRIQUE CUCUL CU',
+                                    STRDIRSERVICIO: 'SAN JUAN ( CASA DE LOS HELADOS )',
+                                    CODAGENCIA: '2',
+                                    STRAGENCIA: 'ELECTROTEL',
+                                    CODSECTOR: 'CSNJ',
+                                    STRSECTOR: 'COL. SAN JUAN',
+                                    STROBSERVACIONES: 'POR DONDE VENDEN HELADOS ',
+                                    TELEFONO: '79539140',
+                                    MOVIL: '58153414',
+                                    COMMENTS: [
+                                        {}
+                                    ]
+                                } : task;
+                                %>
+                                <div class="card ">
+                                    <div class="card-header justify-content-end ribbon ribbon-start ribbon-clip">
+                                        <div class="ribbon-label ">
+                                            <%- tasks.CODACTIVIDAD %>
+                                            <span class="ribbon-inner bg-primary"></span>
+                                        </div>
+                                        <div class="card-title ">
+                                            <%= tasks.STRCLASIFICACION %>
+                                        </div>
+                                        <div class="card-toolbar">
+                                            <button class="btn btn-success">Completar</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="fw-bold">Creado:</div>
+                                            </div>
+                                            <div class="col-6"><%- tasks._FCHCREACION %></div>
+                                            <div class="col-6">
+                                                <div class="fw-bold">Programado:</div>
+                                            </div>
+                                            <div class="col-6"><%- tasks._FCHPROGRAMADO %></div>
+                                            <div class="col-6">
+                                                <div class="fw-bold">Finalizado:</div>
+                                            </div>
+                                            <div class="col-6"><%- tasks._FCHFINALIZADO %></div>
+                                            <div class="col-6">
+                                                <div class="fw-bold">Creado por:</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <%# task._CODEMPLEADOAPERTURO %>
+                                                <%- tasks.STREMPLEADO %></div>
+                                            <div class="col-6">
+                                                <div class="fw-bold">Clasificacion:</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <%# task.CODCLASIFICACION %>
+                                                <%- tasks.STRCLASIFICACION %></div>
+                                            <%# task.CODESTADO %>
+                                            <%# task.CODENTIDAD %>
+                                            <%# task.CODPRIORIDAD %>
+                                            <div class="col-6">
+                                                <div class="fw-bold">Oficina:</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <%# task.CODAGENCIA %>
+                                                <%- tasks.STRAGENCIA %>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="fw-bold">Cliente:</div>
+                                            </div>
+                                            <div class="col-6"><%- tasks.STRNOMBRESER %></div>
+                                            <div class="col-6">
+                                                <div class="fw-bold">Direccion:</div>
+                                            </div>
+                                            <div class="col-6"><%- tasks.STRDIRSERVICIO %></div>
+                                            <div class="col-6">
+                                                <div class="fw-bold">Sector:</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <%# task.CODSECTOR %>
+                                                <%- tasks.STRSECTOR %>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="fw-bold">Observaciones:</div>
+                                            </div>
+                                            <div class="col-6"><%- tasks.STROBSERVACIONES %></div>
+                                            <div class="col-6">
+                                                <div class="fw-bold">Comentarios</div>
+                                            </div>
+                                            <div class="col-6"><%- tasks.STRDESCRIPCION %></div>
+                                            <div class="col-6">
+                                                <div class="fw-bold">Telefono:</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <a href="tel:<%- tasks.TELEFONO %>"><%- tasks.TELEFONO %></a> -
+                                                <a href="tel:<%- tasks.MOVIL %>"><%- tasks.MOVIL %></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="comment">Comentario </label>
+                                                <textarea class="form-control" name="comment" id="comment" cols="30" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col my-2">
+                                                <button class="btn btn-primary">Publicar</button>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Row-->
+                    </div>
+                    <!--end::Container-->
+                </div>
+                <!--end::Entry-->
+            </div>
+            <!--end::Content-->
+            <%- include('../../dashboard/bottom-footer.ejs') %>
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+</div>
+<!--end::Root-->
+<!--begin::Scrolltop-->
+<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
+    <!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
+    <span class="svg-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect opacity="0.5" x="13" y="6" width="13" height="2" rx="1" transform="rotate(90 13 6)"
+                  fill="black"/>
+            <path d="M12.5657 8.56569L16.75 12.75C17.1642 13.1642 17.8358 13.1642 18.25 12.75C18.6642 12.3358 18.6642 11.6642 18.25 11.25L12.7071 5.70711C12.3166 5.31658 11.6834 5.31658 11.2929 5.70711L5.75 11.25C5.33579 11.6642 5.33579 12.3358 5.75 12.75C6.16421 13.1642 6.83579 13.1642 7.25 12.75L11.4343 8.56569C11.7467 8.25327 12.2533 8.25327 12.5657 8.56569Z"
+                  fill="black"/>
+        </svg>
+    </span>
+    <!--end::Svg Icon-->
+</div>
+<!--end::Scrolltop-->
+<!--end::Main-->
+<script>var hostUrl = "assets/";</script>
+
+<!--begin::Javascript-->
+<!--begin::Global Javascript Bundle(used by all pages)-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+        integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/es-mx.min.js"
+        integrity="sha512-Qy4cmZ6v7vnVEc0cn/BIj9q15eB98do4hMvu8xtc/H+v+YYpdpDrB35flHS3NPLbZUpe1npSYY/u+Gi3UB61vw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="assets/plugins/global/plugins.bundle.js"></script>
+<script src="assets/js/scripts.bundle.js"></script>
+<!--end::Global Javascript Bundle-->
+<!--begin::Page Vendors Javascript(used by this page)-->
+<script src="assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+<script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
+<!--end::Page Vendors Javascript-->
+<!--begin::Page Custom Javascript(used by this page)-->
+<script src="assets/js/custom/widgets.js"></script>
+<script src="assets/js/custom/apps/chat/chat.js"></script>
+<script src="assets/js/custom/modals/create-app.js"></script>
+<script src="assets/js/custom/modals/upgrade-plan.js"></script>
+<!--end::Page Custom Javascript-->
+<!--end::Javascript-->
+<script>
+    const url = `${window.location.origin}/api`;
+    moment.locale('es');
+
+
+</script>
+</body>
+<!--end::Body-->
+</html>

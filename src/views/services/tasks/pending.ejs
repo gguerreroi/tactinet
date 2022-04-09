@@ -21,6 +21,7 @@
     <!--begin::Page Vendor Stylesheets(used by this page)-->
     <link href="assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css"/>
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css"/>
+
     <!--end::Page Vendor Stylesheets-->
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css"/>
@@ -82,19 +83,19 @@
                                             <h3 class="card-label">Gestiones pendientes</h3>
                                         </div>
                                         <div class="card-toolbar">
-<!--                                            <a href="#" class="btn btn-primary font-weight-bolder">-->
-<!--                                                <i class="la la-plus"></i>-->
-<!--                                                Nuevo-->
-<!--                                            </a>-->
+                                            <!--                                            <a href="#" class="btn btn-primary font-weight-bolder">-->
+                                            <!--                                                <i class="la la-plus"></i>-->
+                                            <!--                                                Nuevo-->
+                                            <!--                                            </a>-->
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <!--begin: Datatable-->
-                                        <table class="table table-separate table-head-custom table-checkable"
+                                        <table class="table table-row-bordered "
                                                id="kt_datatable">
                                             <thead>
-                                            <tr>
-                                                <th># Gestión</th>
+                                            <tr class="fw-bold fs-6 text-gray-800">
+                                                <th>#</th>
                                                 <th>Cliente</th>
                                                 <th>Creación</th>
                                                 <th>Sector</th>
@@ -185,30 +186,36 @@
         ],
         columnDefs: [
             {
+                targets: [0],
+                render: function (data, type, row) {
+                    return `<a href="services/tasks/pending/${data}">${data}</a>`;
+                }
+            }, {
                 targets: [2],
                 render: function (data, type, row) {
                     return moment(data).startOf('hour').fromNow()
                 }
             }, {
-                targets: [5],
-                visible: false
-            },
-            {
                 targets: [4],
                 render: function (data, type, row) {
                     const {MOVIL} = row;
-                    let other = '';
-                    if (MOVIL)
-                        other = `-<a href="tel:${MOVIL}">${MOVIL}</a>`
+                    let other = MOVIL ? `-<a href="tel:${MOVIL}">${MOVIL}</a>` : '';
 
-                    return `<a href="tel:${data}">${data}</a>${other}`
+                    return `<a href="tel:${data}">${data}</a>${other}`;
+                }
+            },
+            {
+                targets: [5],
+                visible: false
+            }, {
+                targets: [6],
+                render: function (data, type, row) {
+                    return `<span class="badge badge-light-primary">${row.STRCLASIFICACION}</span>`;
                 }
             }
+
         ],
-        order: [[0, 'desc']],
-        initComplete: function (settings, json) {
-            $('.dataTables_length').addClass('bs-select');
-        }
+        order: [[0, 'asc']]
     });
 
 

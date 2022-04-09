@@ -22,6 +22,16 @@ router.get('/services/tasks/pending', isAuth, function (request, response) {
     response.render('services/tasks/pending', info);
 });
 
+router.get('/services/tasks/pending/:id', isAuth, function (request, response) {
+    const info = {
+        UserInfo: request.session.message,
+        me: '/services/tasks/pending',
+        id: request.params.id,
+        task: []
+    }
+    response.render('services/tasks/by-id', info);
+});
+
 router.get('/services/tasks/complete', isAuth, function (request, response) {
     const info = {
         UserInfo: request.session.message,
@@ -29,4 +39,5 @@ router.get('/services/tasks/complete', isAuth, function (request, response) {
     }
     response.render('services/tasks/complete', info);
 });
+
 export default router;
