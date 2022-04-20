@@ -220,9 +220,7 @@ const tasks = task.order === undefined ? {
                                                 <div class="d-flex flex-column align-items-start">
                                                     <div class="d-flex align-items-center mb-2">
                                                         <div class="symbol symbol-35px symbol-circle">
-                                                            <img src="<%- comment._IMGUSUARIO %>"
-                                                                 class=" "
-                                                                 alt="<%- comment._STRUSUARIO %>">
+                                                            <img src="<%- comment._IMGUSUARIO %>">
                                                         </div>
                                                         <div class="ms-3">
                                                             <div class="fs-5 fw-bolder text-gray-900 text-hover-primary me-1">
@@ -233,7 +231,9 @@ const tasks = task.order === undefined ? {
                                                         </span>
                                                         </div>
                                                     </div>
-                                                    <div class="p-5 rounded bg-light-info text-dark fw-bold mw-lg-400px text-start"><%- comment.STRCOMMENT %></div>
+                                                    <div class="p-5 rounded bg-light-info text-dark fw-bold mw-lg-400px text-start">
+                                                        <%- comment.STRCOMMENT %>
+                                                    </div>
                                                 </div>
                                             </div>
 
