@@ -1,0 +1,30 @@
+<%
+const {Username} = UserInfo.data;
+const isOwner = (comment._STRUSUARIO === Username);
+const alignCommentByUser = isOwner ? 'end' : 'start';
+const colorCommentByUser = isOwner ? 'primary' : 'success';
+%>
+<div class="d-flex justify-content-<%- alignCommentByUser %> mb-10">
+    <div class="d-flex flex-column align-items-<%- alignCommentByUser %>">
+        <div class="d-flex align-items-center mb-2">
+            <% if (isOwner) { %>
+                <div class="ms-3">
+                    <span class="text-muted fs-7 mb-1">time ago</span>
+                    <a href="#"
+                       class="fs-5 fw-bolder text-gray-900 text-hover-primary me-1"><%- comment._STRUSUARIO %></a>
+                </div>
+                <div class="symbol symbol-35px symbol-circle"><img src="<%- comment._IMGUSUARIO %>" alt="Pic"></div>
+            <% } else { %>
+                <div class="symbol symbol-35px symbol-circle"><img src="<%- comment._IMGUSUARIO %>" alt="Pic"></div>
+                <div class="ms-3">
+                    <a href="#"
+                       class="fs-5 fw-bolder text-gray-900 text-hover-primary me-1"><%- comment._STRUSUARIO %></a>
+                    <span class="text-muted fs-7 mb-1">time ago</span>
+                </div>
+            <% } %>
+        </div>
+        <div class="p-5 rounded bg-light-<%- colorCommentByUser %> text-dark fw-bold mw-lg-400px text-<%- alignCommentByUser %>"
+             data-kt-element="message-text">
+            <%- comment.STRCOMMENT %></div>
+    </div>
+</div>
