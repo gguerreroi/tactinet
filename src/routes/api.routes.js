@@ -45,4 +45,8 @@ r.get('/tasks/pending', (request, response) => {
     apic.getAllTasksPending(request, response);
 })
 
+r.get('/tasks/pending/:id', (request, response) => {
+    apic.getOneTaskPending(request, response);
+})
+
 export default r;
