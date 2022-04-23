@@ -70,6 +70,7 @@ const tasks = task.order === undefined ? {
     <!--end::Page Vendor Stylesheets-->
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css"/>
+
     <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css"/>
     <!--end::Global Stylesheets Bundle-->
 </head>
@@ -229,16 +230,37 @@ const tasks = task.order === undefined ? {
                                             <div class="d-flex align-items-center me-2">
                                                 <button class="btn btn-sm btn-icon btn-active-light-primary me-1"
                                                         type="button" data-bs-toggle="tooltip" title=""
-                                                        data-bs-original-title="Coming soon">
+                                                        data-bs-original-title="Subir foto">
                                                     <i class="bi bi-paperclip fs-3"></i>
                                                 </button>
                                             </div>
-                                            <button class="btn btn-light-primary" data-kt-element="send">
+                                            <button class="btn btn-primary" data-kt-element="send">
                                                 <i class="bi bi-chat-square-text-fill fs-4 me-2"></i>
                                                 Publicar
                                             </button>
                                         </div>
-
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mt-9">
+                                <div class="card card-bordered w-100">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12 col-md-6">
+                                                <button class="btn btn-success w-100 m-1"
+                                                        id="btnfinish"
+                                                ><i class="bi bi-check2-square fs-2x"></i>Finalizar
+                                                </button>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <button class="btn btn-danger w-100 m-1 "
+                                                        id="btncancel"
+                                                ><i class="bi bi-vector-pen fs-2x"></i>Anular
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -297,7 +319,36 @@ const tasks = task.order === undefined ? {
 <script>
     const url = `${window.location.origin}/api`;
     moment.locale('es');
+    const btnfinish = document.getElementById('btnfinish');
+    const btncancel = document.getElementById('btncancel');
 
+    btnfinish.addEventListener('click', e => {
+        e.preventDefault();
+        Swal.fire({
+            text: '¿Estás seguro de finalizar la gestion?',
+            icon: 'warning',
+            buttonsStyling: false,
+            confirmButtonText: 'Si, finalizar',
+            confirmButtonClass: 'btn btn-success m-btn m-btn--custom',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            cancelButtonClass: 'btn btn-secondary m-btn m-btn--custom'
+        })
+    });
+
+    btncancel.addEventListener('click', e => {
+        e.preventDefault();
+        Swal.fire({
+            text: '¿Estás seguro de cancelar la gestion?',
+            icon: 'warning',
+            buttonsStyling: false,
+            confirmButtonText: 'Si, cancelar',
+            confirmButtonClass: 'btn btn-danger',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            cancelButtonClass: 'btn btn-secondary'
+        })
+    });
 
 </script>
 </body>
