@@ -329,10 +329,23 @@ const tasks = task.order === undefined ? {
             icon: 'warning',
             buttonsStyling: false,
             confirmButtonText: 'Si, finalizar',
-            confirmButtonClass: 'btn btn-success m-btn m-btn--custom',
+            confirmButtonClass: 'btn btn-success',
             showCancelButton: true,
             cancelButtonText: 'Cancelar',
-            cancelButtonClass: 'btn btn-secondary m-btn m-btn--custom'
+            cancelButtonClass: 'btn btn-secondary'
+        }).then( result => {
+            if (result.isConfirmed){
+
+
+
+                Swal.fire({
+                    text: 'Orden marcada como Completada!',
+                    icon: 'success',
+                    buttonsStyling: false,
+                    confirmButtonText: 'Ok',
+                    confirmButtonClass: 'btn btn-success'
+                })
+            }
         })
     });
 

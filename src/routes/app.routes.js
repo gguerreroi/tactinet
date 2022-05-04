@@ -1,5 +1,7 @@
 import {Router} from "express";
 import { isAuth } from "../middlewares/isAuth";
+import * as App from "../controllers/app.controller"
+
 const router = Router();
 
 router.get('/auth', function (request, response) {
@@ -19,6 +21,8 @@ router.get('/services/tasks/pending', isAuth, function (request, response) {
         UserInfo: request.session.message,
         me: request.path
     }
+
+
     response.render('services/tasks/pending', info);
 });
 
@@ -29,7 +33,14 @@ router.get('/services/tasks/pending/:id', isAuth, function (request, response) {
         id: request.params.id,
         task: []
     }
-    response.render('services/tasks/by-id', info);
+    const a = App.getPendingTasks(request.params.id);
+
+    Promise.all().then(value => {
+
+        info.task = value[0];
+        response.render('services/tasks/by-id', info);
+    })
+
 });
 
 router.get('/services/tasks/complete', isAuth, function (request, response) {
