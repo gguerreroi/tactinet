@@ -1,11 +1,12 @@
 const LocalPassport = require('passport');
 const passportLocal = require('passport-local').Strategy;
 
+import axios from "axios";
 
 import {getConnection} from "./database";
 
 
-LocalPassport.use('local', new passportLocal({
+LocalPassport.use('api-local', new passportLocal({
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
@@ -38,6 +39,7 @@ LocalPassport.use('local', new passportLocal({
                     }
                 }
                 request.session.message = user;
+
                 return done(null, user,  user)
             } else {
                 const a = {
@@ -65,15 +67,65 @@ LocalPassport.use('local', new passportLocal({
 }));
 
 LocalPassport.serializeUser(function (user, done) {
-    // process.nextTick(function () {
-    console.log("serializeUser", user)
     done(null, user)
-    //})
 });
 
 LocalPassport.deserializeUser(function (user, done) {
-    //process.nextTick(function () {
     done(null, user)
-    //})
 })
 
+LocalPassport.use('local', new passportLocal({
+    usernameField: 'username',
+    passwordField: 'password',
+    passReqToCallback: true
+}, async function (request, username, password, done) {
+    const {database} = request.body;
+    try{
+        axios.post({
+            url: 'http://localhost:3000/api/login',
+            data: {
+                username: username,
+                password: password,
+                database: database
+            }
+        }).then(res => {
+            const user = {
+                state: {
+                    Code: 200,
+                    Message: 'Login Success'
+                },
+                data: {
+                    CodEmpleado: res.data.CodEmpleado,
+                    Avatar: res.data.Avatar,
+                    NombreCompleto: res.data.NombreCompleto,
+                    Username: res.data.Username,
+                    CodEstado: res.data.CodEstado,
+                    Database: res.data.Database,
+                    Password: password
+                }
+            }
+            request.session.message = user;
+            return done(null, user,  user)
+        }).catch(err => {
+            const a = {
+                state: {
+                    Code: 401,
+                    Message: 'Login Failed'
+                },
+                data: err
+            }
+            request.session.message = a;
+            return done(null, null, a)
+        })
+    } catch (e) {
+        const a = {
+            state: {
+                Code: 401,
+                Message: 'Login Failed'
+            },
+            data: e
+        }
+        request.session.message = a;
+        return done(null, null, a)
+    }
+}

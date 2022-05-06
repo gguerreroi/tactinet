@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="container mx-auto">
+
+        <div class="flex flex-wrap justify-center">
+            <div class="w-full max-w-sm">
+                <div class="flex flex-col break-words bg-white border border-2 rounded shadow-md">
+                    <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0">
+                        <div class="flex justify-center">
+                            <h1>Usuarios</h1>
+                        </div>
+                    </div>
+                    <div class="w-full p-6">
+                        <p class="">
+                            <a href="" class="text-blue-500">
+                                <span class="font-bold">GET</span>
+                                <span class="text-gray-700">/api/v1/users</span>
+                            </a>
+                        </p>
+
+                        <p class="">
+                            <a href="" class="text-blue-500">
+                                <span class="font-bold">GET</span>
+                                <span class="text-gray-700">/api/v1/users/:id</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<h1 class="text-3xl font-bold underline ">
+    API - TactiNET
+</h1>
+<p class="text-xl">
+    This is the API of TactiNET.
+</p>
+
+<!-- ENDPOINT: /api/v1/login -->
+<h2 class="text-2xl font-bold underline">
+    Login
+</h2>
+<p class="text-xl">
+    This endpoint is used to login a user.
+</p>
+<p class="text-xl">
+    <strong>Request:</strong>
+</p>
+<pre class="text-sm">
+POST /api/v1/login
+
+{
+    <span class="text-red-400">"email"</span>: "gguerrero@20",
+    <span class="text-red-400">"password"</span>: "123456"
+}
+</pre>
+<p class="text-xl">
+    <strong>Response:</strong>
+</p>
+<pre class="text-sm ">
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQxZ",
+    "message": "Login successful"
+}
+</pre>
+
+
+</body>
+</html>
