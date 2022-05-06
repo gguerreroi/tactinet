@@ -11,3 +11,14 @@ export function isAuthLogin(request, response, next){
 
     return next()
 }
+
+export function isAuthApi(request, response, next){
+  if (request.isAuthenticated())
+    return next()
+
+    return response.status(401).json({
+      state: {
+        Code: 401,
+        Message: 'Unauthorized'
+      }})
+}
