@@ -4,6 +4,7 @@ import {getConnection, mssql} from "../middlewares/database";
 import {JsonOut} from "../middlewares/JsonOut";
 
 export async function getAllTasksPending(req, res) {
+
     const {Username, Database, Password} = req.session.message.data
     let Connection = null
 
@@ -27,6 +28,7 @@ export async function getAllTasksPending(req, res) {
 }
 
 export async function getOneTaskPending(req, res) {
+    console.log("getOneTaskPending var", req.session)
     const {Username, Database, Password} = req.session.message.data
     let Connection = null
 
