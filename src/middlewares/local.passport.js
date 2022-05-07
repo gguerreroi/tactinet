@@ -40,7 +40,7 @@ LocalPassport.use('api-local', new passportLocal({
                 }
                 request.session.message = user;
 
-                return done(null, user,  user)
+                return done(null, user, user)
             } else {
                 const a = {
                     state: {
@@ -80,33 +80,50 @@ LocalPassport.use('local', new passportLocal({
     passReqToCallback: true
 }, async function (request, username, password, done) {
     const {database} = request.body;
-    try{
-        axios.post({
-            url: 'http://localhost:3000/api/login',
-            data: {
-                username: username,
-                password: password,
-                database: database
-            }
+    let Connection = await getConnection(username, password, '45.5.118.219', `PLR00${database}`)
+    const query = await Connection.request()
+
+    try {
+        axios.post('http://localhost:3000/api/auth', {
+            username: username,
+            password: password,
+            database: database
         }).then(res => {
-            const user = {
-                state: {
-                    Code: 200,
-                    Message: 'Login Success'
-                },
-                data: {
-                    CodEmpleado: res.data.CodEmpleado,
-                    Avatar: res.data.Avatar,
-                    NombreCompleto: res.data.NombreCompleto,
-                    Username: res.data.Username,
-                    CodEstado: res.data.CodEstado,
-                    Database: res.data.Database,
-                    Password: password
+            query.execute('seguridad.sp_usuarios', function (err, rows) {
+                if (!err) {
+                    const user = {
+                        state: {
+                            Code: 200,
+                            Message: 'Login Success'
+                        },
+                        data: {
+                            CodEmpleado: rows.recordsets[0][0].CODEMPLEADO,
+                            Avatar: rows.recordsets[0][0].avatar,
+                            NombreCompleto: rows.recordsets[0][0].NombreCompleto,
+                            Username: rows.recordsets[0][0].username,
+                            CodEstado: rows.recordsets[0][0].CODESTADO,
+                            Database: rows.recordsets[0][0].Database,
+                            Password: password
+                        }
+                    }
+                    request.session.message = user;
+
+                    return done(null, user, user)
+                } else {
+                    const a = {
+                        state: {
+                            Code: 401,
+                            Message: 'Login Failed'
+                        },
+                        data: err
+                    }
+                    request.session.message = a;
+                    return done(null, null, a)
                 }
-            }
-            request.session.message = user;
-            return done(null, user,  user)
+            })
+
         }).catch(err => {
+            console.log("passport catch", err)
             const a = {
                 state: {
                     Code: 401,
@@ -128,4 +145,4 @@ LocalPassport.use('local', new passportLocal({
         request.session.message = a;
         return done(null, null, a)
     }
-}
+}));

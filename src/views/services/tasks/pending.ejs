@@ -173,7 +173,7 @@
     moment.locale('es');
 
     const dtTaskPending = $("#kt_datatable").DataTable({
-        ajax: `${url}/tasks/pending`,
+        ajax: `${url}/tasks/pending/`,
         columns: [
             {data: 'CODACTIVIDAD'},
             {data: 'STRNOMBRESER'},

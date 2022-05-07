@@ -38,9 +38,10 @@ r.get('/success',
 
 r.get('/logout', 
 function(request, response) {
-    request.session.destroy();
-    request.logOut();
-    response.redirect('/auth');
+    request.session.destroy(function(err){
+        request.logout();
+        response.redirect('/auth');
+    });
 })
 
 r.get('/tasks/pending',
@@ -53,6 +54,12 @@ r.get('/tasks/pending/:id',
     isAuthApi,
     function(request, response) {
     apic.getOneTaskPending(request, response);
+})
+
+r.get('/tasks/pending/:id/comments',
+    isAuthApi,
+    function(request, response) {
+    apic.getAllComments(request, response);
 })
 
 export default r;

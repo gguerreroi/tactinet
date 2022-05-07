@@ -2,14 +2,8 @@
 // const btn = document.getElementById('kt_sign_in_submit');
 // btn.disabled = true;
 //
-const url = `${window.location.origin}/api`;
+const url = `${window.location.origin}/`;
 
-
-// $.ajax({
-//     url: `${url}/api/failure`,
-//     type: 'get',
-//
-// })
 // Class definition
 var KTSigninGeneral = function() {
     // Elements
@@ -92,13 +86,11 @@ var KTSigninGeneral = function() {
                     //     });
                     // }, 2000);
 
-                    const split = document.getElementsByName('email')[0].value.split('@')
-                    const user = split[0]
-                    const entity = split[1]
+                    const [user, entity] = document.getElementsByName('email')[0].value.split('@')
                     const pass = document.getElementsByName('password')[0].value
 
                     $.ajax({
-                        url: `${url}/auth`,
+                        url: `${url}auth`,
                         type: 'post',
                         dataType: 'json',
                         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -108,15 +100,10 @@ var KTSigninGeneral = function() {
                             database: entity
                         }
                     }).done(function(data){
-
-
                         // set time out 1000ms
                         setTimeout(function(){
                             window.location.href = "/"
                         }, 2000)
-
-
-
                     }).fail(function(error){
                         //console.log("error fail: ", error)
                         if (error.responseJSON != undefined){
