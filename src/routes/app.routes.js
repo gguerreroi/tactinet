@@ -2,7 +2,6 @@ import {Router} from "express";
 import {isAuth, isAuthLogin} from "../middlewares/isAuth";
 import * as App from "../controllers/app.controllers"
 import {JsonOut} from "../middlewares/JsonOut";
-import {getCommentsTask} from "../controllers/app.controllers";
 
 const passport = require('passport');
 const router = Router();
@@ -56,17 +55,14 @@ router.get('/services/tasks/pending/:id', isAuth, function (request, response) {
     const OneTask = App.getOneTask(request.params.id, request.session.message);
     const CommentTasks = App.getCommentsTask(request.params.id, request.session.message);
     Promise.all([OneTask, CommentTasks]).then(value => {
-
         value[0].data.data[0].COMMENTS = value[1].data.data
         info.task = value[0].data.data[0];
-
         response.render('services/tasks/by-id', info);
     }).catch(err => {
         response.render('system/err500', {
             UserInfo: request.session.message, me: request.path, err: err
         });
     })
-
 });
 
 router.get('/services/tasks/complete', isAuth, function (request, response) {

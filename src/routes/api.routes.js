@@ -4,15 +4,16 @@ const passport = require('passport');
 
 import {JsonOut} from "../middlewares/JsonOut";
 import {isAuthApi} from "../middlewares/isAuth";
-import * as apic   from "../controllers/api.controllers";
+import * as apic from "../controllers/api.controllers";
+
 const r = Router();
 
-r.get('/', function(request, response){
+r.get('/', function (request, response) {
     response.render('api/index');
 })
 
 r.post('/auth',
-    function(request, response, next) {
+    function (request, response, next) {
         request.session.message = {};
         passport.authenticate('api-local', {
             successRedirect: '/api/success',
@@ -25,41 +26,47 @@ r.get('/failure',
     function (request, response) {
         let mess = "Usuario o contraseña invalida"
 
-       if (request.session.message !== undefined )
-           mess = request.session.message.data.message;
+        if (request.session.message !== undefined)
+            mess = request.session.message.data.message;
 
         response.status(401).send(JsonOut(401, mess))
     });
 
 r.get('/success',
-    function(request, response) {
-    response.status(200).send(JsonOut(200, 'Login Success', request.session.message))
-});
-
-r.get('/logout', 
-function(request, response) {
-    request.session.destroy(function(err){
-        request.logout();
-        response.redirect('/auth');
+    function (request, response) {
+        response.status(200).send(JsonOut(200, 'Login Success', request.session.message))
     });
-})
+
+r.get('/logout',
+    function (request, response) {
+        request.session.destroy(function (err) {
+            request.logout();
+            response.redirect('/auth');
+        });
+    })
 
 r.get('/tasks/pending',
     isAuthApi,
-    function(request, response) {
-    apic.getAllTasksPending(request, response);
-})
+    function (request, response) {
+        apic.getAllTasksPending(request, response);
+    })
 
 r.get('/tasks/pending/:id',
     isAuthApi,
-    function(request, response) {
-    apic.getOneTaskPending(request, response);
-})
+    function (request, response) {
+        apic.getOneTaskPending(request, response);
+    })
 
 r.get('/tasks/pending/:id/comments',
     isAuthApi,
-    function(request, response) {
-    apic.getAllComments(request, response);
-})
+    function (request, response) {
+        apic.getAllComments(request, response);
+    })
+
+r.post('/tasks/pending/:id/comments',
+    isAuthApi,
+    function (request, response) {
+        apic.addComment(request, response);
+    })
 
 export default r;

@@ -1,4 +1,4 @@
-const mssql = require('mssql')
+export const mssql = require('mssql')
 
 let pool;
 

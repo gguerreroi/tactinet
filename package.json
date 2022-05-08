@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js",
-    "build": "npm run clean && npm run build:prod",
+    "start": "babel-node src/index.js",
+    "build": "babel src/index.js -d dist",
     "dev": "nodemon src/index.js --exec babel-node "
   },
   "repository": {

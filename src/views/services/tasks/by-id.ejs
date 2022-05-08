@@ -111,9 +111,7 @@ console.log("this is task in ejs", tasks)
                 <!--end::Container-->
             </div>
             <!--end::Header-->
-            <!--begin::Content
-            TODO: show only one task
-            -->
+            <!--begin::Content -->
             <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
                 <!--begin::Entry-->
                 <div class="d-flex flex-column-fluid">
@@ -225,7 +223,7 @@ console.log("this is task in ejs", tasks)
                                     <div class="card-footer pt-4">
                                         <textarea
                                                 class="form-control form-control-flush mb-3"
-                                                name="comment" id="comment" rows="1" data-kt-element="input"
+                                                name="strcomment" id="strcomment" rows="1" data-kt-element="input"
                                                 placeholder="Escriba un comentario"></textarea>
                                         <div class="d-flex flex-stack">
                                             <div class="d-flex align-items-center me-2">
@@ -235,7 +233,9 @@ console.log("this is task in ejs", tasks)
                                                     <i class="bi bi-paperclip fs-3"></i>
                                                 </button>
                                             </div>
-                                            <button class="btn btn-primary" data-kt-element="send">
+                                            <button id="btncomment"
+                                                    class="btn btn-primary"
+                                                    data-kt-element="send">
                                                 <i class="bi bi-chat-square-text-fill fs-4 me-2"></i>
                                                 Publicar
                                             </button>
@@ -322,6 +322,7 @@ console.log("this is task in ejs", tasks)
     moment.locale('es');
     const btnfinish = document.getElementById('btnfinish');
     const btncancel = document.getElementById('btncancel');
+    const btncomment = document.getElementById('btncomment');
 
     btnfinish.addEventListener('click', e => {
         e.preventDefault();
@@ -334,11 +335,8 @@ console.log("this is task in ejs", tasks)
             showCancelButton: true,
             cancelButtonText: 'Cancelar',
             cancelButtonClass: 'btn btn-secondary'
-        }).then( result => {
-            if (result.isConfirmed){
-
-
-
+        }).then(result => {
+            if (result.isConfirmed) {
                 Swal.fire({
                     text: 'Orden marcada como Completada!',
                     icon: 'success',
@@ -361,6 +359,26 @@ console.log("this is task in ejs", tasks)
             showCancelButton: true,
             cancelButtonText: 'Cancelar',
             cancelButtonClass: 'btn btn-secondary'
+        })
+    });
+
+    btncomment.addEventListener('click', e => {
+        e.preventDefault();
+        const [a, b, c, d, codactividad] = window.location.pathname.split('/');
+        $.ajax({
+            url: `${url}/tasks/pending/${codactividad}/comments`,
+            type: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            data: {
+                strcomment: $('#strcomment').val()
+            }
+        }).done(data => {
+            console.log(data);
+            window.location.reload();
+        }).fail(err => {
+            console.log(err);
         })
     });
 
