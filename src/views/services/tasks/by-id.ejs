@@ -227,11 +227,18 @@ console.log("this is task in ejs", tasks)
                                                 placeholder="Escriba un comentario"></textarea>
                                         <div class="d-flex flex-stack">
                                             <div class="d-flex align-items-center me-2">
-                                                <button class="btn btn-sm btn-icon btn-active-light-primary me-1"
+                                                <button onclick="getUploadFiles()"
+                                                        class="btn btn-sm btn-icon btn-active-light-primary me-1"
                                                         type="button" data-bs-toggle="tooltip" title=""
                                                         data-bs-original-title="Subir foto">
                                                     <i class="bi bi-paperclip fs-3"></i>
                                                 </button>
+                                                <form id="frmimg" >
+                                                    <input type="file" name="file[]" multiple
+                                                           style="display: none" id="file"
+                                                           onchange="uploadFiles()" accept="image/*">
+                                                    <input type="submit" id="frmsubmit" style="display: none">
+                                                </form>
                                             </div>
                                             <button id="btncomment"
                                                     class="btn btn-primary"
@@ -369,7 +376,7 @@ console.log("this is task in ejs", tasks)
             url: `${url}/tasks/pending/${codactividad}/comments`,
             type: 'POST',
             headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
             data: {
                 strcomment: $('#strcomment').val()
@@ -382,6 +389,38 @@ console.log("this is task in ejs", tasks)
         })
     });
 
+    function getUploadFiles() {
+        document.getElementById('file').click();
+    }
+
+    function uploadFiles() {
+        document.getElementById('frmsubmit').click();
+    }
+
+    $("#frmimg").submit(function(e) {
+        e.preventDefault();
+        const [a, b, c, d, codactividad] = window.location.pathname.split('/');
+        const files = document.getElementById('file').files;
+        const fd = new FormData();
+        files.forEach(function(currentFile, index, array){
+            fd.append('file[]', currentFile, currentFile.name);
+        })
+
+        $.ajax({
+            url: `${url}/tasks/pending/${codactividad}/images`,
+            type: 'post',
+            data: fd,
+            processData: false,
+            mimeType: "multipart/form-data",
+            contentType: false
+        }).done(result => {
+            console.log("done")
+            console.log(result);
+        }).catch(err => {
+            console.log("error")
+            console.log(err);
+        })
+    })
 </script>
 </body>
 <!--end::Body-->

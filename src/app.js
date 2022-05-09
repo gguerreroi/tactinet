@@ -6,7 +6,7 @@ import apiRoutes from "./routes/api.routes";
 import config from "./config/config";
 
 const session = require('express-session');
-
+const fileupload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const {join} = require('path');
 const Sequelize = require("sequelize");
@@ -36,6 +36,7 @@ app.use(morgan('dev'));
 app.use(urlencoded({extended: true}));
 app.use(json());
 app.use(cookieParser('TACTINETAPP'))
+app.use(fileupload())
 app.use(session({
     secret: 'TACTINETAPP',
     resave: true,
