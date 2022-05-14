@@ -85,7 +85,7 @@ console.log("this is task in ejs", tasks)
 <div class="d-flex flex-column flex-root">
     <!--begin::Page-->
     <div class="page d-flex flex-row flex-column-fluid">
-        <%- include('../../dashboard/left-aside.ejs') %>
+        <%- include('../../components/left-aside.ejs') %>
         <!--begin::Wrapper-->
         <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
             <!--begin::Header-->
@@ -106,7 +106,7 @@ console.log("this is task in ejs", tasks)
                         </a>
                     </div>
                     <!--end::Mobile logo-->
-                    <%- include('../../dashboard/top-navbar.ejs', UserInfo) %>
+                    <%- include('../../components/top-navbar.ejs', UserInfo) %>
                 </div>
                 <!--end::Container-->
             </div>
@@ -281,7 +281,7 @@ console.log("this is task in ejs", tasks)
                 <!--end::Entry-->
             </div>
             <!--end::Content-->
-            <%- include('../../dashboard/bottom-footer.ejs') %>
+            <%- include('../../components/bottom-footer.ejs') %>
         </div>
         <!--end::Wrapper-->
     </div>
