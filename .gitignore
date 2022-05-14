@@ -105,3 +105,6 @@ dist
 
 # IDE Files
 .idea
+
+# theme directory
+theme

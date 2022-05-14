@@ -79,9 +79,9 @@ export async function getAllComments(req, res) {
     }
 }
 
-export async function addComment(req, res){
+export async function addComment(req, res) {
     const {Username, Password, Database} = getCredentials(req);
-    const {id}= req.params;
+    const {id} = req.params;
     const {strcomment} = req.body;
     let Connection = null
     try {
@@ -91,22 +91,58 @@ export async function addComment(req, res){
         sp.input('strcomment', mssql.VarChar(400), strcomment)
         sp.output('codmsj', mssql.Int)
         sp.output('strmsj', mssql.VarChar(400))
-        sp.execute('actividad.sp_add_comment', function(err, result) {
+        sp.execute('actividad.sp_add_comment', function (err, result) {
             if (err) {
                 console.log("in in err")
                 res.status(500).send(JsonOut('500', 'Error in controller addComment', err));
-            }else{
+            } else {
                 console.log("else in err")
                 res.status(200).send(JsonOut('200', `${result.output.codmsj} - ${result.output.strmsj}`, result.recordset));
             }
         });
-    }catch (e) {
+    } catch (e) {
         const {message} = e
 
         res.status(500).send(JsonOut('500', 'Error general in controller addComment [' + message + ']', e));
     }
 }
 
-export async function updateTaskPending(req, res){
+export async function addImage(request, response) {
+    const files = await request.files['file[]'];
+    const {Username, Password, Database} = getCredentials(request);
+    const {id} = request.params;
+console.log("request.files ", request.files)
 
+    try{
+        console.log("files: ", files)
+        response.status(200).send(JsonOut('200', 'Run Ok', null));
+    }catch (e) {
+        response.status(500).send(JsonOut('500', 'Error in controller addImage', e));
+    }
+
+
+    // let Connection = null
+    // try {
+    //
+    //
+    //     Connection = await getConnection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+    //     const sp = await Connection.request()
+    //     sp.input('codactividad', mssql.Int, id)
+    //     sp.input('strcomment', mssql.VarChar(400), strcomment)
+    //     sp.output('codmsj', mssql.Int)
+    //     sp.output('strmsj', mssql.VarChar(400))
+    //     sp.execute('actividad.sp_add_comment', function(err, result) {
+    //         if (err) {
+    //             console.log("in in err")
+    //             res.status(500).send(JsonOut('500', 'Error in controller addComment', err));
+    //         }else{
+    //             console.log("else in err")
+    //             res.status(200).send(JsonOut('200', `${result.output.codmsj} - ${result.output.strmsj}`, result.recordset));
+    //         }
+    //     });
+    // }catch (e) {
+    //     const {message} = e
+    //
+    //     res.status(500).send(JsonOut('500', 'Error general in controller addComment [' + message + ']', e));
+    // }
 }

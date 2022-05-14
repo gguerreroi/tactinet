@@ -9,7 +9,7 @@ const colorCommentByUser = isOwner ? 'primary' : 'success';
         <div class="d-flex align-items-center mb-2">
             <% if (isOwner) { %>
                 <div class="ms-3">
-                    <span class="text-muted fs-7 mb-1">time ago</span>
+                    <span class="text-muted fs-7 mb-1"><%- comment._FCHCREACION %></span>
                     <a href="#"
                        class="fs-5 fw-bolder text-gray-900 text-hover-primary me-1"><%- comment._STRUSUARIO %></a>
                 </div>
@@ -19,7 +19,7 @@ const colorCommentByUser = isOwner ? 'primary' : 'success';
                 <div class="ms-3">
                     <a href="#"
                        class="fs-5 fw-bolder text-gray-900 text-hover-primary me-1"><%- comment._STRUSUARIO %></a>
-                    <span class="text-muted fs-7 mb-1">time ago</span>
+                    <span class="text-muted fs-7 mb-1"><%- comment._FCHCREACION %></span>
                 </div>
             <% } %>
         </div>

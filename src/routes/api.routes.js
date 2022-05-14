@@ -47,30 +47,31 @@ r.get('/logout',
 
 r.get('/tasks/pending',
     isAuthApi,
-    function (request, response) {
-        apic.getAllTasksPending(request, response);
-    })
+    apic.getAllTasksPending
+)
 
 r.get('/tasks/details/:id',
     isAuthApi,
-    function (request, response) {
-        apic.getOneTaskPending(request, response);
-    })
+    apic.getOneTaskPending
+)
 
 r.put('/tasks/details/:id',
     isAuthApi,     apic.updateTaskPending)
 
 r.get('/tasks/details/:id/comments',
     isAuthApi,
-    function (request, response) {
-        apic.getAllComments(request, response);
-    })
+    apic.getAllComments
+)
 
 r.post('/tasks/details/:id/comments',
     isAuthApi,
-    function (request, response) {
-        apic.addComment(request, response);
-    })
+    apic.addComment
+)
+
+r.post('/tasks/pending/:id/images',
+    isAuthApi,
+    apic.addImage
+)
 
 
 
