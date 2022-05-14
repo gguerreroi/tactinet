@@ -107,6 +107,10 @@ export async function addComment(req, res) {
     }
 }
 
+export async function updateTaskPending(req, res){
+
+}
+
 export async function addImage(request, response) {
     const files = await request.files['file[]'];
     const {Username, Password, Database} = getCredentials(request);
