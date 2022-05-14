@@ -337,6 +337,11 @@ console.log("this is task in ejs", tasks)
             cancelButtonClass: 'btn btn-secondary'
         }).then(result => {
             if (result.isConfirmed) {
+
+                $.ajax({
+                    url: `${url}/tasks/`,
+                })
+
                 Swal.fire({
                     text: 'Orden marcada como Completada!',
                     icon: 'success',

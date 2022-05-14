@@ -5,7 +5,7 @@ const axios = require('axios');
 
 export async function getOneTask(id, UserInfo){
     const {Username, Password, Database} = UserInfo.data;
-    return axios.get(`${API_URL}/tasks/pending/${id}`,{
+    return axios.get(`${API_URL}/tasks/details/${id}`,{
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Basic ${Buffer.from(`${Username}:${Password}`).toString('base64')}`,
@@ -16,7 +16,7 @@ export async function getOneTask(id, UserInfo){
 
 export async function getCommentsTask(id, UserInfo){
     const {Username, Password, Database} = UserInfo.data;
-    return axios.get(`${API_URL}/tasks/pending/${id}/comments`,{
+    return axios.get(`${API_URL}/tasks/details/${id}/comments`,{
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Basic ${Buffer.from(`${Username}:${Password}`).toString('base64')}`,

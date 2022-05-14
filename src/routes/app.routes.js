@@ -48,7 +48,7 @@ router.get('/services/tasks/pending', isAuth, function (request, response) {
     response.render('services/tasks/pending', info);
 });
 
-router.get('/services/tasks/pending/:id', isAuth, function (request, response) {
+router.get('/services/tasks/details/:id', isAuth, function (request, response) {
     let info = {
         UserInfo: request.session.message, me: '/services/tasks/pending', id: request.params.id, task: []
     }

@@ -51,22 +51,27 @@ r.get('/tasks/pending',
         apic.getAllTasksPending(request, response);
     })
 
-r.get('/tasks/pending/:id',
+r.get('/tasks/details/:id',
     isAuthApi,
     function (request, response) {
         apic.getOneTaskPending(request, response);
     })
 
-r.get('/tasks/pending/:id/comments',
+r.put('/tasks/details/:id',
+    isAuthApi,     apic.updateTaskPending)
+
+r.get('/tasks/details/:id/comments',
     isAuthApi,
     function (request, response) {
         apic.getAllComments(request, response);
     })
 
-r.post('/tasks/pending/:id/comments',
+r.post('/tasks/details/:id/comments',
     isAuthApi,
     function (request, response) {
         apic.addComment(request, response);
     })
+
+
 
 export default r;

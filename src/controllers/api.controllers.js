@@ -106,3 +106,7 @@ export async function addComment(req, res){
         res.status(500).send(JsonOut('500', 'Error general in controller addComment [' + message + ']', e));
     }
 }
+
+export async function updateTaskPending(req, res){
+
+}
