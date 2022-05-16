@@ -1,6 +1,6 @@
 <%
 const spath = me.split('/')
-console.log('spath', spath)
+
 let module_name = '';
 let module_section= '';
 let module_item = '';
@@ -1684,13 +1684,13 @@ if (spath.length > 2) {
                     <%
 
                     %>
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion <%- 'customers' === module_name ? 'show here' : '' %>">
                         <%- include("menu-accordion",{title:'Clientes',icon:'bi-people'}) %>
                         <div class="menu-sub menu-sub-accordion menu-active-bg">
-                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
+                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion <%- 'maintenance' === module_section ? 'show here' : ''%>">
                             <%- include('menu-subaccordion', {title: "Mantenimiento"}) %>
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                    <%- include("menu-item", {me: `${me}`, href: "/customers", icon: 'bullet', title:'Clientes'}) %>
+                                    <%- include("menu-item", {me: `${me}`, href: "/customers/maintenance/customer", icon: 'bullet', title:'Clientes'}) %>
                                 
                                 </div>
                             </div>                            

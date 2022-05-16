@@ -108,7 +108,32 @@ export async function addComment(req, res) {
 }
 
 export async function updateTaskPending(req, res){
+    const {Username, Password, Database} = getCredentials(req);
+    const {id} = req.params;
+    const {codestado} = req.body;
+    let Connection = null
+    try {
+        Connection = await getConnection(Username, Password, '45.5.118.219', `PLR00${Database}`);
 
+        const sp = await Connection.request()
+        console.log('codestado: ' + codestado)
+        sp.input('codactividad', mssql.Int, id)
+        sp.input('codestado', mssql.VarChar(2), codestado)
+        sp.output('codmsj', mssql.Int)
+        sp.output('strmsj', mssql.VarChar(400))
+        sp.execute('actividad.sp_update_task_pending', function (err, result) {
+            if (err) {
+                console.log("in in err")
+                res.status(500).send(JsonOut('500', 'Error in controller updateTaskPending', err));
+            } else {
+                console.log("else in err")
+                res.status(200).send(JsonOut('200', `${result.output.codmsj} - ${result.output.strmsj}`, result.recordset));
+            }
+        });
+    } catch (e) {
+        const {message} = e
+        res.status(500).send(JsonOut('500', 'Error general in controller updateTaskPending [' + message + ']', e));
+    }
 }
 
 export async function addImage(request, response) {
