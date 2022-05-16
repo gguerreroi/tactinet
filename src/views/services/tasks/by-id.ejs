@@ -523,7 +523,7 @@ const tasks = task.CODACTIVIDAD === undefined ? {
     btncomment.addEventListener('click', e => {
         e.preventDefault();
         $.ajax({
-            url: `${url}/tasks/pending/${codactividad}/comments`,
+            url: `${url}/tasks/details/${codactividad}/comments`,
             type: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
