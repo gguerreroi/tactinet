@@ -40,6 +40,24 @@ router.get('/', isAuth, function (request, response) {
     response.render('index', info);
 });
 
+router.get('/customers/maintenance/customer', isAuth, function (request, response) {
+    const info = {
+        UserInfo: request.session.message, me: request.path
+    }
+    response.render('customers/maintenance/customer', info);
+});
+
+router.get('/customers/maintenance/customer/:id', isAuth, function (request, response) {
+    const info = {
+        UserInfo: request.session.message, me: request.path
+    }
+    response.render('customers/maintenance/by-id', info);
+});
+
+/**
+    * @api {get} /services/tasks/pending Get pending tasks
+ **/
+
 router.get('/services/tasks/pending', isAuth, function (request, response) {
     const info = {
         UserInfo: request.session.message, me: request.path

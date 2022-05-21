@@ -56,7 +56,8 @@ r.get('/tasks/details/:id',
 )
 
 r.put('/tasks/details/:id',
-    isAuthApi,     apic.updateTaskPending)
+    isAuthApi,
+    apic.updateTaskPending)
 
 r.get('/tasks/details/:id/comments',
     isAuthApi,
@@ -72,7 +73,5 @@ r.post('/tasks/pending/:id/images',
     isAuthApi,
     apic.addImage
 )
-
-
 
 export default r;
