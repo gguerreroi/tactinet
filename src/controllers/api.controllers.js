@@ -107,7 +107,7 @@ export async function addComment(req, res) {
     }
 }
 
-export async function updateTaskPending(req, res){
+export async function updateTaskPending(req, res) {
 
 }
 
@@ -115,12 +115,13 @@ export async function addImage(request, response) {
     const files = await request.files['file[]'];
     const {Username, Password, Database} = getCredentials(request);
     const {id} = request.params;
-console.log("request.files ", request.files)
 
-    try{
+    console.log("request.files ", request.files)
+
+    try {
         console.log("files: ", files)
         response.status(200).send(JsonOut('200', 'Run Ok', null));
-    }catch (e) {
+    } catch (e) {
         response.status(500).send(JsonOut('500', 'Error in controller addImage', e));
     }
 
