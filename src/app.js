@@ -57,7 +57,7 @@ app.use(express.static(join(__dirname, '../public')));
 
 app.use(
     function( err, req, res, next) {
-    res.status(500).render('./system/err500', {
+    res.status(500).render('./system/error-500', {
         me: req.path,
         err: err,
         UserInfo: 'Error general'
@@ -66,7 +66,7 @@ app.use(
 
 app.use(
     function(req, res, next) {
-    res.status(404).render('./system/err404');
+    res.status(404).render('./system/error-404');
 });
 
 export default app;

@@ -2,18 +2,17 @@
 const spath = me.split('/')
 
 let module_name = '';
-let module_section= '';
+let module_section = '';
 let module_item = '';
 
 if (spath.length > 2) {
     module_name = spath[1];
     module_section = spath[2];
     module_item = spath[3];
-}else{
+} else {
     module_name = spath[1];
     module_section = '';
 }
-
 %>
 <% if (false) { %>
     <!--begin::Aside-->
@@ -1654,7 +1653,7 @@ if (spath.length > 2) {
          data-kt-drawer-direction="start"
          data-kt-drawer-toggle="#kt_aside_mobile_toggle">
         <div class="aside-logo flex-column-auto" id="kt_aside_logo">
-            <a href="#"><img alt="logo" src="assets/media/logos/pilar-text3.svg" class="h-50px logo"/></a>
+            <a href="#"><img alt="logo" src="https://cdn.jsdelivr.net/gh/gguerreroi/tactinet@main/public/assets/media/logos/pilar-text3.svg" class="h-50px logo"/></a>
             <div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle"
                  data-kt-toggle="true"
                  data-kt-toggle-state="active"
@@ -1682,24 +1681,27 @@ if (spath.length > 2) {
                     <%- include("menu-item", {me: `${me}`, href: "/", icon: 'bi-grid', title:'Dashboard'}) %>
                     <%- include("menu-section", {title: 'Modulos', style:"pt-8"}) %>
                     <%
-
-                    %>
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion <%- 'customers' === module_name ? 'show here' : '' %>">
+                      %>
+                    <div data-kt-menu-trigger="click"
+                         class="menu-item menu-accordion <%- 'customers' === module_name ? 'show here' : '' %>">
                         <%- include("menu-accordion",{title:'Clientes',icon:'bi-people'}) %>
                         <div class="menu-sub menu-sub-accordion menu-active-bg">
-                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion <%- 'maintenance' === module_section ? 'show here' : ''%>">
-                            <%- include('menu-subaccordion', {title: "Mantenimiento"}) %>
+                            <div data-kt-menu-trigger="click"
+                                 class="menu-item menu-accordion <%- 'maintenance' === module_section ? 'show here' : '' %>">
+                                <%- include('menu-subaccordion', {title: "Mantenimiento"}) %>
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
                                     <%- include("menu-item", {me: `${me}`, href: "/customers/maintenance/customer", icon: 'bullet', title:'Clientes'}) %>
-                                
+
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion <%- 'services' === module_name ? 'show here' : '' %>">
+                    <div data-kt-menu-trigger="click"
+                         class="menu-item menu-accordion <%- 'services' === module_name ? 'show here' : '' %>">
                         <%- include("menu-accordion",{title:'Servicios',icon:'bi-tv'}) %>
                         <div class="menu-sub menu-sub-accordion menu-active-bg">
-                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion <%- 'tasks' === module_section ? 'show here' : '' %>">
+                            <div data-kt-menu-trigger="click"
+                                 class="menu-item menu-accordion <%- 'tasks' === module_section ? 'show here' : '' %>">
                                 <%- include('menu-subaccordion', {title: "Gestiones"}) %>
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
                                     <%- include("menu-item", {me: `${me}`, href: "/services/tasks/pending", icon: 'bullet', title:'Pendientes'}) %>

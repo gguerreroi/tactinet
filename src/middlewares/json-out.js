@@ -1,4 +1,4 @@
-export const JsonOut = (Code, Message, Data = null) => {
+export const json_out = (Code, Message, Data = null) => {
     return {
         state: {
             Code: Code,

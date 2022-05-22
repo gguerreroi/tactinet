@@ -1,17 +1,17 @@
 "use strict";
 
-import {getConnection, mssql} from "../middlewares/database";
-import {JsonOut} from "../middlewares/JsonOut";
+import {get_connection, mssql} from "../middlewares/database";
+import {json_out} from "../middlewares/json-out";
 
 
-export async function checkUserAndPassword(request, response) {
+export async function check_user_password(request, response) {
     const {username, password, database} = request.body
 
     let Connection = null
 
     try {
 
-        Connection = await getConnection(username, password, '45.5.118.219',`PLR00${database}`)
+        Connection = await get_connection(username, password, '45.5.118.219',`PLR00${database}`)
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -20,12 +20,12 @@ export async function checkUserAndPassword(request, response) {
 
         query.execute('seguridad.sp_usuarios', function (err, rows) {
             if (!err){
-                response.status(200).send(JsonOut('200', 'Login Succeded', rows.recordsets[0][0]))
+                response.status(200).send(json_out('200', 'Login Succeded', rows.recordsets[0][0]))
             }else{
-                response.status(500).send(JsonOut('500', 'Se produjo un error al ejecutar el procedimiento', err))
+                response.status(500).send(json_out('500', 'Se produjo un error al ejecutar el procedimiento', err))
             }
         })
     } catch (e) {
-        response.status(e.code).send(JsonOut(e.code, e.message))
+        response.status(e.code).send(json_out(e.code, e.message))
     }
 }

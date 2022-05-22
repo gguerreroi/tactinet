@@ -1,18 +1,18 @@
-export function isAuth(request, response, next){
+export function is_auth(request, response, next){
   if (request.isAuthenticated())
   return next()
 
   return response.redirect('/auth')
 }
 
-export function isAuthLogin(request, response, next){
+export function is_auth_login(request, response, next){
   if (request.isAuthenticated())
     return response.redirect('/')
 
     return next()
 }
 
-export function isAuthApi(request, response, next){
+export function is_auth_api(request, response, next){
   if (request.isAuthenticated())
     return next()
 

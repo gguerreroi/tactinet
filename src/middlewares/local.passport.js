@@ -1,12 +1,12 @@
-const LocalPassport = require('passport');
-const passportLocal = require('passport-local').Strategy;
+const authenticator = require('passport');
+const strategy = require('passport-local').Strategy;
 
 import axios from "axios";
 
-import {getConnection} from "./database";
+import {get_connection} from "./database";
 
 
-LocalPassport.use('api-local', new passportLocal({
+authenticator.use('api-local', new strategy({
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
@@ -14,7 +14,7 @@ LocalPassport.use('api-local', new passportLocal({
     const {database} = request.body;
     let Connection = null
     try {
-        Connection = await getConnection(username, password, '45.5.118.219', `PLR00${database}`)
+        Connection = await get_connection(username, password, '45.5.118.219', `PLR00${database}`)
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -66,21 +66,21 @@ LocalPassport.use('api-local', new passportLocal({
     }
 }));
 
-LocalPassport.serializeUser(function (user, done) {
+authenticator.serializeUser(function (user, done) {
     done(null, user)
 });
 
-LocalPassport.deserializeUser(function (user, done) {
+authenticator.deserializeUser(function (user, done) {
     done(null, user)
 })
 
-LocalPassport.use('local', new passportLocal({
+authenticator.use('local', new strategy({
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
 }, async function (request, username, password, done) {
     const {database} = request.body;
-    let Connection = await getConnection(username, password, '45.5.118.219', `PLR00${database}`)
+    let Connection = await get_connection(username, password, '45.5.118.219', `PLR00${database}`)
     const query = await Connection.request()
 
     try {

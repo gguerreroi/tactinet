@@ -2,7 +2,7 @@ export const mssql = require('mssql')
 
 let pool;
 
-export async function getConnection(user, password, server, database) {
+export async function get_connection(user, password, server, database) {
     let connPool;
 
     try {
@@ -27,7 +27,7 @@ export async function getConnection(user, password, server, database) {
         pool = await connPool.connect()
         pool.on("error", async function (e) {
             console.log("on pool error ", e)
-            await closePool()
+            await close_pool()
         })
         return pool;
     } catch (e) {
@@ -39,7 +39,7 @@ export async function getConnection(user, password, server, database) {
     }
 }
 
-async function closePool() {
+async function close_pool() {
     try {
         await pool.close()
         pool = null

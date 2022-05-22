@@ -2,8 +2,8 @@ import {Router} from "express";
 
 const passport = require('passport');
 
-import {JsonOut} from "../middlewares/JsonOut";
-import {isAuthApi} from "../middlewares/isAuth";
+import {json_out} from "../middlewares/json-out";
+import {is_auth_api} from "../middlewares/is-auth";
 import * as apic from "../controllers/api.controllers";
 
 const r = Router();
@@ -29,12 +29,12 @@ r.get('/failure',
         if (request.session.message !== undefined)
             mess = request.session.message.data.message;
 
-        response.status(401).send(JsonOut(401, mess))
+        response.status(401).send(json_out(401, mess))
     });
 
 r.get('/success',
     function (request, response) {
-        response.status(200).send(JsonOut(200, 'Login Success', request.session.message))
+        response.status(200).send(json_out(200, 'Login Success', request.session.message))
     });
 
 r.get('/logout',
@@ -45,33 +45,16 @@ r.get('/logout',
         });
     })
 
-r.get('/tasks/pending',
-    isAuthApi,
-    apic.getAllTasksPending
-)
+r.get('/tasks/pending', is_auth_api, apic.get_task_pending)
 
-r.get('/tasks/details/:id',
-    isAuthApi,
-    apic.getOneTask
-)
+r.get('/tasks/details/:id', is_auth_api, apic.get_task_by_id)
 
-r.put('/tasks/details/:id',
-    isAuthApi,
-    apic.updateTaskPending)
+r.put('/tasks/details/:id', is_auth_api, apic.update_task_by_id)
 
-r.get('/tasks/details/:id/comments',
-    isAuthApi,
-    apic.getAllComments
-)
+r.get('/tasks/details/:id/comments', is_auth_api, apic.get_comments_by_task)
 
-r.post('/tasks/details/:id/comments',
-    isAuthApi,
-    apic.addComment
-)
+r.post('/tasks/details/:id/comments', is_auth_api, apic.add_comment_to_task)
 
-r.post('/tasks/pending/:id/images',
-    isAuthApi,
-    apic.addImage
-)
+r.post('/tasks/pending/:id/images', is_auth_api, apic.add_image_to_task)
 
 export default r;
