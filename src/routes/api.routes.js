@@ -52,7 +52,7 @@ r.get('/tasks/pending',
 
 r.get('/tasks/details/:id',
     isAuthApi,
-    apic.getOneTaskPending
+    apic.getOneTask
 )
 
 r.put('/tasks/details/:id',

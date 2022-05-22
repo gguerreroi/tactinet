@@ -28,7 +28,7 @@ export async function getAllTasksPending(req, res) {
     }
 }
 
-export async function getOneTaskPending(req, res) {
+export async function getOneTask(req, res) {
 
     const {Username, Password, Database} = getCredentials(req);
     let Connection = null
@@ -41,7 +41,7 @@ export async function getOneTaskPending(req, res) {
 
         const stmt = await Connection.request()
         stmt.query(`SELECT *
-                    FROM servicios.vw_actividades_pendientes
+                    FROM servicios.vw_actividades_by_id
                     WHERE codactividad = ${req.params.id}`, (err, result) => {
             if (err) {
                 res.status(500).send(JsonOut('500', 'Error in controller getOne', err));

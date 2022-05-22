@@ -1,6 +1,7 @@
 <%
 const tasks = task.CODACTIVIDAD === undefined ? {
     CODACTIVIDAD: '99999',
+    CODSERVICIO: '99999',
     _FCHCREACION: '2020-05-29 15:05:49.393',
     _FCHPROGRAMADO: "2020-05-29 15:05:49.393",
     _FCHFINALIZADO: '',
@@ -177,7 +178,7 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                                             <div class="col-6">
                                                 <div class="fw-bold">Cliente:</div>
                                             </div>
-                                            <div class="col-6"><%- tasks.STRNOMBRESER %></div>
+                                            <div class="col-6 fw-bold "><%- tasks.CODSERVICIO %> <%- tasks.STRNOMBRESER %></div>
                                             <div class="col-6">
                                                 <div class="fw-bold">Direccion:</div>
                                             </div>
