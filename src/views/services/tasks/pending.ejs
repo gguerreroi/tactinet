@@ -119,6 +119,11 @@
                     return moment(data.substring(0, data.length - 1)).startOf('hour').fromNow()
                 }
             }, {
+                targets: [3],
+                render: function (data, type, row) {
+                    return `${row.STRSECTOR}`;
+                }
+            }, {
                 targets: [4],
                 render: function (data, type, row) {
                     const {MOVIL} = row;

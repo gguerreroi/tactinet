@@ -111,7 +111,7 @@ export async function add_comment_to_task(req, res) {
 export async function update_task_by_id(req, res){
     const {Username, Password, Database} = get_credentials(req);
     const {id} = req.params;
-    const {codestado, fchreprogram} = req.body;
+    const {codestado, fecha_reprogram} = req.body;
     let Connection = null
     try {
         Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
@@ -121,17 +121,15 @@ export async function update_task_by_id(req, res){
         sp.input('codactividad', mssql.Int, id)
         sp.input('codestado', mssql.VarChar(2), codestado)
 
-        if (fchreprogram !== undefined)
-            sp.input('fchreprogram', mssql.VarChar(10), fchreprogram)
+        if (fecha_reprogram !== undefined)
+            sp.input('fchreprogram', mssql.VarChar(10), fecha_reprogram)
 
         sp.output('codmsj', mssql.Int)
         sp.output('strmsj', mssql.VarChar(400))
         sp.execute('servicios.sp_update_task', function (err, result) {
             if (err) {
-
                 res.status(500).send(json_out('500', 'Error in controller updateTaskPending', err));
             } else {
-
                 res.status(200).send(json_out('200', `${result.output.codmsj} - ${result.output.strmsj}`, result.recordset));
             }
         });
@@ -181,3 +179,4 @@ export async function add_image_to_task(request, response) {
     //     res.status(500).send(JsonOut('500', 'Error general in controller addComment [' + message + ']', e));
     // }
 }
+

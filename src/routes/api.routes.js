@@ -5,6 +5,7 @@ const passport = require('passport');
 import {json_out} from "../middlewares/json-out";
 import {is_auth_api} from "../middlewares/is-auth";
 import * as apic from "../controllers/api.controllers";
+import * as onu from "../controllers/onu.controllers";
 
 const r = Router();
 
@@ -56,5 +57,9 @@ r.get('/tasks/details/:id/comments', is_auth_api, apic.get_comments_by_task)
 r.post('/tasks/details/:id/comments', is_auth_api, apic.add_comment_to_task)
 
 r.post('/tasks/pending/:id/images', is_auth_api, apic.add_image_to_task)
+
+r.get('/onu/:id/signal', is_auth_api, onu.get_onu_signal_by_id)
+
+r.get('/onu/:id/status', is_auth_api, onu.get_onu_status_by_id)
 
 export default r;
