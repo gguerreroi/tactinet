@@ -203,7 +203,7 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                                                 </button>
                                             </div>
                                             <div class="row " id="div-onu-info">
-                                                <div class="col-12 col-sm-4 mt-4">
+                                                <div class="col-12 col-sm-4 col-md-3 mt-4">
                                                     <label class="fw-bold form-label"
                                                            for="onu-status-input">Estado</label>
                                                     <div class="input-group ">
@@ -223,7 +223,7 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                                                                readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-sm-4 mt-4">
+                                                <div class="col-12 col-sm-4 col-md-3 mt-4">
                                                     <label class="fw-bold form-label" for="onu-signal-rx-input">Olt rx
                                                         1310</label>
                                                     <div class="input-group ">
@@ -241,9 +241,9 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                                                                readonly>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-sm-4 mt-4">
-                                                    <label class="fw-bold form-label" for="onu-signal-tx-input">Onu tx
-                                                        1490</label>
+                                                <div class="col-12 col-sm-4 col-md-3 mt-4">
+                                                    <label class="fw-bold form-label"
+                                                           for="onu-signal-tx-input">Onu tx 1490</label>
                                                     <div class="input-group ">
                                                         <span class="input-group-text" id="onu-signal-tx-icon">
                                                             <span class="svg-icon svg-icon-5x svg-icon-muted" >
@@ -256,6 +256,24 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                                                             </span>
                                                         </span>
                                                         <input type="text" class="form-control" id="onu-signal-tx-input"
+                                                               readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-4 col-md-3 mt-4">
+                                                    <label class="fw-bold form-label"
+                                                           for="onu-signal-catv-input">Catv 1550</label>
+                                                    <div class="input-group ">
+                                                        <span class="input-group-text" id="onu-signal-catv-icon">
+                                                            <span class="svg-icon svg-icon-5x svg-icon-muted" >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                     height="16" fill="none"
+                                                                     class="bi bi-reception-0" viewBox="0 0 16 16">
+                                                                    <path d="M0 13.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm4 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm4 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm4 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"
+                                                                          fill="currentColor"/>
+                                                                </svg>
+                                                            </span>
+                                                        </span>
+                                                        <input type="text" class="form-control" id="onu-signal-catv-input"
                                                                readonly>
                                                     </div>
                                                 </div>
