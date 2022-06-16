@@ -82,6 +82,12 @@ router.get('/services/tasks/details/:id', is_auth, function (request, response) 
         });
     })
 });
+router.get('/services/tasks/by-user', is_auth, function (request, response) {
+    const info = {
+        UserInfo: request.session.message, me: request.path
+    }
+    response.render('services/tasks/by-user', info);
+})
 
 router.get('/services/tasks/complete', is_auth, function (request, response) {
     const info = {

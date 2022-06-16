@@ -1704,7 +1704,8 @@ if (spath.length > 2) {
                                  class="menu-item menu-accordion <%- 'tasks' === module_section ? 'show here' : '' %>">
                                 <%- include('menu-subaccordion', {title: "Gestiones"}) %>
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                    <%- include("menu-item", {me: `${me}`, href: "/services/tasks/pending", icon: 'bullet', title:'Pendientes'}) %>
+                                    <%- include("menu-item", {me: `${me}`, href: "/services/tasks/pending", icon: 'bullet', title:'General'}) %>
+                                    <%- include("menu-item", {me: `${me}`, href: "/services/tasks/by-user", icon: 'bullet', title:'Mis Gestiones'}) %>
                                     <%- include("menu-item", {me: `${me}`, href: "/services/tasks/complete", icon: 'bullet', title:'Completadas'}) %>
 
                                 </div>
