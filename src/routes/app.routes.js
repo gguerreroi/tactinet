@@ -96,4 +96,11 @@ router.get('/services/tasks/complete', is_auth, function (request, response) {
     response.render('services/tasks/complete', info);
 });
 
+router.get('/services/tasks/archive', is_auth, function (request, response) {
+    const info = {
+        UserInfo: request.session.message, me: request.path
+    }
+    response.render('services/tasks/archive', info);
+});
+
 export default router;

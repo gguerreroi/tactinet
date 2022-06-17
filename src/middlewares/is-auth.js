@@ -2,7 +2,7 @@ export function is_auth(request, response, next){
   if (request.isAuthenticated())
   return next()
 
-  return response.redirect('/auth')
+  return response.render('auth')
 }
 
 export function is_auth_login(request, response, next){
