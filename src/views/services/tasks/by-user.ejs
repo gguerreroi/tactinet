@@ -140,7 +140,7 @@
             api.column(6, {page: 'current'}).data().each(function (group, i) {
                 if (last !== group) {
                     $(rows).eq(i).before(
-                        `<tr class="group"><td colspan="7"><span class="fw-bold badge badge-light-primary">${group}</span></td></tr>`
+                        `<tr class="group"><td colspan="7" class="fw-bold bg-light-primary text-primary">${group}</td></tr>`
                     );
                     last = group;
                 }
