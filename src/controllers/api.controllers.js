@@ -42,7 +42,8 @@ export async function get_task_pending_by_user(req, res) {
 
         const stmt = await Connection.request()
         stmt.query(`SELECT * 
-                    FROM servicios.vw_actividades_pendientes_by_user`, (err, result) => {
+                    FROM servicios.vw_actividades_pendientes_by_user
+                    order by CODCLASIFICACION`, (err, result) => {
             if (err) {
                 res.status(500).send(json_out('500', 'Error in controller getAll', err));
             } else {
