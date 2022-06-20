@@ -14,10 +14,12 @@ const tasks = task.CODACTIVIDAD === undefined ? {
     CODPRIORIDAD: 'B',
     _CODEMPLEADOAPERTURO: '6',
     STREMPLEADO: 'NOMBRE DEL TECNICO APERTURO',
+    STREMPASIGNADO: 'NOMBRE DEL TECNICO ASIGNADO',
     STRNOMBRESER: 'NOMBRE DEL CLIENTE',
     STRDIRSERVICIO: 'DIRECCION DEL CLIENTE',
     CODAGENCIA: '2',
     STRAGENCIA: 'EMPRESA',
+    STRTARIFA: 'Cable',
     CODSECTOR: 'CSNJ',
     STRSECTOR: 'SECTOR DEL CLIENTE',
     STROBSERVACIONES: 'REFERENCIA DEL CLIENTE',
@@ -58,7 +60,7 @@ const tasks = task.CODACTIVIDAD === undefined ? {
 <!--end::Head-->
 <!--begin::Body-->
 <body id="kt_body"
-      class="page-loading-enabled page-loading header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
       style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
 <!--begin::Main-->
 <!--begin::Root-->
@@ -91,86 +93,99 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-12 col-sm-6">
-                                                <div class="fw-bold">Creado:</div>
+                                            <div class="col-12 col-sm-3">
+                                                <div class="fw-bold col-sm-12">Estado</div>
+                                                <div class="col-sm-12">
+                                                     <span class="bg-light-primary text-primary p-1">
+                                                     <%- tasks.STRESTADO %>
+                                                     </span>
+                                                </div>
                                             </div>
-                                            <div class="col-12 col-sm-6 col-md-3"><%- tasks._FCHCREACION %></div>
-                                            <div class="col-sm-6">
-                                                <div class="fw-bold">Programado:</div>
+                                            <div class="col-12 col-sm-3">
+                                                <div class="fw-bold col-sm-12">Creado por</div>
+                                                <div class="col-sm-12">
+                                                    <span class="bg-light-success text-success p-1">
+                                                        <%- tasks.STREMPLEADO %>
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <div class="col-12 col-sm-6"><%- tasks._FCHPROGRAMADO %></div>
-                                            <div class="col-12 col-sm-6">
-                                                <div class="fw-bold">Finalizado:</div>
+                                            <div class="col-12 col-sm-3">
+                                                <div class="fw-bold col-sm-12">Clasificacion</div>
+                                                <div class="col-sm-12">
+                                                    <%- tasks.STRCLASIFICACION %>
+                                                </div>
                                             </div>
-                                            <div class="col-12 col-sm-6"><%- tasks._FCHFINALIZADO %></div>
-                                            <div class="col-12 col-sm-6">
-                                                <div class="fw-bold">Estado:</div>
+                                            <div class="col-12 col-sm-3">
+                                                <div class="fw-bold col-12">Oficina</div>
+                                                <div class="col-sm-12">
+                                                    <%- tasks.STRAGENCIA %>
+                                                </div>
                                             </div>
-                                            <div class="col-12 col-sm-6">
-                                                <span class="bg-light-primary text-primary p-1">
-                                                    <%- tasks.STRESTADO %>
-                                                </span>
+                                            <div class="col-12 col-sm-3">
+                                                <label class="fw-bold col-12 ">Creado</label>
+                                                <div class="col-12 "><%- tasks._FCHCREACION %></div>
                                             </div>
-                                            <div class="col-12 col-sm-6">
-                                                <div class="fw-bold">Creado por:</div>
+                                            <div class="col-12 col-sm-3">
+                                                <label class="fw-bold col-sm-12">Programado</label>
+                                                <div class="col-sm-12"><%- tasks._FCHPROGRAMADO %></div>
                                             </div>
-                                            <div class="col-12 col-sm-6">
-                                                <%# task._CODEMPLEADOAPERTURO %>
-                                                <span class="bg-light-success text-success p-1"><%- tasks.STREMPLEADO %></span>
+                                           <div class="col-12 col-sm-3">
+                                                <label class="fw-bold col-sm-12">Finalizado</label>
+                                                <div class="col-sm-12"><%- tasks._FCHFINALIZADO %></div>
+                                           </div>
+                                            <div class="col-12 col-sm-2">
+                                                <label class="fw-bold col-sm-12">Tecnico asignado</label>
+                                                <div class="col-sm-12"><%- tasks.STREMPASIGNADO %></div>
                                             </div>
-                                            <div class="col-12 col-sm-6">
-                                                <div class="fw-bold">Clasificacion:</div>
+                                            <div class="col-12 col-sm-3">
+                                                <label class="fw-bold col-12">Cliente</label>
+                                                <div class="col-sm-12">
+                                                    <span class="fw-bold text-primary">
+                                                        <%- tasks.CODSERVICIO %> <%- tasks.STRNOMBRESER %>
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <div class="col-12 col-sm-6">
-                                                <%# task.CODCLASIFICACION %>
-                                                <%- tasks.STRCLASIFICACION %></div>
-                                            <%# task.CODESTADO %>
-                                            <%# task.CODENTIDAD %>
-                                            <%# task.CODPRIORIDAD %>
-                                            <div class="col-12 col-sm-6">
-
-                                                <div class="fw-bold">Oficina:</div>
+                                            <div class="col-12 col-sm-3">
+                                                <label class="fw-bold">Direccion</label>
+                                                <div class="col-12">
+                                                    <%- tasks.STRDIRSERVICIO %>
+                                                </div>
                                             </div>
-                                            <div class="col-12 col-sm-6">
-                                                <%# task.CODAGENCIA %>
-                                                <%- tasks.STRAGENCIA %>
+                                            <div class="col-12 col-sm-3">
+                                                <label class="fw-bold col-12">Sector</label>
+                                                <div class="col-sm-12">
+                                                    <%- tasks.STRSECTOR %>
+                                                </div>
                                             </div>
-                                            <div class="col-12 col-sm-6">
-                                                <div class="fw-bold">Cliente:</div>
+                                            <div class="col-12 col-sm-3">
+                                                <label class="fw-bold col-12">Plan</label>
+                                                <div class="col-sm-12"><%- tasks.STRTARIFA %></div>
                                             </div>
-                                            <div class="col-12 col-sm-6 fw-bold "><span
-                                                        class="text-primary"><%- tasks.CODSERVICIO %> <%- tasks.STRNOMBRESER %></span>
+                                            <div class="col-12 col-sm-4">
+                                                <div class="fw-bold col-12">Observaciones</div>
+                                                <div class="col-12">
+                                                    <%- tasks.STROBSERVACIONES %>
+                                                </div>
                                             </div>
-                                            <div class="col-12 col-sm-6">
-                                                <div class="fw-bold">Direccion:</div>
+                                            <div class="col-12 col-sm-4">
+                                                <div class="fw-bold col-12">Comentarios</div>
+                                                <div class="col-12">
+                                                    <span class="text-danger">
+                                                        <%- tasks.STRDESCRIPCION %>
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <div class="col-12 col-sm-6"><%- tasks.STRDIRSERVICIO %></div>
-                                            <div class="col-12 col-sm-6">
-                                                <div class="fw-bold">Sector:</div>
+                                            <div class="col-12 col-sm-4">
+                                                <div class="fw-bold col-12">Telefono</div>
+                                                <div class="col-12">
+                                                    <a href="tel:<%- tasks.TELEFONO %>"><%- tasks.TELEFONO %></a> -
+                                                    <a href="tel:<%- tasks.MOVIL %>"><%- tasks.MOVIL %></a>
+                                                </div>
                                             </div>
-                                            <div class="col-12 col-sm-6">
-                                                <%# task.CODSECTOR %>
-                                                <%- tasks.STRSECTOR %>
+                                            <div class="col-12 hide">
+                                                <input type="number" readonly id="input-codservicio"
+                                                                            value="<%- tasks.CODSERVICIO %>">
                                             </div>
-                                            <div class="col-12 col-sm-6">
-                                                <div class="fw-bold">Observaciones:</div>
-                                            </div>
-                                            <div class="col-12 col-sm-6"><%- tasks.STROBSERVACIONES %></div>
-                                            <div class="col-12 col-sm-6">
-                                                <div class="fw-bold">Comentarios</div>
-                                            </div>
-                                            <div class="col-12 col-sm-6"><span
-                                                        class="text-danger"><%- tasks.STRDESCRIPCION %></span></div>
-                                            <div class="col-12 col-sm-6">
-                                                <div class="fw-bold">Telefono:</div>
-                                            </div>
-                                            <div class="col-12 col-sm-6">
-                                                <a href="tel:<%- tasks.TELEFONO %>"><%- tasks.TELEFONO %></a> -
-                                                <a href="tel:<%- tasks.MOVIL %>"><%- tasks.MOVIL %></a>
-                                            </div>
-                                            <div class="col-12 hide"><input type="number" readonly
-                                                                            id="input-codservicio"
-                                                                            value="<%- tasks.CODSERVICIO %>"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -243,7 +258,7 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                                                 </div>
                                                 <div class="col-12 col-sm-4 col-md-3 mt-4">
                                                     <label class="fw-bold form-label"
-                                                           for="onu-signal-tx-input">Onu tx 1490</label>
+                                                           for="onu-signal-tx-input">Onu rx 1490</label>
                                                     <div class="input-group ">
                                                         <span class="input-group-text" id="onu-signal-tx-icon">
                                                             <span class="svg-icon svg-icon-5x svg-icon-muted" >
@@ -342,23 +357,29 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                                             boolButtons = true;
                                         %>
                                         <div class="row <%- !boolButtons ? 'hide' : '' %>">
-                                            <div class="col-12 col-md-4">
+                                            <div class="col-12 col-md-3">
                                                 <button class="btn btn-success w-100 m-1"
                                                         id="btnfinish"
                                                 ><i class="bi bi-check2-square fs-2x"></i>Finalizar
                                                 </button>
                                             </div>
-                                            <div class="col-12 col-md-4">
+                                            <div class="col-12 col-md-3">
                                                 <a href="#" class="btn er btn-warning w-100 m-1"
                                                    data-bs-toggle="modal"
                                                    data-bs-target="#kt-modal-reprogram"
                                                 ><i class="bi bi-calendar-check fs-2x"></i>Reprogramar
                                                 </a>
                                             </div>
-                                            <div class="col-12 col-md-4">
+                                            <div class="col-12 col-md-3">
                                                 <button class="btn btn-danger w-100 m-1 "
                                                         id="btncancel"
                                                 ><i class="bi bi-x-square fs-2x"></i>Anular
+                                                </button>
+                                            </div>
+                                            <div class="col-12 col-md-3">
+                                                <button class="btn btn-secondary w-100 m-1"
+                                                        id="btnarchive"
+                                                ><i class="bi bi-archive fs-2x"></i>Archivar
                                                 </button>
                                             </div>
                                         </div>
@@ -479,7 +500,7 @@ const tasks = task.CODACTIVIDAD === undefined ? {
 
     const btnfinish = document.getElementById('btnfinish');
     const btncancel = document.getElementById('btncancel');
-
+    const btnarchive = document.getElementById('btnarchive');
     const btncomment = document.getElementById('btncomment');
 
 
@@ -515,7 +536,7 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                         }
                     }).then(result => {
                         if (result.isConfirmed) {
-                            window.location.href = `./services/tasks/pending`;
+                            window.location.href = `./services/tasks/by-user`;
                         }
                     })
                 }).catch(error => {
@@ -565,12 +586,62 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                         }
                     }).then(result => {
                         if (result.isConfirmed)
-                            window.location.href = `./services/tasks/pending`;
+                            window.location.href = `./services/tasks/by-user`;
                     })
                 }).catch(error => {
                     console.error(error)
                     Swal.fire({
                         text: 'Error al marcar como anulada la gestion',
+                        icon: 'error',
+                        buttonsStyling: false,
+                        confirmButtonText: 'Ok',
+                        customClass: {
+                            confirmButton: 'btn btn-danger'
+                        }
+                    })
+                })
+            }
+        })
+    });
+
+    btnarchive.addEventListener('click', e => {
+        e.preventDefault();
+        Swal.fire({
+            text: '¿Estás seguro de archivar la gestion?',
+            icon: 'warning',
+            buttonsStyling: false,
+            confirmButtonText: 'Si, archivar',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                confirmButton: 'btn btn-secondary',
+                cancelButton: 'btn btn-danger'
+            }
+        }).then(result => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `${url}/tasks/details/${codactividad}`,
+                    type: 'PUT',
+                    data: {
+                        'codestado': 'AR'
+                    }
+                }).then(response => {
+                    Swal.fire({
+                        text: 'Orden marcada como Archivada!',
+                        icon: 'success',
+                        buttonsStyling: false,
+                        confirmButtonText: 'Ok',
+                        customClass: {
+                            confirmButton: 'btn btn-secondary'
+                        }
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            window.location.href = `./services/tasks/by-user`;
+                        }
+                    })
+                }).catch(error => {
+                    Swal.fire({
+                        text: 'Error al marcar como completada la orden',
                         icon: 'error',
                         buttonsStyling: false,
                         confirmButtonText: 'Ok',

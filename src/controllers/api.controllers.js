@@ -29,6 +29,31 @@ export async function get_task_pending(req, res) {
     }
 }
 
+export async function get_task_pending_by_user(req, res) {
+
+    const {Username, Database, Password} = get_credentials(req);
+    let Connection = null
+
+    try {
+        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+
+        if (Connection.code === 500)
+            throw {code: Connection.code, message: Connection.message}
+
+        const stmt = await Connection.request()
+        stmt.query(`SELECT * 
+                    FROM servicios.vw_actividades_pendientes_by_user`, (err, result) => {
+            if (err) {
+                res.status(500).send(json_out('500', 'Error in controller getAll', err));
+            } else {
+                res.status(200).send(json_out('200', 'Run Ok', result.recordset));
+            }
+        });
+    } catch (e) {
+        res.status(500).send(json_out('500', 'Error in controller getAll [', e));
+    }
+}
+
 export async function get_task_by_id(req, res) {
 
     const {Username, Password, Database} = get_credentials(req);
