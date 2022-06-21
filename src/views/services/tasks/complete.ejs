@@ -37,10 +37,6 @@
                                             <h3 class="card-label">Gestiones completadas</h3>
                                         </div>
                                         <div class="card-toolbar">
-                                            <a href="#" class="btn btn-primary font-weight-bolder">
-                                                <i class="la la-plus"></i>
-                                                Nuevo
-                                            </a>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -49,12 +45,12 @@
                                                id="kt_datatable">
                                             <thead>
                                             <tr>
-                                                <th># Gestion</th>
+                                                <th>#</th>
                                                 <th>Cliente</th>
-                                                <th>Creación</th>
+                                                <th>Clasificación</th>
+                                                <th>Finalización</th>
+                                                <th>Tecnico</th>
                                                 <th>Sector</th>
-                                                <th>Telefono</th>
-                                                <th>Clasificacion</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -87,9 +83,38 @@
 <%- include('../../components/web-footer') %>
 <!--begin::Page Custom Javascript(used by this page)-->
 <script src="assets/js/custom/widgets.js"></script>
-<script src="assets/js/custom/apps/chat/chat.js"></script>
-<script src="assets/js/custom/modals/create-app.js"></script>
-<script src="assets/js/custom/modals/upgrade-plan.js"></script>
+<script>
+    const url = `${window.location.origin}/api`;
+    moment.locale('es');
+
+    const dtTaskPending = $("#kt_datatable").DataTable({
+        ordering: false,
+        search: true,
+        ajax: `${url}/tasks/complete`,
+        columns: [
+            {data: 'CODACTIVIDAD'},
+            {data: 'STRNOMBRESER'},
+            {data: 'STRCLASIFICACION'},
+            {data: 'FCHFINALIZADO'},
+            {data: '_STREMPLEADOFINALIZO'},
+            {data: 'STRSECTOR'}
+        ],
+        columnDefs: [
+            {
+                targets: [0],
+                render: function (data, type, row) {
+                    return `<a href="services/tasks/details/${data}">${data}</a>`;
+                }
+            }, {
+                targets: [2],
+                render: function (data, type, row) {
+                    return `<span class="badge badge-light-primary">${row.STRCLASIFICACION}</span>`;
+                }
+            }
+        ],
+        order: [[3, "desc"]],
+    });
+</script>
 <!--end::Page Custom Javascript-->
 <!--end::Javascript-->
 </body>

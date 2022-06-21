@@ -48,6 +48,8 @@ r.get('/logout',
 
 r.get('/tasks/pending', is_auth_api, apic.get_task_pending)
 
+r.get('/tasks/complete', is_auth_api, apic.get_task_complete)
+
 r.get('/tasks/by-user', is_auth_api, apic.get_task_pending_by_user)
 
 r.get('/tasks/details/:id', is_auth_api, apic.get_task_by_id)
