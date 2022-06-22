@@ -42,7 +42,7 @@ export async function get_task_complete(req, res) {
 
         const stmt = await Connection.request()
         stmt.query(`SELECT * 
-                    FROM servicios.vw_actividades_completadas order by FCHFINALIZADO desc`, (err, result) => {
+                    FROM servicios.vw_actividades_completadas order by _FCHFINALIZADO desc`, (err, result) => {
             if (err) {
                 res.status(500).send(json_out('500', 'Error in controller getAll', err));
             } else {
