@@ -103,7 +103,7 @@ var KTSigninGeneral = function() {
                         // set time out 1000ms
                         setTimeout(function(){
                             window.location.reload();
-                        }, 2000)
+                        }, 1000)
                     }).fail(function(error){
                         //console.log("error fail: ", error)
                         if (error.responseJSON != undefined){

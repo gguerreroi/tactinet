@@ -139,8 +139,11 @@
             var last = null;
             api.column(6, {page: 'current'}).data().each(function (group, i) {
                 if (last !== group) {
+                    let color = "bg-light-primary text-primary"
+                    if (group == "Internet Luz Roja o Sin Señal")
+                        color ="bg-light-danger text-danger";
                     $(rows).eq(i).before(
-                        `<tr class="group"><td colspan="7" class="fw-bold bg-light-primary text-primary">${group}</td></tr>`
+                        `<tr class="group"><td colspan="7" class="fw-bold ${color}">${group}</td></tr>`
                     );
                     last = group;
                 }
