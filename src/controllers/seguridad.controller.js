@@ -41,7 +41,8 @@ export async function check_permission(request, response){
         const stmt = await Connection.request()
 
         stmt.query(`SELECT * 
-                    FROM seguridad.vw_permisos_by_user`, function (err, rows) {
+                    FROM seguridad.vwCheckAccess
+                    WHERE IDENOMBRE like ''`, function (err, rows) {
             if (!err){
                 response.status(200).send(json_out('200', 'Permisos', rows.recordset))
             }else{
