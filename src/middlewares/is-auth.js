@@ -1,4 +1,5 @@
 export function is_auth(request, response, next){
+  console.log('auth', request.url, request.method)
   if (request.isAuthenticated())
   return next()
 
@@ -13,6 +14,7 @@ export function is_auth_login(request, response, next){
 }
 
 export function is_auth_api(request, response, next){
+  
   if (request.isAuthenticated())
     return next()
 
