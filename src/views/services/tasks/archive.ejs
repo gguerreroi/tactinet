@@ -42,15 +42,16 @@
                                     </div>
                                     <div class="card-body">
                                         <!--begin: Datatable-->
-                                        <table class="table table-separate table-head-custom table-checkable"
+                                        <table class="table table-row-dashed gy-5 gs-7 border rounded table-hover"
                                                id="kt_datatable">
                                             <thead>
-                                            <tr>
-                                                <th># Gestion</th>
+                                            <tr class="fw-bolder fs-6 px-7 text-uppercase">
+                                                <th>#</th>
                                                 <th>Cliente</th>
                                                 <th>Creación</th>
                                                 <th>Sector</th>
                                                 <th>Telefono</th>
+                                                <th>Movil</th>
                                                 <th>Clasificacion</th>
                                             </tr>
                                             </thead>
@@ -84,11 +85,25 @@
 <%- include('../../components/web-footer') %>
 <!--begin::Page Custom Javascript(used by this page)-->
 <script src="assets/js/custom/widgets.js"></script>
-<script src="assets/js/custom/apps/chat/chat.js"></script>
-<script src="assets/js/custom/modals/create-app.js"></script>
-<script src="assets/js/custom/modals/upgrade-plan.js"></script>
 <!--end::Page Custom Javascript-->
 <!--end::Javascript-->
+<script>
+    const url = `${window.location.origin}/api`;
+    moment.locale('es');
+    const dtTaskArchive = $("#kt_datatable").DataTable({
+        ajax: `${url}/tasks/archive`,
+        columns: [
+            {data: 'CODACTIVIDAD'},
+            {data: 'STRNOMBRESER'},
+            {data: '_FCHCREACION'},
+            {data: 'CODSECTOR'},
+            {data: 'TELEFONO'},
+            {data: 'MOVIL'},
+            {data: 'CODCLASIFICACION'}
+        ],
+        
+    })
+</script>
 </body>
 <!--end::Body-->
 </html>
