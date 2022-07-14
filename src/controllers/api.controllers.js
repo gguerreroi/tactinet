@@ -4,6 +4,30 @@ import {get_connection, mssql} from "../middlewares/database";
 import {json_out} from "../middlewares/json-out";
 import {get_credentials} from "../middlewares/get-credentials";
 
+export async function get_task_archive(req, res){
+    const {Username, Database, Password} = get_credentials(req);
+    let Connection = null
+
+    try {
+        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+
+        if (Connection.code === 500)
+            throw {code: Connection.code, message: Connection.message}
+
+        const stmt = await Connection.request()
+        stmt.query(`SELECT * 
+                    FROM servicios.vw_actividades_archivadas`, (err, result) => {
+            if (err) {
+                res.status(500).send(json_out('500', 'Error in controller getAll', err));
+            } else {
+                res.status(200).send(json_out('200', 'Run Ok', result.recordset));
+            }
+        });
+    } catch (e) {
+        res.status(500).send(json_out('500', 'Error in controller getAll [', e));
+    }
+}
+
 export async function get_task_pending(req, res) {
 
     const {Username, Database, Password} = get_credentials(req);

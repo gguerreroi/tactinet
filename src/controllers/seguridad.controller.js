@@ -42,7 +42,7 @@ export async function check_permission(request, response){
 
         stmt.query(`SELECT * 
                     FROM seguridad.vwCheckAccess
-                    WHERE IDENOMBRE like ''`, function (err, rows) {
+                    WHERE IDENOMBRE like '${request.url}'`, function (err, rows) {
             if (!err){
                 response.status(200).send(json_out('200', 'Permisos', rows.recordset))
             }else{

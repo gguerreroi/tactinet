@@ -46,6 +46,8 @@ r.get('/logout',
         });
     })
 
+r.get('/tasks/archive', is_auth_api, apic.get_task_archive);
+
 r.get('/tasks/pending', is_auth_api, apic.get_task_pending)
 
 r.get('/tasks/complete', is_auth_api, apic.get_task_complete)
