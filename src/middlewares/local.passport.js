@@ -24,7 +24,7 @@ authenticator.use('api-local', new strategy({
 
         let permisos=[];
 
-        await query_permisos.query("SELECT * FROM seguridad.vwCheckAccess", function (err, rows) {
+        await query_permisos.query("SELECT IDENOMBRE FROM seguridad.vwCheckAccess WHERE IDENOMBRE LIKE '%/%'", function (err, rows) {
             if (!err)
                 permisos = rows.recordsets[0].map(function (item) {
                     return item.IDENOMBRE
@@ -96,7 +96,7 @@ authenticator.use('local', new strategy({
     const query_permisos = await Connection.request();
     let permisos = [];
     try {
-        await query_permisos.query("SELECT * FROM seguridad.vwCheckAccess", function (err, rows) {
+        await query_permisos.query("SELECT IDENOMBRE FROM seguridad.vwCheckAccess WHERE IDENOMBRE LIKE '%/%'", function (err, rows) {
             if (!err)
                 permisos = rows.recordsets[0].map(function (item) {
                     return item.IDENOMBRE

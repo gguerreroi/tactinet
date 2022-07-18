@@ -1,21 +1,8 @@
 
 export function is_auth(request, response, next) {
-
-    if (request.isAuthenticated()){
-        const {Permisos} = request.session.passport.user.data;
-        const flgpermiso = Permisos.includes(request.url)
-        console.log('flgpermiso: ', flgpermiso, typeof (flgpermiso))
-        if (flgpermiso){
-            console.log("true permiso")
+    if (request.isAuthenticated())
             return next()
-        }else{
-            console.log("false permiso")
-            return response.status(403).render('./system/error-403')
-        }
-    }
-
-
-
+     
     return response.render('auth')
 }
 

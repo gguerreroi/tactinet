@@ -1682,6 +1682,17 @@ if (spath.length > 2) {
                     <%- include("menu-section", {title: 'Modulos', style:"pt-8"}) %>
                     <%
                       %>
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion <%- 'cash' === module_name ? 'show here' : '' %>">
+                        <%- include("menu-accordion", {title: 'Caja', icon: 'bi-cash-coin'}) %>
+                        <div class="menu-sub menu-sub-accordion menu-active-bg">
+                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion <%- 'operations' === module_name ? 'show here' : '' %>">
+                                <%- include("menu-subaccordion", {title: 'Operaciones'}) %>
+                                <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                    <%- include("menu-item", {me: `${me}`, href: "/cash/operations/operations", icon: 'bullet', title:'Operaciones'}) %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
                     <div data-kt-menu-trigger="click"
                          class="menu-item menu-accordion <%- 'customers' === module_name ? 'show here' : '' %>">
                         <%- include("menu-accordion",{title:'Clientes',icon:'bi-people'}) %>
