@@ -255,3 +255,45 @@ export async function add_image_to_task(request, response) {
     // }
 }
 
+export async function get_cash_dairy_resume(req, res){
+    const {Username, Password, Database} = get_credentials(req);
+    const {dairy_date} = req.body;
+    let Connection = null
+    try {
+        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+
+        if (Connection.code === 500)
+            throw {code: Connection.code, message: Connection.message}
+
+        if (dairy_date === undefined)
+            throw {code: 500, message: 'dairy_date is required'}
+
+        const stmt = await Connection.request()
+        stmt.query(`select tb.CODCARTERA 'codcartera', 
+                                servicios.fn_strcartera(tb.CODCARTERA) 'strcartera',
+                                sum(tb.txsubtotal) 'dte_total',
+                                sum(tb.mntgravable) 'dte_mntgravable',
+                                sum(tb.mntimpuesto) 'dte_mntimpuesto',
+                                sum(tb.cdp_total) 'cdp_total',
+                                sum(tb.cdp_dte) 'cdp_dte'
+                            from (
+                            select codcartera, IIF(coddocumento=9, txsubtotal, 0) 'txsubtotal',
+                            IIF(coddocumento=9, (mntgravable), 0) 'mntgravable',
+                            IIF(coddocumento=9, (mntimpuesto), 0) 'mntimpuesto',
+                            IIF(coddocumento!=9, (txsubtotal), 0) 'cdp_total',
+                            txsubtotal 'cdp_dte'
+                            from caja.vw_web_diario
+                            where fchaplicacion = '${dairy_date}'  and codoperador = seguridad.fn_emplogin(ORIGINAL_LOGIN())
+                            ) tb
+                            group by tb.CODCARTERA`, (err, result) => {
+            if (err) {
+                res.status(500).send(json_out('500', 'Error in controller get_cash_dairy_resume', err));
+            } else {
+                res.status(200).send(json_out('200', 'Run Ok', result.recordset));
+            }
+        });
+    } catch (e) {
+        res.status(500).send(json_out('500', 'Error in controller get_cash_dairy_resume', e));
+    }
+}
+
