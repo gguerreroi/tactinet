@@ -1685,10 +1685,10 @@ if (spath.length > 2) {
                     <div data-kt-menu-trigger="click" class="menu-item menu-accordion <%- 'cash' === module_name ? 'show here' : '' %>">
                         <%- include("menu-accordion", {title: 'Caja', icon: 'bi-cash-coin'}) %>
                         <div class="menu-sub menu-sub-accordion menu-active-bg">
-                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion <%- 'operations' === module_name ? 'show here' : '' %>">
+                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion <%- 'operations' === module_section ? 'show here' : '' %>">
                                 <%- include("menu-subaccordion", {title: 'Operaciones'}) %>
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                    <%- include("menu-item", {me: `${me}`, href: "/cash/operations/operations", icon: 'bullet', title:'Operaciones'}) %>
+                                    <%- include("menu-item", {me: `${me}`, href: "/cash/operations/day", icon: 'bullet', title:'Diario'}) %>
                                 </div>
                             </div>
                         </div>

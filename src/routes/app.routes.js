@@ -140,4 +140,16 @@ router.get('/services/tasks/archive', is_auth, function (request, response) {
     }
 });
 
+router.get('/cash/operations/day', is_auth, function (request, response) {
+    const info = {
+        UserInfo: request.session.message, me: request.path
+    }
+    const {Permisos} = request.session.passport.user.data;
+    if (Permisos.includes(info.me.toUpperCase())) {
+        return response.render('cash/operations/day', info);
+    }else{
+        return response.render('system/error-403')
+    }
+})
+
 export default router;
