@@ -40,7 +40,7 @@
         <!--begin::Wrapper-->
         <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
             <!--begin::Header-->
-            <div id="kt_header" style="" class="header align-items-stretch">
+            <div id="kt_header" class="header align-items-stretch">
                 <!--begin::Container-->
                 <div class="container-fluid d-flex align-items-stretch justify-content-between">
                     <!--begin::Aside mobile toggle-->
@@ -90,16 +90,20 @@
                                                                 <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                                                         </svg>
                                                     </span>
-                                                    <input type="date"
+                                                    <input type="date" id="date-start"
                                                            class="form-control form-control-solid w-100 ps-14 text-uppercase"
                                                     />
                                                 </div>
                                                 <!--end::Search-->
                                             </div>
                                             <div class="col-6">
-                                                <button class="btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary w-100"
-                                                        id="btn-open-cash">
+                                                <button class="btn btn-primary w-100"
+                                                        id="btn-show-dairy">
                                                     <i class="bi bi-play-fill"></i>
+                                                    <span class="indicator-label">Mostrar Diario</span>
+                                                    <span class="indicator-progress">Obteniendo información
+                                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                    </span>
                                                 </button>
                                             </div>
                                         </div>
@@ -120,7 +124,20 @@
                                         <div class="card-toolbar"></div>
                                     </div>
                                     <div class="card-body">
-
+                                        <div class="table-responsive">
+                                            <table id="tb-dairy-resume" class="table table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Cartera</th>
+                                                        <th>Fecha</th>
+                                                        <th>Hora</th>
+                                                        <th>Tipo</th>
+                                                        <th>Descripción</th>
+                                                        <th>Monto</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +154,23 @@
                                         <div class="card-toolbar"></div>
                                     </div>
                                     <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="tb-dairy-detail" class="table table-sm ">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Fecha</th>
+                                                        <th>Cliente</th>
+                                                        <th>Plan</th>
+                                                        <th>Documento</th>
+                                                        <th>Monto</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -180,6 +213,7 @@
 <!--begin::Page Custom Javascript(used by this page)-->
 <script src="assets/js/custom/widgets.js"></script>
 <script src="assets/js/custom/apps/chat/chat.js"></script>
+<script src="assets/js/custom/cash/dairy-info.js"></script>
 <!--end::Page Custom Javascript-->
 <!--end::Javascript-->
 </body>
