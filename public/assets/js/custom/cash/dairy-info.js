@@ -2,54 +2,60 @@
 
 const TNDairyInfo = function(){
     let di_date;
-    let di_submit_button;
+    let btn_submit;
     let tb_dairy_resume;
     let tb_dairy_detail;
+    let form_dairy;
 
     const get_dairy_info = function(){
-        di_submit_button.setAttribute("data-kt-indicator", "on");
-        di_submit_button.disabled = true;
+        btn_submit.setAttribute("data-kt-indicator", "on");
+        btn_submit.disabled = true;
+        const form_data = $("#form-dairy").serializeArray();
+
         const dairy_resume = $.ajax({
             url: `${url}/cash/dairy/resume`,
-            type: "GET"
+            method: "GET",
+            data: form_data
         });
         const dairy_detail = $.ajax({
-            url: `${url}/cash/dairy/detail`,
-            type: "GET"
+            url: `${url}/cash/dairy/details`,
+            method: "GET",
+            dataType: "json",
+            contentType: "application/json",
+            data: form_data
         });
         Promise.all([dairy_resume, dairy_detail]).then(values => {
             render_tb_dairy_resume(values[0].data);
             render_tb_dairy_detail(values[1].data);
-            di_submit_button.setAttribute("data-kt-indicator", "off");
-            di_submit_button.disabled = false;
+            btn_submit.setAttribute("data-kt-indicator", "off");
+            btn_submit.disabled = false;
         }).catch(error => {
             console.error("error", error);
-            di_submit_button.setAttribute("data-kt-indicator", "off");
-            di_submit_button.disabled = false;
+            btn_submit.setAttribute("data-kt-indicator", "off");
+            btn_submit.disabled = false;
         });
     }
 
     const render_tb_dairy_resume = function (resume_data){
-
+        console.log("resume_data", resume_data);
     }
 
     const render_tb_dairy_detail = function (detail_data){
-
+        console.log("detail_data", detail_data);
     }
 
     const handle = function() {
-        di_submit_button.addEventListener('click', function(e){
+        form_dairy.addEventListener('submit', function(e){
             e.preventDefault();
             get_dairy_info();
         });
     }
     return {
         init: function(){
-            di_date = document.getElementById('date-start');
-            di_submit_button = document.getElementById('btn-show-dairy');
+            form_dairy = document.getElementById('form-dairy');
+            btn_submit = document.getElementById('btn-submit-dairy');
             tb_dairy_resume = document.getElementById('tb-dairy-resume');
             tb_dairy_detail = document.getElementById('tb-dairy-detail');
-
             handle();
         } 
     }

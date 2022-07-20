@@ -4,7 +4,7 @@ import {get_connection, mssql} from "../middlewares/database";
 import {json_out} from "../middlewares/json-out";
 import {get_credentials} from "../middlewares/get-credentials";
 
-export async function get_task_archive(req, res){
+export async function get_task_archive(req, res) {
     const {Username, Database, Password} = get_credentials(req);
     let Connection = null
 
@@ -15,7 +15,7 @@ export async function get_task_archive(req, res){
             throw {code: Connection.code, message: Connection.message}
 
         const stmt = await Connection.request()
-        stmt.query(`SELECT * 
+        stmt.query(`SELECT *
                     FROM servicios.vw_actividades_archivadas`, (err, result) => {
             if (err) {
                 res.status(500).send(json_out('500', 'Error in controller getAll', err));
@@ -40,7 +40,7 @@ export async function get_task_pending(req, res) {
             throw {code: Connection.code, message: Connection.message}
 
         const stmt = await Connection.request()
-        stmt.query(`SELECT * 
+        stmt.query(`SELECT *
                     FROM servicios.vw_actividades_pendientes`, (err, result) => {
             if (err) {
                 res.status(500).send(json_out('500', 'Error in controller getAll', err));
@@ -65,8 +65,9 @@ export async function get_task_complete(req, res) {
             throw {code: Connection.code, message: Connection.message}
 
         const stmt = await Connection.request()
-        stmt.query(`SELECT * 
-                    FROM servicios.vw_actividades_completadas order by _FCHFINALIZADO desc`, (err, result) => {
+        stmt.query(`SELECT *
+                    FROM servicios.vw_actividades_completadas
+                    order by _FCHFINALIZADO desc`, (err, result) => {
             if (err) {
                 res.status(500).send(json_out('500', 'Error in controller getAll', err));
             } else {
@@ -90,7 +91,7 @@ export async function get_task_pending_by_user(req, res) {
             throw {code: Connection.code, message: Connection.message}
 
         const stmt = await Connection.request()
-        stmt.query(`SELECT * 
+        stmt.query(`SELECT *
                     FROM servicios.vw_actividades_pendientes_by_user
                     order by CODCLASIFICACION`, (err, result) => {
             if (err) {
@@ -183,7 +184,7 @@ export async function add_comment_to_task(req, res) {
     }
 }
 
-export async function update_task_by_id(req, res){
+export async function update_task_by_id(req, res) {
     const {Username, Password, Database} = get_credentials(req);
     const {id} = req.params;
     const {codestado, fecha_reprogram} = req.body;
@@ -221,10 +222,10 @@ export async function add_image_to_task(request, response) {
 
     console.log("request.files ", request.files)
 
-    try{
+    try {
         console.log("files: ", files)
         response.status(200).send(json_out('200', 'Run Ok', null));
-    }catch (e) {
+    } catch (e) {
         response.status(500).send(json_out('500', 'Error in controller addImage', e));
     }
 
@@ -255,9 +256,44 @@ export async function add_image_to_task(request, response) {
     // }
 }
 
-export async function get_cash_dairy_resume(req, res){
+export async function get_cash_dairy_resume(req, res) {
     const {Username, Password, Database} = get_credentials(req);
-    const {dairy_date} = req.body;
+    const {dairy_date} = req.query;
+
+    let Connection = null
+    try {
+        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+
+        if (Connection.code === 500)
+            throw {code: Connection.code, message: Connection.message}
+
+        if (dairy_date === undefined)
+            throw {code: 500, message: 'dairy_date is required'}
+
+
+        const stmt = await Connection.request()
+        stmt.query(`select tb.CODCARTERA 'codcartera', servicios.fn_strcartera(tb.CODCARTERA) 'strcartera', sum(tb.txsubtotal) 'dte_total', sum(tb.mntgravable) 'dte_mntgravable', sum(tb.mntimpuesto) 'dte_mntimpuesto', sum(tb.cdp_total) 'cdp_total', sum(tb.cdp_dte) 'cdp_dte'
+                    from (select codcartera,
+                                 IIF(coddocumento = 9, txsubtotal, 0) 'txsubtotal', IIF(coddocumento = 9, (mntgravable), 0) 'mntgravable', IIF(coddocumento = 9, (mntimpuesto), 0) 'mntimpuesto', IIF(coddocumento!=9, (txsubtotal), 0) 'cdp_total', txsubtotal 'cdp_dte'
+                          from caja.vw_web_diario
+                          where fchaplicacion = '${dairy_date}'
+                            and codoperador = seguridad.fn_emplogin(ORIGINAL_LOGIN())) tb
+                    group by tb.CODCARTERA`, (err, result) => {
+            if (err) {
+                res.status(500).send(json_out(500, 'Error in run query get_cash_dairy_resume', err));
+            } else {
+                res.status(200).send(json_out(200, 'Run Ok', result.recordset));
+            }
+        });
+    } catch (e) {
+        res.status(500).send(json_out(e.code, e.message, null));
+    }
+}
+
+export async function get_cash_dairy_details(req, res) {
+    const {Username, Password, Database} = get_credentials(req);
+    const {dairy_date} = req.query;
+
     let Connection = null
     try {
         Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
@@ -269,23 +305,10 @@ export async function get_cash_dairy_resume(req, res){
             throw {code: 500, message: 'dairy_date is required'}
 
         const stmt = await Connection.request()
-        stmt.query(`select tb.CODCARTERA 'codcartera', 
-                                servicios.fn_strcartera(tb.CODCARTERA) 'strcartera',
-                                sum(tb.txsubtotal) 'dte_total',
-                                sum(tb.mntgravable) 'dte_mntgravable',
-                                sum(tb.mntimpuesto) 'dte_mntimpuesto',
-                                sum(tb.cdp_total) 'cdp_total',
-                                sum(tb.cdp_dte) 'cdp_dte'
-                            from (
-                            select codcartera, IIF(coddocumento=9, txsubtotal, 0) 'txsubtotal',
-                            IIF(coddocumento=9, (mntgravable), 0) 'mntgravable',
-                            IIF(coddocumento=9, (mntimpuesto), 0) 'mntimpuesto',
-                            IIF(coddocumento!=9, (txsubtotal), 0) 'cdp_total',
-                            txsubtotal 'cdp_dte'
-                            from caja.vw_web_diario
-                            where fchaplicacion = '${dairy_date}'  and codoperador = seguridad.fn_emplogin(ORIGINAL_LOGIN())
-                            ) tb
-                            group by tb.CODCARTERA`, (err, result) => {
+        stmt.query(`select *
+                    from caja.vw_web_diario
+                    where fchaplicacion like '${dairy_date}'
+                      and codoperador = seguridad.fn_emplogin(ORIGINAL_LOGIN())`, (err, result) => {
             if (err) {
                 res.status(500).send(json_out('500', 'Error in controller get_cash_dairy_resume', err));
             } else {

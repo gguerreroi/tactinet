@@ -79,6 +79,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
+                                        <form id="form-dairy">
                                         <div class="row">
                                             <div class="col-6">
                                                 <!--begin::Search-->
@@ -90,15 +91,18 @@
                                                                 <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                                                         </svg>
                                                     </span>
-                                                    <input type="date" id="date-start"
+                                                    <input type="date"
+                                                           id="date-start"
+                                                           name="dairy_date"
                                                            class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                           required
                                                     />
                                                 </div>
                                                 <!--end::Search-->
                                             </div>
                                             <div class="col-6">
                                                 <button class="btn btn-primary w-100"
-                                                        id="btn-show-dairy">
+                                                        id="btn-submit-dairy">
                                                     <i class="bi bi-play-fill"></i>
                                                     <span class="indicator-label">Mostrar Diario</span>
                                                     <span class="indicator-progress">Obteniendo información
@@ -107,6 +111,7 @@
                                                 </button>
                                             </div>
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
 
@@ -214,8 +219,14 @@
 <script src="assets/js/custom/widgets.js"></script>
 <script src="assets/js/custom/apps/chat/chat.js"></script>
 <script src="assets/js/custom/cash/dairy-info.js"></script>
+<script>
+    "use strict";
+    const url = `${window.location.origin}/api`;
+    TNDairyInfo.init();
+</script>
 <!--end::Page Custom Javascript-->
 <!--end::Javascript-->
+
 </body>
 <!--end::Body-->
 </html>
