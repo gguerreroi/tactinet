@@ -145,6 +145,7 @@ router.get('/cash/operations/day', is_auth, function (request, response) {
         UserInfo: request.session.message, me: request.path
     }
     const {Permisos} = request.session.passport.user.data;
+
     if (Permisos.includes(info.me.toUpperCase())) {
         return response.render('cash/operations/day', info);
     }else{

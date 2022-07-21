@@ -2,29 +2,7 @@
 <html lang="en">
 <!--begin::Head-->
 <head>
-    <base href="/">
-    <meta charset="utf-8"/>
-    <title>pilar 1.0</title>
-    <meta property="og:site_name" content=" | "/>
-    <meta property="og:title" content="pilar"/>
-    <meta name="description" content="Sistema de administracion de clientes CRM"/>
-    <meta property="og:type" content="article"/>
-    <meta name="keywords" content="crm, pilar, tactinet"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta property="og:locale" content="es_GT"/>
-    <meta property="og:url" content="http://tactinet.sonivitac.com"/>
-    <link rel="canonical" href="http://tactinet.sonivitac.com"/>
-    <link rel="shortcut icon" href="assets/media/logos/favicon.ico"/>
-    <!--begin::Fonts-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
-    <!--end::Fonts-->
-    <!--begin::Page Vendor Stylesheets(used by this page)-->
-    <link href="assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css"/>
-    <!--end::Page Vendor Stylesheets-->
-    <!--begin::Global Stylesheets Bundle(used by all pages)-->
-    <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css"/>
-    <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css"/>
-    <!--end::Global Stylesheets Bundle-->
+    <%- include('../../components/web-header') %>
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -80,10 +58,10 @@
                                     </div>
                                     <div class="card-body">
                                         <form id="form-dairy">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <!--begin::Search-->
-                                                <div class="d-flex align-items-center position-relative mb-6">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <!--begin::Search-->
+                                                    <div class="d-flex align-items-center position-relative mb-6">
                                                     <span class="svg-icon svg-icon-1 position-absolute ms-4">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                              fill="currentColor" class="bi bi-calendar"
@@ -91,26 +69,26 @@
                                                                 <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                                                         </svg>
                                                     </span>
-                                                    <input type="date"
-                                                           id="date-start"
-                                                           name="dairy_date"
-                                                           class="form-control form-control-solid w-100 ps-14 text-uppercase"
-                                                           required
-                                                    />
+                                                        <input type="date"
+                                                               id="date-start"
+                                                               name="dairy_date"
+                                                               class="form-control form-control-solid w-100 ps-14 text-uppercase"
+                                                               required
+                                                        />
+                                                    </div>
+                                                    <!--end::Search-->
                                                 </div>
-                                                <!--end::Search-->
-                                            </div>
-                                            <div class="col-6">
-                                                <button class="btn btn-primary w-100"
-                                                        id="btn-submit-dairy">
-                                                    <i class="bi bi-play-fill"></i>
-                                                    <span class="indicator-label">Mostrar Diario</span>
-                                                    <span class="indicator-progress">Obteniendo información
+                                                <div class="col-6">
+                                                    <button class="btn btn-primary w-100"
+                                                            id="btn-submit-dairy">
+                                                        <i class="bi bi-play-fill"></i>
+                                                        <span class="indicator-label">Mostrar Diario</span>
+                                                        <span class="indicator-progress">Obteniendo información
                                                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                                     </span>
-                                                </button>
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
                                         </form>
                                     </div>
                                 </div>
@@ -130,17 +108,31 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table id="tb-dairy-resume" class="table table-bordered table-hover">
+                                            <table id="tb-dairy-resume"
+                                                   class="table table-bordered table-hover border rounded gy-5 gs-7">
                                                 <thead>
-                                                    <tr>
-                                                        <th>codcartera</th>
-                                                        <th>Cartera</th>
-                                                        <th>Hora</th>
-                                                        <th>Tipo</th>
-                                                        <th>Descripción</th>
-                                                        <th>Monto</th>
-                                                    </tr>
+                                                <tr class="fw-bolder fs-6 px-7 text-uppercase">
+                                                    <th>#</th>
+                                                    <th>Cartera</th>
+                                                    <th class="sum"><span class="badge badge-success">Total CDP</span></th>
+                                                    <th class="sum"><span class="badge badge-primary">Total DTE</span></th>
+                                                    <th class="sum">Gravable</th>
+                                                    <th class="sum">Impuesto</th>
+                                                    <th class="sum"><span class="badge badge-dark">Total</span></th>
+                                                </tr>
                                                 </thead>
+                                                <tbody></tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                </tfoot>
                                             </table>
                                         </div>
                                     </div>
@@ -160,19 +152,35 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table id="tb-dairy-detail" class="table table-sm ">
+                                            <table id="tb-dairy-detail"
+                                                   class="table table-bordered table-hover border rounded gy-5 gs-7">
                                                 <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Fecha</th>
-                                                        <th>Cliente</th>
-                                                        <th>Plan</th>
-                                                        <th>Documento</th>
-                                                        <th>Monto</th>
-                                                        <th>Acciones</th>
-                                                    </tr>
+                                                <tr class="fw-bolder fs-6 px-7 text-uppercase">
+                                                    <th>#</th>
+                                                    <th># Cuenta</th>
+                                                    <th data-priority="1">Nombre</th>
+                                                    <th>Plan</th>
+                                                    <th>Cartera</th>
+                                                    <th>Documento</th>
+                                                    <th>Estado</th>
+                                                    <th>Descripcion</th>
+                                                    <th class="sum">Total</th>
+                                                </tr>
                                                 </thead>
                                                 <tbody></tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                </tfoot>
                                             </table>
 
                                         </div>
@@ -191,33 +199,12 @@
     <!--end::Page-->
 </div>
 <!--end::Root-->
-<!--begin::Scrolltop-->
-<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
-    <!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
-    <span class="svg-icon">
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-					<rect opacity="0.5" x="13" y="6" width="13" height="2" rx="1" transform="rotate(90 13 6)"
-                          fill="black"/>
-					<path d="M12.5657 8.56569L16.75 12.75C17.1642 13.1642 17.8358 13.1642 18.25 12.75C18.6642 12.3358 18.6642 11.6642 18.25 11.25L12.7071 5.70711C12.3166 5.31658 11.6834 5.31658 11.2929 5.70711L5.75 11.25C5.33579 11.6642 5.33579 12.3358 5.75 12.75C6.16421 13.1642 6.83579 13.1642 7.25 12.75L11.4343 8.56569C11.7467 8.25327 12.2533 8.25327 12.5657 8.56569Z"
-                          fill="black"/>
-				</svg>
-			</span>
-    <!--end::Svg Icon-->
-</div>
-<!--end::Scrolltop-->
+<%- include('../../components/kt-scrolltop') %>
 <!--end::Main-->
-<script>var hostUrl = "assets/";</script>
-<!--begin::Javascript-->
-<!--begin::Global Javascript Bundle(used by all pages)-->
-<script src="assets/plugins/global/plugins.bundle.js"></script>
-<script src="assets/js/scripts.bundle.js"></script>
-<!--end::Global Javascript Bundle-->
-<!--begin::Page Vendors Javascript(used by this page)-->
-<script src="assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
-<!--end::Page Vendors Javascript-->
+<%- include('../../components/web-footer') %>
 <!--begin::Page Custom Javascript(used by this page)-->
 <script src="assets/js/custom/widgets.js"></script>
-<script src="assets/js/custom/apps/chat/chat.js"></script>
+<!--end::Page Custom Javascript-->
 <script src="assets/js/custom/cash/dairy-info.js"></script>
 <script>
     "use strict";

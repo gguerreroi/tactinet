@@ -31,7 +31,7 @@ authenticator.use('api-local', new strategy({
                 })
 
         })
-
+        console.log('api-permisos', permisos)
         query.execute('seguridad.sp_usuarios', function (err, rows) {
             if (!err) {
                 const user = {
@@ -78,10 +78,12 @@ authenticator.use('api-local', new strategy({
 }));
 
 authenticator.serializeUser(function (user, done) {
+    console.log('serializeUser', user)
     done(null, user)
 });
 
 authenticator.deserializeUser(function (user, done) {
+    console.log('deserializeUser', user)
     done(null, user)
 })
 
@@ -97,10 +99,14 @@ authenticator.use('local', new strategy({
     let permisos = [];
     try {
         await query_permisos.query("SELECT IDENOMBRE FROM seguridad.vwCheckAccess WHERE IDENOMBRE LIKE '%/%'", function (err, rows) {
-            if (!err)
+            if (!err){
                 permisos = rows.recordsets[0].map(function (item) {
                     return item.IDENOMBRE
                 })
+
+
+
+            }
         })
 
         axios.post('http://localhost:3000/api/auth', {
@@ -108,7 +114,7 @@ authenticator.use('local', new strategy({
             password: password,
             database: database
         }).then(res => {
-
+            console.log('post api', res)
             query.execute('seguridad.sp_usuarios', function (err, rows) {
                 if (!err) {
                     const user = {
