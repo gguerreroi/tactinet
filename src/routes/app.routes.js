@@ -10,8 +10,7 @@ router.get('/auth', is_auth_login, function (request, response) {
     response.render('auth');
 });
 
-router.post('/auth', function (request, response, next) {
-    request.session.message = {};
+router.post('/auth', (request, response, next) => {
     passport.authenticate('local', {
         successRedirect: '/success',
         failureRedirect: '/failure'

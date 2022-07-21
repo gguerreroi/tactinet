@@ -1,13 +1,10 @@
 import {Router} from "express";
-
-const passport = require('passport');
-
 import {json_out} from "../middlewares/json-out";
 import {is_auth_api} from "../middlewares/is-auth";
 import * as apic from "../controllers/api.controllers";
 import * as onu from "../controllers/onu.controllers";
-import {get_cash_dairy_details} from "../controllers/api.controllers";
 
+const passport = require('passport');
 const r = Router();
 
 r.get('/', function (request, response) {
@@ -15,8 +12,7 @@ r.get('/', function (request, response) {
 })
 
 r.post('/auth',
-    function (request, response, next) {
-        request.session.message = {};
+     (request, response, next) =>{
         passport.authenticate('api-local', {
             successRedirect: '/api/success',
             failureRedirect: '/api/failure'
@@ -31,19 +27,20 @@ r.get('/failure',
         if (request.session.message !== undefined)
             mess = request.session.message.data.message;
 
-        response.status(401).send(json_out(401, mess))
+        return response.status(401).send(json_out(401, mess))
     });
 
 r.get('/success',
     function (request, response) {
-        response.status(200).send(json_out(200, 'Login Success', request.session.message))
+       
+        return response.status(200).send(json_out(200, 'Login Success', request.session.message))
     });
 
 r.get('/logout',
     function (request, response) {
         request.session.destroy(function (err) {
             request.logout();
-            response.redirect('/auth');
+            return response.redirect('/auth');
         });
     })
 

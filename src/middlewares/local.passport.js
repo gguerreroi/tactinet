@@ -14,7 +14,7 @@ authenticator.use('api-local', new strategy({
     const {database} = request.body;
     let Connection = null
     try {
-        Connection = await get_connection(username, password, '45.5.118.219', `PLR00${database}`)
+        Connection = await get_connection(username, password, 'san01.sonivitac.com', `PLR00${database}`)
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -25,14 +25,17 @@ authenticator.use('api-local', new strategy({
         let permisos=[];
 
         await query_permisos.query("SELECT IDENOMBRE FROM seguridad.vwCheckAccess WHERE IDENOMBRE LIKE '%/%'", function (err, rows) {
-            if (!err)
+            if (!err){
+                console.log('permisos in rows', rows.recordsets[0])
                 permisos = rows.recordsets[0].map(function (item) {
                     return item.IDENOMBRE
                 })
+                console.log("permisos in query_permisos", permisos)
 
-        })
-        console.log('api-permisos', permisos)
-        query.execute('seguridad.sp_usuarios', function (err, rows) {
+            }                
+        }).execute('seguridad.sp_usuarios', function (err, rows) {
+            console.log("permisos in sp_usuarios", permisos)
+            console.log("rows in api-local", rows.recordsets[0][0],JSON.parse(rows.recordsets[0][0]['PermisosWeb']))
             if (!err) {
                 const user = {
                     state: {
@@ -56,7 +59,7 @@ authenticator.use('api-local', new strategy({
                 const a = {
                     state: {
                         Code: 401,
-                        Message: 'Login Failed'
+                        Message: 'Failed with run stored procedure'
                     },
                     data: err
                 }
@@ -68,7 +71,7 @@ authenticator.use('api-local', new strategy({
         const a = {
             state: {
                 Code: 401,
-                Message: 'Login Failed'
+                Message: e.message
             },
             data: e
         }
@@ -78,12 +81,12 @@ authenticator.use('api-local', new strategy({
 }));
 
 authenticator.serializeUser(function (user, done) {
-    console.log('serializeUser', user)
+   
     done(null, user)
 });
 
 authenticator.deserializeUser(function (user, done) {
-    console.log('deserializeUser', user)
+ 
     done(null, user)
 })
 
@@ -93,11 +96,17 @@ authenticator.use('local', new strategy({
     passReqToCallback: true
 }, async function (request, username, password, done) {
     const {database} = request.body;
-    let Connection = await get_connection(username, password, '45.5.118.219', `PLR00${database}`)
-    const query = await Connection.request()
-    const query_permisos = await Connection.request();
-    let permisos = [];
+    let permisos = [];    
     try {
+
+        let Connection = await get_connection(username, password, '45.5.118.219', `PLR00${database}`)
+    
+        if (Connection.code === 500)
+            throw {code: Connection.code, message: Connection.message}
+    
+        const query = await Connection.request()
+        const query_permisos = await Connection.request();
+
         await query_permisos.query("SELECT IDENOMBRE FROM seguridad.vwCheckAccess WHERE IDENOMBRE LIKE '%/%'", function (err, rows) {
             if (!err){
                 permisos = rows.recordsets[0].map(function (item) {
@@ -109,14 +118,15 @@ authenticator.use('local', new strategy({
             }
         })
 
-        axios.post('http://localhost:3000/api/auth', {
+        await axios.post('http://localhost:3000/api/auth', {
             username: username,
             password: password,
             database: database
         }).then(res => {
-            console.log('post api', res)
+            
             query.execute('seguridad.sp_usuarios', function (err, rows) {
                 if (!err) {
+                    console.log("local auth", rows.recordsets[0][0])
                     const user = {
                         state: {
                             Code: 200,
