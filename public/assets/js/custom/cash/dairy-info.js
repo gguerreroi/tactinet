@@ -106,8 +106,20 @@ const TNDairyInfo = function () {
                     }
                 },
                 {
-                    targets: [ 4, 5],
-                    visible: true
+                    targets: [  5],
+                    visible: false
+                },{
+                    targets: [  6],
+                    render: function(data, type, row, meta) {
+                        let strcolor="badge badge-light-success";
+                        let label="APLICADO";
+                        if (data == 'R'){
+                            strcolor="badge badge-light-danger";
+                            label="REVERSADO";
+                        }
+
+                        return `<span class="${strcolor}">${label}</span>`;
+                    }
                 }
             ],
             footerCallback: function (row, data, start, end, display) {

@@ -13,6 +13,7 @@ authenticator.use('api-local', new strategy({
 }, async function (request, username, password, done) {
     const {database} = request.body;
     let Connection = null
+    let permisos = [];
     try {
         Connection = await get_connection(username, password, 'san01.sonivitac.com', `PLR00${database}`)
 
@@ -20,23 +21,14 @@ authenticator.use('api-local', new strategy({
             throw {code: Connection.code, message: Connection.message}
 
         const query = await Connection.request()
-        const query_permisos = await Connection.request();
 
-        let permisos=[];
+        await query.execute('seguridad.sp_usuarios', function (err, rows) {
+            if (!err) {
 
-        await query_permisos.query("SELECT IDENOMBRE FROM seguridad.vwCheckAccess WHERE IDENOMBRE LIKE '%/%'", function (err, rows) {
-            if (!err){
-                console.log('permisos in rows', rows.recordsets[0])
-                permisos = rows.recordsets[0].map(function (item) {
+                permisos = JSON.parse(rows.recordsets[0][0]['PermisosWeb']).map(function (item) {
                     return item.IDENOMBRE
                 })
-                console.log("permisos in query_permisos", permisos)
 
-            }                
-        }).execute('seguridad.sp_usuarios', function (err, rows) {
-            console.log("permisos in sp_usuarios", permisos)
-            console.log("rows in api-local", rows.recordsets[0][0],JSON.parse(rows.recordsets[0][0]['PermisosWeb']))
-            if (!err) {
                 const user = {
                     state: {
                         Code: 200,
@@ -55,17 +47,17 @@ authenticator.use('api-local', new strategy({
                 }
                 request.session.message = user;
                 return done(null, user, user)
-            } else {
-                const a = {
-                    state: {
-                        Code: 401,
-                        Message: 'Failed with run stored procedure'
-                    },
-                    data: err
-                }
-                request.session.message = a;
-                return done(null, null, a)
             }
+
+            const a = {
+                state: {
+                    Code: 401,
+                    Message: 'Failed with run stored procedure'
+                },
+                data: err
+            }
+            request.session.message = a;
+            return done(null, null, a)
         })
     } catch (e) {
         const a = {
@@ -81,13 +73,11 @@ authenticator.use('api-local', new strategy({
 }));
 
 authenticator.serializeUser(function (user, done) {
-   
-    done(null, user)
+    return done(null, user)
 });
 
 authenticator.deserializeUser(function (user, done) {
- 
-    done(null, user)
+    return done(null, user)
 })
 
 authenticator.use('local', new strategy({
@@ -96,37 +86,27 @@ authenticator.use('local', new strategy({
     passReqToCallback: true
 }, async function (request, username, password, done) {
     const {database} = request.body;
-    let permisos = [];    
+    let permisos = [];
     try {
-
         let Connection = await get_connection(username, password, '45.5.118.219', `PLR00${database}`)
-    
+
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
-    
+
         const query = await Connection.request()
-        const query_permisos = await Connection.request();
-
-        await query_permisos.query("SELECT IDENOMBRE FROM seguridad.vwCheckAccess WHERE IDENOMBRE LIKE '%/%'", function (err, rows) {
-            if (!err){
-                permisos = rows.recordsets[0].map(function (item) {
-                    return item.IDENOMBRE
-                })
-
-
-
-            }
-        })
 
         await axios.post('http://localhost:3000/api/auth', {
             username: username,
             password: password,
             database: database
         }).then(res => {
-            
+            // console.log(res.data) return data null
             query.execute('seguridad.sp_usuarios', function (err, rows) {
                 if (!err) {
-                    console.log("local auth", rows.recordsets[0][0])
+                    permisos = JSON.parse(rows.recordsets[0][0]['PermisosWeb']).map(function (item) {
+                        return item.IDENOMBRE
+                    });
+
                     const user = {
                         state: {
                             Code: 200,

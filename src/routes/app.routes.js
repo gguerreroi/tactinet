@@ -44,7 +44,7 @@ router.get('/customers/maintenance/customer', is_auth, function (request, respon
         UserInfo: request.session.message, me: request.path
     }
     const {Permisos} = request.session.passport.user.data;
-    if (Permisos.includes(info.me.toUpperCase())){
+    if (Permisos.includes(info.me)){
         return response.render('customers/maintenance/customer', info);
     }else{
         return response.render('system/error-403')
@@ -56,7 +56,7 @@ router.get('/customers/maintenance/customer/:id', is_auth, function (request, re
         UserInfo: request.session.message, me: request.path
     }
     const {Permisos} = request.session.passport.user.data;
-    if (Permisos.includes(info.me.toUpperCase())){
+    if (Permisos.includes(info.me)){
         return response.render('customers/maintenance/by-id', info);
     }else{
         return response.render('system/error-403')
@@ -72,7 +72,7 @@ router.get('/services/tasks/pending', is_auth, function (request, response) {
         UserInfo: request.session.message, me: request.path
     }
     const {Permisos} = request.session.passport.user.data;
-    if (Permisos.includes(info.me.toUpperCase())){
+    if (Permisos.includes(info.me)){
         return response.render('services/tasks/pending', info);
     }else{
         return response.render('system/error-403')
@@ -84,7 +84,7 @@ router.get('/services/tasks/details/:id', is_auth, function (request, response) 
         UserInfo: request.session.message, me: '/services/tasks/pending', id: request.params.id, task: []
     }
     const {Permisos} = request.session.passport.user.data;
-    if (Permisos.includes(info.me.toUpperCase())) {
+    if (Permisos.includes(info.me)) {
         const one_task = app.get_one_task(request.params.id, request.session.message);
         const comment_tasks = app.get_comments_by_task(request.params.id, request.session.message);
         Promise.all([one_task, comment_tasks]).then(value => {
@@ -107,7 +107,7 @@ router.get('/services/tasks/by-user', is_auth, function (request, response) {
         UserInfo: request.session.message, me: request.path
     }
     const {Permisos} = request.session.passport.user.data;
-    if (Permisos.includes(info.me.toUpperCase())) {
+    if (Permisos.includes(info.me)) {
         return response.render('services/tasks/by-user', info);
     }else{
         return response.render('system/error-403')
@@ -119,7 +119,7 @@ router.get('/services/tasks/complete', is_auth, function (request, response) {
         UserInfo: request.session.message, me: request.path
     }
     const {Permisos} = request.session.passport.user.data;
-    if (Permisos.includes(info.me.toUpperCase())) {
+    if (Permisos.includes(info.me)) {
         return response.render('services/tasks/complete', info);
     }else{
         return response.render('system/error-403')
@@ -132,7 +132,7 @@ router.get('/services/tasks/archive', is_auth, function (request, response) {
         UserInfo: request.session.message, me: request.path
     }
     const {Permisos} = request.session.passport.user.data;
-    if (Permisos.includes(info.me.toUpperCase())) {
+    if (Permisos.includes(info.me)) {
         return response.render('services/tasks/archive', info);
     }else{
         return response.render('system/error-403')
@@ -144,8 +144,8 @@ router.get('/cash/operations/day', is_auth, function (request, response) {
         UserInfo: request.session.message, me: request.path
     }
     const {Permisos} = request.session.passport.user.data;
-
-    if (Permisos.includes(info.me.toUpperCase())) {
+    console.log("Permisos in route", Permisos)
+    if (Permisos.includes(info.me)) {
         return response.render('cash/operations/day', info);
     }else{
         return response.render('system/error-403')
