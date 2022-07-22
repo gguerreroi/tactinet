@@ -59,7 +59,7 @@
                                     <div class="card-body">
                                         <form id="form-dairy">
                                             <div class="row">
-                                                <div class="col-6">
+                                                <div class="col-sm-12 col-md-6">
                                                     <!--begin::Search-->
                                                     <div class="d-flex align-items-center position-relative mb-6">
                                                     <span class="svg-icon svg-icon-1 position-absolute ms-4">
@@ -78,12 +78,24 @@
                                                     </div>
                                                     <!--end::Search-->
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-sm-12 col-md-3">
                                                     <button class="btn btn-primary w-100"
+                                                            type="submit"
                                                             id="btn-submit-dairy">
                                                         <i class="bi bi-play-fill"></i>
-                                                        <span class="indicator-label">Mostrar Diario</span>
-                                                        <span class="indicator-progress">Obteniendo información
+                                                        <span class="indicator-label">Mostrar</span>
+                                                        <span class="indicator-progress">Procesando...
+                                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                    </span>
+                                                    </button>
+                                                </div>
+                                                <div class="col-sm-12 col-md-3">
+                                                    <button class="btn btn-danger w-100"
+                                                            type="button"
+                                                            id="btn-submit-dairy-pdf">
+                                                        <i class="bi bi-file-pdf"></i>
+                                                        <span class="indicator-label"> PDF</span>
+                                                        <span class="indicator-progress">Procesando...
                                                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                                     </span>
                                                     </button>
@@ -123,7 +135,7 @@
                                                 </thead>
                                                 <tbody></tbody>
                                                 <tfoot>
-                                                <tr>
+                                                <tr class="fw-bolder ">
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
@@ -169,7 +181,7 @@
                                                 </thead>
                                                 <tbody></tbody>
                                                 <tfoot>
-                                                <tr>
+                                                <tr class="fw-bolder">
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>

@@ -52,6 +52,14 @@ const TNDairyInfo = function () {
                 {data: "dte_mntimpuesto"},
                 {data: "cdp_dte"}
             ],
+            columnDefs: [
+                {
+                    targets: [2, 3, 4, 5, 6],
+                    render: function (data, type, row) {
+                        return new Intl.NumberFormat('es-GT', {style: 'currency', currency: 'GTQ'}).format(data);
+                    }
+                }
+            ],
             footerCallback: function (row, data, start, end, display) {
                 var api = this.api();
 
@@ -65,14 +73,14 @@ const TNDairyInfo = function () {
                             var y = parseFloat(b) || 0;
                             return x + y;
                         }, 0);
-                    $(this.footer()).html(sum);
+                    var gtq = new Intl.NumberFormat('es-GT', {style: 'currency', currency: 'GTQ'}).format(sum);
+                    $(this.footer()).html(gtq);
                 });
             }
         })
     }
 
     const render_tb_dairy_detail = function (detail_data) {
-        console.log(detail_data)
         tb_dairy_detail.DataTable().clear().destroy();
         tb_dairy_detail.DataTable({
             paging: false,
@@ -96,10 +104,10 @@ const TNDairyInfo = function () {
                     targets: [0],
                     render: function(data, type, row, meta) {
                         let strcolor="badge badge-light-success";
-                        let hlink = "#top";
+                        let hlink = ".#top";
                         if (row.coddocumento == "9"){
                             strcolor="badge badge-light-primary";
-                            hlink = `#bottom`;
+                            hlink = `.#bottom`;
                         }
                         return `<a href="${hlink}"><span class="${strcolor}">${data}</span></a>`;
 
@@ -120,6 +128,11 @@ const TNDairyInfo = function () {
 
                         return `<span class="${strcolor}">${label}</span>`;
                     }
+                },{
+                    targets: [  8],
+                    render: function(data, type, row, meta) {
+                        return new Intl.NumberFormat('es-GT', {style: 'currency', currency: 'GTQ'}).format(data);
+                    }
                 }
             ],
             footerCallback: function (row, data, start, end, display) {
@@ -135,7 +148,8 @@ const TNDairyInfo = function () {
                             var y = parseFloat(b) || 0;
                             return x + y;
                         }, 0);
-                    $(this.footer()).html(sum);
+                    var gtq = new Intl.NumberFormat('es-GT', {style: 'currency', currency: 'GTQ'}).format(sum);
+                    $(this.footer()).html(gtq);
                 });
             }
         })
