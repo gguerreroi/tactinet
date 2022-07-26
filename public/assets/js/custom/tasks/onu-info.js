@@ -12,6 +12,8 @@ var TNOnuInfo = function () {
     let onu_signal_rx_input;
     let onu_signal_tx_icon;
     let onu_signal_tx_input;
+    let onu_signal_catv_input;
+    let onu_signal_catv_icon;
 
     let svg_signal_muted = function(){
         return `<span class="svg-icon svg-icon-5x svg-icon-muted" >
@@ -96,29 +98,47 @@ var TNOnuInfo = function () {
         submit_button.setAttribute('data-kt-indicator', 'on');
         submit_button.disabled = true;
 
-        const signal = $.ajax({
-            url: `${url}/onu/${onu_id}/signal`,
+        $.ajax({
+            url: `${url}/onu/${onu_id}/status/administrative`,
             type: 'GET'
-        });
+        }).done(function (status_admin) {
+            console.log('done', status_admin);
 
-        const status = $.ajax({
+        }).fail(function (status_admin_fail) {
+            console.log('fail', status_admin_fail);
+
+        })
+
+        $.ajax({
             url: `${url}/onu/${onu_id}/status`,
             type: 'GET'
-        });
+        }).done(function (status) {
+            const { onu_status} = status.data;
+            set_onu_status(status.data);
+            if (onu_status == 'Offline'){
+                onu_signal_tx_input.value = 'N/A';
+                onu_signal_rx_input.value = 'N/A';
+                onu_signal_tx_icon.html('').html(svg_signal_muted());
+                onu_signal_rx_icon.html('').html(svg_signal_muted());
+            }else{
+                $.ajax({
+                    url: `${url}/onu/${onu_id}/signal`,
+                    type: 'GET'
+                }).done(function (signal) {
+                    set_onu_signal(signal.data);
+                }).fail(function (error) {
+                    console.log(error);
+                })
+            }
 
-        Promise.all([signal, status]).then(values => {
-
-            set_onu_status(values[1].data);
-            set_onu_signal(values[0].data);
-
-            submit_button.setAttribute('data-kt-indicator', 'off');
+        }).fail(function (status_fail) {
+            console.log(status_fail);
+        }).always(function () {
+            submit_button.removeAttribute('data-kt-indicator');
             submit_button.disabled = false;
-            onu_div_info.classList.remove('hide');
-        }).catch(error => {
-            console.error('error', error)
-            submit_button.setAttribute('data-kt-indicator', 'off');
-            submit_button.disabled = false;
-        });
+        })
+
+
 
     };
     const handle = function () {
@@ -139,7 +159,8 @@ var TNOnuInfo = function () {
             onu_signal_rx_input = document.getElementById('onu-signal-rx-input');
             onu_signal_tx_icon = $("#onu-signal-tx-icon");
             onu_signal_tx_input = document.getElementById('onu-signal-tx-input');
-
+            onu_signal_catv_input = document.getElementById('onu-signal-catv-input');
+            onu_signal_catv_icon = $("#onu-signal-catv-icon");
             onu_id = document.getElementById('input-codservicio').value;
 
             handle();

@@ -21,11 +21,11 @@ router.get('/failure', function (request, response) {
 
     const mess = (request.session.message !== undefined) ? request.session.message.data.message : "Usuario o contraseña invalida"
 
-    response.status(401).send(json_out(401, mess))
+    response.status(401).json(json_out(401, mess))
 });
 
 router.get('/success', function (request, response) {
-    response.status(200).send(json_out(200, 'Login Success', request.session.message))
+    response.status(200).json(json_out(200, 'Login Success', request.session.message))
 });
 
 router.get('/logout', function (request, response) {
@@ -144,12 +144,26 @@ router.get('/cash/operations/day', is_auth, function (request, response) {
         UserInfo: request.session.message, me: request.path
     }
     const {Permisos} = request.session.passport.user.data;
-    console.log("Permisos in route", Permisos)
+
     if (Permisos.includes(info.me)) {
         return response.render('cash/operations/day', info);
     }else{
         return response.render('system/error-403')
     }
-})
+});
+
+router.get('/cash/operations/documents/:id', is_auth, function (request, response) {
+    const info = {
+        UserInfo: request.session.message, me: request.path, Serial: request.params.id
+    }
+    const {Permisos} = request.session.passport.user.data;
+    if (Permisos.includes(info.me)) {
+        return response.render('cash/operations/documents', info);
+    } else {
+        return response.render('system/error-403')
+    }
+
+});
+
 
 export default router;

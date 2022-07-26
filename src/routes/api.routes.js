@@ -45,29 +45,22 @@ r.get('/logout',
     })
 
 r.get('/tasks/archive', is_auth_api, apic.get_task_archive);
-
 r.get('/tasks/pending', is_auth_api, apic.get_task_pending)
-
 r.get('/tasks/complete', is_auth_api, apic.get_task_complete)
-
 r.get('/tasks/by-user', is_auth_api, apic.get_task_pending_by_user)
-
 r.get('/tasks/details/:id', is_auth_api, apic.get_task_by_id)
-
 r.put('/tasks/details/:id', is_auth_api, apic.update_task_by_id)
-
 r.get('/tasks/details/:id/comments', is_auth_api, apic.get_comments_by_task)
-
 r.post('/tasks/details/:id/comments', is_auth_api, apic.add_comment_to_task)
-
 r.post('/tasks/pending/:id/images', is_auth_api, apic.add_image_to_task)
 
 r.get('/onu/:id/signal', is_auth_api, onu.get_onu_signal_by_id)
-
 r.get('/onu/:id/status', is_auth_api, onu.get_onu_status_by_id)
+r.get("/onu/:id/status/administrative", is_auth_api, onu.get_onu_administrative_status_by_id)
+r.get("/onu/:id/status/catv", is_auth_api, onu.get_onu_catv_status_by_id)
+r.get("/onu/:id/status/full", is_auth_api, onu.get_onu_full_status_by_id)
 
 r.get('/cash/dairy/resume', is_auth_api, apic.get_cash_dairy_resume)
-
 r.get('/cash/dairy/details', is_auth_api, apic.get_cash_dairy_details)
 
 export default r;

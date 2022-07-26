@@ -65,10 +65,10 @@ const TNDairyInfo = function () {
 
                 api.columns('.sum', {
                     page: 'current'
-                }).every(function() {
+                }).every(function () {
                     var sum = this
                         .data()
-                        .reduce(function(a, b) {
+                        .reduce(function (a, b) {
                             var x = parseFloat(a) || 0;
                             var y = parseFloat(b) || 0;
                             return x + y;
@@ -102,35 +102,32 @@ const TNDairyInfo = function () {
             columnDefs: [
                 {
                     targets: [0],
-                    render: function(data, type, row, meta) {
-                        let strcolor="badge badge-light-success";
+                    render: function (data, type, row, meta) {
+                        let strcolor = row.coddocumento == "9" ? "badge badge-light-primary" : "badge badge-light-success";
                         let hlink = ".#top";
-                        if (row.coddocumento == "9"){
-                            strcolor="badge badge-light-primary";
-                            hlink = `.#bottom`;
-                        }
+
                         return `<a href="${hlink}"><span class="${strcolor}">${data}</span></a>`;
 
                     }
                 },
                 {
-                    targets: [  5],
+                    targets: [5],
                     visible: false
-                },{
-                    targets: [  6],
-                    render: function(data, type, row, meta) {
-                        let strcolor="badge badge-light-success";
-                        let label="APLICADO";
-                        if (data == 'R'){
-                            strcolor="badge badge-light-danger";
-                            label="REVERSADO";
+                }, {
+                    targets: [6],
+                    render: function (data, type, row, meta) {
+                        let strcolor = "badge badge-light-success";
+                        let label = "APLICADO";
+                        if (data == 'R') {
+                            strcolor = "badge badge-light-danger";
+                            label = "REVERSADO";
                         }
 
                         return `<span class="${strcolor}">${label}</span>`;
                     }
-                },{
-                    targets: [  8],
-                    render: function(data, type, row, meta) {
+                }, {
+                    targets: [8],
+                    render: function (data, type, row, meta) {
                         return new Intl.NumberFormat('es-GT', {style: 'currency', currency: 'GTQ'}).format(data);
                     }
                 }
@@ -140,10 +137,10 @@ const TNDairyInfo = function () {
 
                 api.columns('.sum', {
                     page: 'current'
-                }).every(function() {
+                }).every(function () {
                     var sum = this
                         .data()
-                        .reduce(function(a, b) {
+                        .reduce(function (a, b) {
                             var x = parseFloat(a) || 0;
                             var y = parseFloat(b) || 0;
                             return x + y;

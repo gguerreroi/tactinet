@@ -36,3 +36,4 @@ export async function set_destroy_session(request, response){
         });
     });
 }
+
