@@ -1,7 +1,7 @@
 "use strict";
 
 var TNOnuInfo = function () {
-    let onu_div_info;
+    let onu_div_alert;
     let onu_id;
     let submit_button;
 
@@ -14,6 +14,22 @@ var TNOnuInfo = function () {
     let onu_signal_tx_input;
     let onu_signal_catv_input;
     let onu_signal_catv_icon;
+
+    const onu_alert = function(title, description, type) {
+        return `<div class="alert alert-dismissible bg-light-${type} border border-${type} d-flex flex-column flex-sm-row p-5 mb-10 mt-4">      
+                    <span class="svg-icon svg-icon-2hx svg-icon-${type} me-4 mb-5 mb-sm-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                        </svg>
+                    </span>                                                       
+                    <div class="d-flex flex-column pe-0 pe-sm-10">
+                        <h5 class="mb-1">${title}</h5>                                                        
+                        <span>${description}</span>
+                    </div>                                                       
+                    <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
+                        <i class="bi bi-x fs-1 text-${type}"></i>
+                    </button>                                                      
+                </div>`};
 
     let svg_signal_muted = function(){
         return `<span class="svg-icon svg-icon-5x svg-icon-muted" >
@@ -94,53 +110,61 @@ var TNOnuInfo = function () {
         }
     }
 
-    var get_onu_info = function () {
-        submit_button.setAttribute('data-kt-indicator', 'on');
-        submit_button.disabled = true;
-
-        $.ajax({
-            url: `${url}/onu/${onu_id}/status/administrative`,
-            type: 'GET'
-        }).done(function (status_admin) {
-            console.log('done', status_admin);
-
-        }).fail(function (status_admin_fail) {
-            console.log('fail', status_admin_fail);
-
-        })
-
-        $.ajax({
-            url: `${url}/onu/${onu_id}/status`,
-            type: 'GET'
-        }).done(function (status) {
-            const { onu_status} = status.data;
-            set_onu_status(status.data);
-            if (onu_status == 'Offline'){
-                onu_signal_tx_input.value = 'N/A';
-                onu_signal_rx_input.value = 'N/A';
-                onu_signal_tx_icon.html('').html(svg_signal_muted());
-                onu_signal_rx_icon.html('').html(svg_signal_muted());
-            }else{
+    const get_onu_info = function () {
+            submit_button.setAttribute('data-kt-indicator', 'on')
+            submit_button.disabled = true;
+ 
+            $.ajax({
+                url: `${url}/onu/${onu_id}/status/administrative`,
+                type: 'GET'
+            }).done(function (status_admin) {
+                const {administrative_status} = status_admin.data;
+                if (administrative_status == "Disabled"){
+                    var e = {code: 'ONU_DISABLED', message: 'la ONU fue desactivada'}
+                    onu_div_alert.html('').html(onu_alert(`${e.code}`, `${e.message}`, 'danger'));
+                }
+                
+                if (administrative_status != "Disabled")
                 $.ajax({
-                    url: `${url}/onu/${onu_id}/signal`,
+                    url: `${url}/onu/${onu_id}/status`,
                     type: 'GET'
-                }).done(function (signal) {
-                    set_onu_signal(signal.data);
-                }).fail(function (error) {
-                    console.log(error);
+                }).done(function (status) {
+                    const {onu_status} = status.data;
+                    set_onu_status(status.data);
+                    if (onu_status == 'Offline'){
+                        onu_signal_tx_input.value = 'N/A';
+                        onu_signal_rx_input.value = 'N/A';
+                        onu_signal_catv_input.value = 'N/A';
+                        onu_signal_tx_icon.html('').html(svg_signal_muted());
+                        onu_signal_rx_icon.html('').html(svg_signal_muted());
+                        onu_signal_catv_icon.html('').html(svg_signal_muted());
+                        var e = {code: 'ONU_OFFLINE', message: 'la ONU esta apagada o sin señal'}
+                        onu_div_alert.html('').html(onu_alert(`${e.code}`, `${e.message}`, 'danger'));
+                    }
+                   
+                    if (onu_status != 'Offline')
+                    $.ajax({
+                        url: `${url}/onu/${onu_id}/signal`,
+                        type: 'GET'
+                    }).done(function (signal) {
+                        set_onu_signal(signal.data);
+                    }).fail(function (signal_error) {
+                        console.log('signal_error', signal_error);
+                    })
+
+                }).fail(function (status_fail) {
+                    console.log('status_fail', status_fail);
                 })
-            }
 
-        }).fail(function (status_fail) {
-            console.log(status_fail);
-        }).always(function () {
-            submit_button.removeAttribute('data-kt-indicator');
-            submit_button.disabled = false;
-        })
-
-
-
+            }).fail(function (status_admin_fail) {
+                var e =  {code: 'ONU_NOT_FOUND', message: 'ONU pendiente de asociar al servicio en el OLT'};
+                onu_div_alert.html('').html(onu_alert(`${e.code}`, `${e.message}`, 'danger'));
+            }).always(function () {
+                submit_button.removeAttribute('data-kt-indicator');
+                submit_button.disabled = false;
+            })   
     };
+
     const handle = function () {
         submit_button.addEventListener('click', function (e) {
             e.preventDefault();
@@ -152,7 +176,7 @@ var TNOnuInfo = function () {
     return {
         init: function () {
             submit_button = document.getElementById('btn-get-info');
-            onu_div_info = document.getElementById('div-onu-info');
+           
             onu_status_icon = $("#onu-status-icon");
             onu_status_input = document.getElementById('onu-status-input');
             onu_signal_rx_icon = $("#onu-signal-rx-icon");
@@ -162,6 +186,7 @@ var TNOnuInfo = function () {
             onu_signal_catv_input = document.getElementById('onu-signal-catv-input');
             onu_signal_catv_icon = $("#onu-signal-catv-icon");
             onu_id = document.getElementById('input-codservicio').value;
+            onu_div_alert = $("#div-onu-alert");
 
             handle();
         }
