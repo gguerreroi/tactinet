@@ -3,6 +3,7 @@ import {json_out} from "../middlewares/json-out";
 import {is_auth_api} from "../middlewares/is-auth";
 import * as apic from "../controllers/api.controllers";
 import * as onu from "../controllers/onu.controllers";
+import {get_onu_details_status_by_id, get_onu_unconfigured} from "../controllers/onu.controllers";
 
 const passport = require('passport');
 const r = Router();
@@ -54,9 +55,11 @@ r.get('/tasks/details/:id/comments', is_auth_api, apic.get_comments_by_task)
 r.post('/tasks/details/:id/comments', is_auth_api, apic.add_comment_to_task)
 r.post('/tasks/pending/:id/images', is_auth_api, apic.add_image_to_task)
 
+r.get('/onu/:id/unconfigured', is_auth_api, onu.get_onu_unconfigured)
 r.get('/onu/:id/signal', is_auth_api, onu.get_onu_signal_by_id)
 r.get('/onu/:id/status', is_auth_api, onu.get_onu_status_by_id)
 r.get("/onu/:id/status/administrative", is_auth_api, onu.get_onu_administrative_status_by_id)
+r.get("/onu/:id/status/details", is_auth_api, onu.get_onu_details_status_by_id)
 r.get("/onu/:id/status/catv", is_auth_api, onu.get_onu_catv_status_by_id)
 r.get("/onu/:id/status/full", is_auth_api, onu.get_onu_full_status_by_id)
 

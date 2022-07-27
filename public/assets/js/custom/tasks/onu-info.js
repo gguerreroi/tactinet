@@ -29,7 +29,8 @@ var TNOnuInfo = function () {
                     <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
                         <i class="bi bi-x fs-1 text-${type}"></i>
                     </button>                                                      
-                </div>`};
+                </div>`
+    };
 
     let svg_signal_muted = function(){
         return `<span class="svg-icon svg-icon-5x svg-icon-muted" >
@@ -89,8 +90,13 @@ var TNOnuInfo = function () {
 
         onu_status_input.value = status_data.onu_status;
     }
+    const set_onu_catv = function (status_data) {
+        onu_signal_catv_input.value= status_data;
+        if (status_data == "Enabled")
+            onu_signal_catv_icon.html('').html(svg_signal_success());
+    }
 
-    var set_onu_signal = function (signal_data) {
+    const set_onu_signal = function (signal_data) {
 
         onu_signal_tx_input.value = signal_data.onu_signal_1490;
         onu_signal_rx_input.value = signal_data.onu_signal_1310;
@@ -115,10 +121,10 @@ var TNOnuInfo = function () {
             submit_button.disabled = true;
  
             $.ajax({
-                url: `${url}/onu/${onu_id}/status/administrative`,
+                url: `${url}/onu/${onu_id}/status/details`,
                 type: 'GET'
             }).done(function (status_admin) {
-                const {administrative_status} = status_admin.data;
+                const {administrative_status, catv} = status_admin.data.onu_details;
                 if (administrative_status == "Disabled"){
                     var e = {code: 'ONU_DISABLED', message: 'la ONU fue desactivada'}
                     onu_div_alert.html('').html(onu_alert(`${e.code}`, `${e.message}`, 'danger'));
@@ -143,14 +149,15 @@ var TNOnuInfo = function () {
                     }
                    
                     if (onu_status != 'Offline')
-                    $.ajax({
-                        url: `${url}/onu/${onu_id}/signal`,
-                        type: 'GET'
-                    }).done(function (signal) {
-                        set_onu_signal(signal.data);
-                    }).fail(function (signal_error) {
-                        console.log('signal_error', signal_error);
-                    })
+                        $.ajax({
+                            url: `${url}/onu/${onu_id}/signal`,
+                            type: 'GET'
+                        }).done(function (signal) {
+                            set_onu_signal(signal.data);
+                            set_onu_catv(catv);
+                        }).fail(function (signal_error) {
+                            console.log('signal_error', signal_error);
+                        })
 
                 }).fail(function (status_fail) {
                     console.log('status_fail', status_fail);

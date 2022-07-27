@@ -95,3 +95,17 @@ export async function get_onu_full_status_by_id(req, res){
         res.status(400).send(json_out(400, error.message));
     });
 }
+
+export async function get_onu_details_status_by_id(req, res){
+    const {id} = req.params;
+    const onu_details_status = axios.get(`${API_URL}/onu/get_onu_details/${id}`, {
+        headers: {
+            'X-Token': API_KEY
+        }
+    })
+    Promise.all([onu_details_status]).then(values => {
+        res.status(200).send(json_out(200, 'OK', values[0].data));
+    }).catch(error => {
+        res.status(400).send(json_out(400, error.message));
+    });
+}
