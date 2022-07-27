@@ -79,13 +79,13 @@ var TNOnuInfo = function () {
         onu_status_icon.removeClass('svg-icon-dark');
         onu_status_icon.removeClass('svg-icon-muted');
 
-        if (status_data.onu_status === 'Online')
+        if (status_data.onu_status == 'Online')
             onu_status_icon.addClass('svg-icon-success');
-        else if (status_data.onu_status === 'LOS')
+        else if (status_data.onu_status == 'LOS')
             onu_status_icon.addClass('svg-icon-danger');
-        else if (status_data.onu_status === 'Power fail')
+        else if (status_data.onu_status == 'Power fail')
             onu_status_icon.addClass('svg-icon-dark');
-        else if (status_data.onu_status === 'Offline')
+        else if (status_data.onu_status == 'Offline')
             onu_status_icon.addClass('svg-icon-muted');
 
         onu_status_input.value = status_data.onu_status;
@@ -101,13 +101,13 @@ var TNOnuInfo = function () {
         onu_signal_tx_input.value = signal_data.onu_signal_1490;
         onu_signal_rx_input.value = signal_data.onu_signal_1310;
         // 'Critical', 'Warning', 'Very good'
-        if (signal_data.onu_signal === 'Critical') {
+        if (signal_data.onu_signal == 'Critical') {
             onu_signal_tx_icon.html('').html(svg_signal_danger());
             onu_signal_rx_icon.html('').html(svg_signal_danger());
-        } else if (signal_data.onu_signal === 'Warning') {
+        } else if (signal_data.onu_signal == 'Warning') {
             onu_signal_tx_icon.html('').html(svg_signal_warning());
             onu_signal_rx_icon.html('').html(svg_signal_warning());
-        } else if (signal_data.onu_signal === 'Very good') {
+        } else if (signal_data.onu_signal == 'Very good') {
             onu_signal_tx_icon.html('').html(svg_signal_success());
             onu_signal_rx_icon.html('').html(svg_signal_success());
         } else {
