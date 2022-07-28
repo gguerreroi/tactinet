@@ -1,6 +1,6 @@
 "use strict";
 
-var TNOnuInfo = function () {
+const TNOnuInfo = function () {
     let onu_div_alert;
     let onu_id;
     let submit_button;
