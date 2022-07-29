@@ -119,7 +119,7 @@ const TNOnuInfo = function () {
     const get_onu_info = function () {
             submit_button.setAttribute('data-kt-indicator', 'on')
             submit_button.disabled = true;
- 
+
             $.ajax({
                 url: `${url}/onu/${onu_id}/status/details`,
                 type: 'GET'
@@ -129,7 +129,7 @@ const TNOnuInfo = function () {
                     var e = {code: 'ONU_DISABLED', message: 'la ONU fue desactivada'}
                     onu_div_alert.html('').html(onu_alert(`${e.code}`, `${e.message}`, 'danger'));
                 }
-                
+
                 if (administrative_status != "Disabled")
                 $.ajax({
                     url: `${url}/onu/${onu_id}/status`,
@@ -147,7 +147,7 @@ const TNOnuInfo = function () {
                         var e = {code: 'ONU_OFFLINE', message: 'la ONU esta apagada o sin señal'}
                         onu_div_alert.html('').html(onu_alert(`${e.code}`, `${e.message}`, 'danger'));
                     }
-                   
+
                     if (onu_status != 'Offline')
                         $.ajax({
                             url: `${url}/onu/${onu_id}/signal`,
@@ -169,7 +169,7 @@ const TNOnuInfo = function () {
             }).always(function () {
                 submit_button.removeAttribute('data-kt-indicator');
                 submit_button.disabled = false;
-            })   
+            })
     };
 
     const handle = function () {
@@ -183,7 +183,7 @@ const TNOnuInfo = function () {
     return {
         init: function () {
             submit_button = document.getElementById('btn-get-info');
-           
+
             onu_status_icon = $("#onu-status-icon");
             onu_status_input = document.getElementById('onu-status-input');
             onu_signal_rx_icon = $("#onu-signal-rx-icon");
