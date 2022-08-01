@@ -293,7 +293,6 @@ export async function get_cash_dairy_resume(req, res) {
 export async function get_cash_dairy_details(req, res) {
     const {Username, Password, Database} = get_credentials(req);
     const {dairy_date} = req.query;
-
     let Connection = null
     try {
         Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
@@ -320,3 +319,31 @@ export async function get_cash_dairy_details(req, res) {
     }
 }
 
+export async function get_cash_dairy_details_by_document(req, res) {
+    const {Username, Password, Database} = get_credentials(req);
+    const {document_id} = req.query;
+    let Connection = null
+    try {
+        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+
+        if (Connection.code === 500)
+            throw {code: Connection.code, message: Connection.message}
+
+        if (document_id === undefined)
+            throw {code: 500, message: 'document_id is required'}
+
+        const stmt = await Connection.request()
+        stmt.query(`select *
+                    from caja.vw_web_diario
+                    where coddocumento = ${document_id}
+                      and codoperador = seguridad.fn_emplogin(ORIGINAL_LOGIN())`, (err, result) => {
+            if (err) {
+                res.status(500).send(json_out('500', 'Error in controller get_cash_dairy_resume', err));
+            } else {
+                res.status(200).send(json_out('200', 'Run Ok', result.recordset));
+            }
+        });
+    } catch (e) {
+        res.status(500).send(json_out('500', 'Error in controller get_cash_dairy_resume', e));
+    }
+}

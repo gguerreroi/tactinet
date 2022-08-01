@@ -25,6 +25,16 @@ export async function get_comments_by_task(id, UserInfo){
     });
 }
 
+export async function get_one_document(UserInfo, id){
+    const {Username, Password, Database} = UserInfo.data;
+    return axios.get(`${API_URL}/documents/details/${id}`,{
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Basic ${Buffer.from(`${Username}:${Password}`).toString('base64')}`,
+            'Database': Database
+        }
+    });
+}
 
 export async function set_destroy_session(request, response){
     const a = axios.get(`${API_URL}/api/logout`);
@@ -36,4 +46,3 @@ export async function set_destroy_session(request, response){
         });
     });
 }
-

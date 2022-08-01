@@ -104,10 +104,9 @@ const TNDairyInfo = function () {
                     targets: [0],
                     render: function (data, type, row, meta) {
                         let strcolor = row.coddocumento == "9" ? "badge badge-light-primary" : "badge badge-light-success";
-                        let hlink = ".#top";
+                        let hlink = `${window.location.origin}/cash/operations/documents/${row.codserial}`;
 
                         return `<a href="${hlink}"><span class="${strcolor}">${data}</span></a>`;
-
                     }
                 },
                 {
