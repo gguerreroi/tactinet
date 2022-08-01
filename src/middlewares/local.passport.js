@@ -46,6 +46,7 @@ authenticator.use('api-local', new strategy({
                     }
                 }
                 request.session.message = user;
+                console.log('api-local user', user)
                 return done(null, user, user)
             }
 
@@ -57,6 +58,7 @@ authenticator.use('api-local', new strategy({
                 data: err
             }
             request.session.message = a;
+            console.log('api-local a 1', a)
             return done(null, null, a)
         })
     } catch (e) {
@@ -68,6 +70,7 @@ authenticator.use('api-local', new strategy({
             data: e
         }
         request.session.message = a;
+        console.log('api-local a 2', a)
         return done(null, null, a)
     }
 }));
@@ -125,6 +128,7 @@ authenticator.use('local', new strategy({
                     }
 
                     request.session.message = user;
+                    console.log('local user', user)
                     return done(null, user, user)
                 } else {
                     const a = {
@@ -135,6 +139,7 @@ authenticator.use('local', new strategy({
                         data: err
                     }
                     request.session.message = a;
+                    console.log('local a 1', a)
                     return done(null, null, a)
                 }
             })
@@ -149,6 +154,7 @@ authenticator.use('local', new strategy({
                 data: err
             }
             request.session.message = a;
+            console.log('local a 2', a)
             return done(null, null, a)
         })
     } catch (e) {
@@ -160,6 +166,7 @@ authenticator.use('local', new strategy({
             data: e
         }
         request.session.message = a;
+        console.log('local a 3', a)
         return done(null, null, a)
     }
 }));

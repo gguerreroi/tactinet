@@ -1,61 +1,114 @@
+<%
+ var doc = document != undefined ? document : {}; 
+%>
 <!DOCTYPE html>
 <html lang="en">
 <!--begin::Head-->
 <head>
-    <%- include('../../components/web-header') %>
+	<%- include('../../components/web-header') %>
 </head>
 <!--end::Head-->
 <!--begin::Body-->
 <body id="kt_body"
-      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
-      style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+	  class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
+	  style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
 <!--begin::Main-->
 <!--begin::Root-->
 <div class="d-flex flex-column flex-root">
-    <!--begin::Page-->
-    <div class="page d-flex flex-row flex-column-fluid">
-        <%- include('../../components/left-aside.ejs') %>
-        <!--begin::Wrapper-->
-        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
-            <!--begin::Header-->
-            <div id="kt_header" class="header align-items-stretch">
-                <!--begin::Container-->
-                <div class="container-fluid d-flex align-items-stretch justify-content-between">
-                    <!--begin::Aside mobile toggle-->
-                    <div class="d-flex align-items-center d-lg-none ms-n3 me-1" title="Show aside menu">
-                        <div class="btn btn-icon btn-active-color-white" id="kt_aside_mobile_toggle">
-                            <i class="bi bi-list fs-1"></i>
-                        </div>
-                    </div>
-                    <!--end::Aside mobile toggle-->
-                    <!--begin::Mobile logo-->
-                    <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-                        <a href="/" class="d-lg-none">
-                            <img alt="Logo" src="assets/media/logos/pilar-text3.svg" class="h-25px"/>
-                        </a>
-                    </div>
-                    <!--end::Mobile logo-->
-                    <%- include('../../components/top-navbar.ejs', UserInfo) %>
-                </div>
-                <!--end::Container-->
-            </div>
-            <!--end::Header-->
-            <!--begin::Content-->
-            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-                <div class="d-flex flex-column-fluid">
-                    <div class="container">
+	<!--begin::Page-->
+	<div class="page d-flex flex-row flex-column-fluid">
+		<%- include('../../components/left-aside.ejs') %>
+		<!--begin::Wrapper-->
+		<div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+			<!--begin::Header-->
+			<div id="kt_header" class="header align-items-stretch">
+				<!--begin::Container-->
+				<div class="container-fluid d-flex align-items-stretch justify-content-between">
+					<!--begin::Aside mobile toggle-->
+					<div class="d-flex align-items-center d-lg-none ms-n3 me-1" title="Show aside menu">
+						<div class="btn btn-icon btn-active-color-white" id="kt_aside_mobile_toggle">
+							<i class="bi bi-list fs-1"></i>
+						</div>
+					</div>
+					<!--end::Aside mobile toggle-->
+					<!--begin::Mobile logo-->
+					<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
+						<a href="/" class="d-lg-none">
+							<img alt="Logo" src="assets/media/logos/pilar-text3.svg" class="h-25px"/>
+						</a>
+					</div>
+					<!--end::Mobile logo-->
+					<%- include('../../components/top-navbar.ejs', UserInfo) %>
+				</div>
+				<!--end::Container-->
+			</div>
+			<!--end::Header-->
+			<!--begin::Content-->
+			<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+				<div class="d-flex flex-column-fluid">
+					<div class="container">
+						<form id="frmdocumento">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Documento Electronico</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+								   <div class="col-sm-12 col-md-12">
+										<div class="form-group">
+											<label for="uuid" class="form-label">uuid</label>
+											<input type="text" class="form-control" id="uuid" name="uuid" value="<%- doc._uuid %>" readonly>
+										</div>
+										<div class="form-group">
+											<label for="codserial" class="form-label">Codigo Serial</label>
+											<input type="text" class="form-control" id="codserial" name="codserial" value="<%- doc.codserial %>" readonly>
+										</div>
+										<div class="form-group">
+											<label for="strnombreservicio" class="form-label">Nombre Servicio</label>
+											<input type="text" class="form-control" id="strnombreservicio" name="strnombreservicio" value="<%- doc.STRNOMBRESER %>" readonly>
+										</div>
+										<div class="form-group">
+											<label for="strdirservicio" class="form-label">Direccion Servicio</label>
+											<input type="text" class="form-control" id="strdirservicio" name="strdirservicio" value="<%- doc.STRDIRSERVICIO %>" readonly>
+										</div>
+										<div class="form-group">
+											<label for="strnit" class="form-label">Nit</label>
+											<input type="text" class="form-control" id="strnit" name="strnit" value="<%- doc.STRNIT %>" readonly>
+										</div>
+										<div class="form-group">
+											<label for="codoperador" class="form-label">Codigo Operador</label>
+											<input type="text" class="form-control" id="codoperador" name="codoperador" value="<%- doc.codoperador %>" readonly>
+										</div>
+										<div class="form-group">
+											<label for="strnitemisor" class="form-label">Nombre Emisor</label>
+											<input type="text" class="form-control" id="strnitemisor" name="strnitemisor" value="<%- doc.codoperador == '8' ? '28163273' : '3563626' %>" readonly>
+										</div>
+										<div class="form-group">
+											<label for="totcantidad" class="form-label">Cantidad</label>
+											<input type="text" class="form-control" id="totcantidad" name="totcantidad" value="<%- doc.TOTCANTIDAD %>" readonly>
+										</div>
+										<div class="form-group">
+											<label for="strmotivoanulacion" class="form-label">Motivo Anulacion</label>
+											<textarea class="form-control" id="strmotivoanulacion" name="strmotivoanulacion" min="1" max="255"></textarea>
+										</div>
 
-
-
-                    </div>
-                </div>
-            </div>
-            <!--end::Content-->
-            <%- include('../../components/bottom-footer.ejs') %>
-        </div>
-        <!--end::Wrapper-->
-    </div>
-    <!--end::Page-->
+								   </div>
+								</div>
+							</div>
+							<div class="card-footer">
+								<button type="button" class="btn btn-danger">REVERSAR</button>
+							</div>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!--end::Content-->
+			<%- include('../../components/bottom-footer.ejs') %>
+		</div>
+		<!--end::Wrapper-->
+	</div>
+	<!--end::Page-->
 </div>
 <!--end::Root-->
 <%- include('../../components/kt-scrolltop') %>
@@ -66,8 +119,9 @@
 <!--end::Page Custom Javascript-->
 
 <script>
-    "use strict";
-    const url = `${window.location.origin}/api`;
+	"use strict";
+	const url = `${window.location.origin}/api`;
+	
 
 </script>
 <!--end::Page Custom Javascript-->

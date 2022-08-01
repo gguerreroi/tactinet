@@ -1,5 +1,6 @@
 
 export function is_auth(request, response, next) {
+    console.log('is_auth', request.isAuthenticated());
     if (request.isAuthenticated())
             return next()
      
