@@ -163,8 +163,6 @@ router.get('/cash/operations/documents/:id', is_auth, function (request, respons
         Promise.all([doc_head, doc_detail]).then(value => {
             info.document = value[0].data.data[0];
             info.document.detail = value[1].data.data;
-           
-           
             return response.render('cash/operations/document', info);
         }
         ).catch(err => {
@@ -178,5 +176,14 @@ router.get('/cash/operations/documents/:id', is_auth, function (request, respons
 
 });
 
+router.post('/cash/operations/documents', is_auth, function (request, response){
+    const {uuid, strnitemisor, codserial, strmotivoanulacion} = request.body;
+
+    return response.json({
+
+
+
+    });
+})
 
 export default router;
