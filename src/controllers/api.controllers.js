@@ -377,7 +377,7 @@ export async function get_document_details_by_id(req, res) {
 	}
 }	
 
-export async function get_anula_document_by_id(req, res) {
+export async function get_info_auth_by_nit(req, res) {
 	const {Username, Password, Database} = get_credentials(req);
 	const {id} = req.params;
 	let Connection = null
@@ -407,14 +407,3 @@ export async function get_anula_document_by_id(req, res) {
 	}
 }
 
-function get_xml_anula(fel){
-	const NITEmisor = fel.codoperador == '8' ? '28163273' : '3563626';
-	return `<?xml version="1.0" encoding="UTF-8"?>
-	<dte:GTAnulacionDocumento xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:dte="http://www.sat.gob.gt/dte/fel/0.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="0.1" xsi:schemaLocation="http://www.sat.gob.gt/dte/fel/0.1.0">
-	<dte:SAT>
-	<dte:AnulacionDTE ID="DatosCertificados">
-	<dte:DatosGenerales ID="DatosAnulacion" NumeroDocumentoAAnular="${fel._uuid}" NITEmisor="${NITEmisor}" IDReceptor="${fel.STRNIT}" FechaEmisionDocumentoAnular="${fel.FechaHoraEmision}.000-06:00" FechaHoraAnulacion="2022-08-01T00:00:00.000-06:00" MotivoAnulacion="${fel.motivo}"></dte:DatosGenerales>
-	</dte:AnulacionDTE>
-	</dte:SAT>
-	</dte:GTAnulacionDocumento>`;
-}

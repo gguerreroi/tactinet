@@ -67,7 +67,7 @@ var encabezado = doc.codempleado == "8" ? {
             <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
                 <div class="d-flex flex-column-fluid">
                     <div class="container">
-                        <form id="frmdocumento" method="post" action="/cash/operations/documents">
+                        <form id="frmdocumento" method="delete" action="/cash/operations/documents">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">Documento Electronico</h3>
@@ -81,49 +81,56 @@ var encabezado = doc.codempleado == "8" ? {
                                                 <p class="fw-bolder">NIT: <%= encabezado.strnit %></p>
                                             </div>
                                         </div>
+
+                                        <div class="form-group col-sm-12 col-md-3">
+                                            <label for="codoperador" class="form-label">Codigo Caja</label>
+                                            <input type="text" class="form-control" id="codoperador" name="codoperador"
+                                                   value="<%- doc.codoperador %>" readonly>
+                                        </div>
+                                        <div class="form-group col-sm-12 col-md-3" >
+                                            <label for="codserial" class="form-label">Codigo Serial</label>
+                                            <input type="text" class="form-control" id="codserial" name="codserial"
+                                                   value="<%- doc.codserial %>" readonly>
+                                        </div>
+                                        <div class="form-group col-sm-12 col-md-3">
+                                            <label for="strfechahoraemision" class="form-label">Fecha Emision</label>
+                                            <input type="text" class="form-control" id="strfechahoraemision"
+                                                   name="strfechahoraemision"
+                                                   value="<%- doc.FechaHoraEmision %>" readonly>
+                                        </div>
+                                        <div class="form-group col-sm-12 col-md-3">
+                                            <label for="totcantidad" class="form-label">Cantidad</label>
+                                            <input type="text" class="form-control" id="totcantidad" name="totcantidad"
+                                                   value="<%- doc.TOTCANTIDAD %>" readonly>
+                                        </div>
                                         <div class="form-group col-sm-12 col-md-4">
                                             <label for="uuid" class="form-label">uuid</label>
                                             <input type="text" class="form-control" id="uuid" name="uuid"
                                                    value="<%- doc._uuid %>" readonly>
                                         </div>
                                         <div class="form-group col-sm-12 col-md-4">
-                                            <label for="codoperador" class="form-label">Codigo Operador</label>
-                                            <input type="text" class="form-control" id="codoperador" name="codoperador"
-                                                   value="<%- doc.codoperador %>" readonly>
-                                        </div>
-                                        <div class="form-group col-sm-12 col-md-4" >
-                                            <label for="codserial" class="form-label">Codigo Serial</label>
-                                            <input type="text" class="form-control" id="codserial" name="codserial"
-                                                   value="<%- doc.codserial %>" readonly>
-                                        </div>
-                                        <div class="form-group col-sm-12 col-md-4">
-                                            <label for="strnit" class="form-label">Nit</label>
-                                            <input type="text" class="form-control" id="strnit" name="strnit"
-                                                   value="<%- doc.strnit %>" readonly>
-                                        </div>
-                                        <div class="form-group col-sm-12 col-md-8">
-                                            <label for="strnombreservicio" class="form-label">Nombre Servicio</label>
-                                            <input type="text" class="form-control" id="strnombreservicio"
-                                                   name="strnombreservicio" value="<%- doc.STRNOMBRESER %>" readonly>
-                                        </div>
-                                        <div class="form-group col-sm-12 ">
-                                            <label for="strdirservicio" class="form-label">Direccion Servicio</label>
-                                            <input type="text" class="form-control" id="strdirservicio"
-                                                   name="strdirservicio" value="<%- doc.STRDIRSERVICIO %>" readonly>
-                                        </div>
-
-                                        <div class="form-group col-sm-12 col-md-6">
                                             <label for="strnitemisor" class="form-label">NIT Emisor</label>
                                             <input type="text" class="form-control" id="strnitemisor"
                                                    name="strnitemisor"
                                                    value="<%= encabezado.strnit %>"
                                                    readonly>
                                         </div>
-                                        <div class="form-group col-sm-12 col-md-6">
-                                            <label for="totcantidad" class="form-label">Cantidad</label>
-                                            <input type="text" class="form-control" id="totcantidad" name="totcantidad"
-                                                   value="<%- doc.TOTCANTIDAD %>" readonly>
+                                        <div class="form-group col-sm-12 col-md-4">
+                                            <label for="strnitreceptor" class="form-label">Nit Receptor</label>
+                                            <input type="text" class="form-control" id="strnitreceptor" name="strnitreceptor"
+                                                   value="<%- doc.STRNIT %>" readonly>
                                         </div>
+                                        <div class="form-group col-sm-12 col-md-6">
+                                            <label for="strnombreservicio" class="form-label">Nombre Servicio</label>
+                                            <input type="text" class="form-control" id="strnombreservicio"
+                                                   name="strnombreservicio" value="<%- doc.STRNOMBRESER %>" readonly>
+                                        </div>
+                                        <div class="form-group col-sm-12 col-md-6 ">
+                                            <label for="strdirservicio" class="form-label">Direccion Servicio</label>
+                                            <input type="text" class="form-control" id="strdirservicio"
+                                                   name="strdirservicio" value="<%- doc.STRDIRSERVICIO %>" readonly>
+                                        </div>
+
                                         <div class="form-group">
                                             <label for="strmotivoanulacion" class="form-label">Motivo Anulacion</label>
                                             <textarea class="form-control" id="strmotivoanulacion" required
