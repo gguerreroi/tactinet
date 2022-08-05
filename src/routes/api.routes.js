@@ -67,4 +67,7 @@ r.get('/cash/dairy/resume', is_auth_api, apic.get_cash_dairy_resume)
 r.get('/cash/dairy/details', is_auth_api, apic.get_cash_dairy_details)
 r.get('/documents/details/:id', is_auth_api, apic.get_document_by_id)
 r.get('/documents/details/:id/details', is_auth_api, apic.get_document_details_by_id)
+
+r.get('/dte/:id', is_auth_api, apic.get_dte_by_id)
+
 export default r;

@@ -7,7 +7,7 @@ export function get_credentials(req) {
         const database = req.headers.database;
         return {Username: username, Password: password, Database: database}
     }else{
-        const {Username, Password, Database} = req.session.message.data
+        const {Username, Password, Database} = req.session.passport.user.data
         return {Username: Username, Password: Password, Database: Database};
     }
 }

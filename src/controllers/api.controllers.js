@@ -377,7 +377,7 @@ export async function get_document_details_by_id(req, res) {
 	}
 }	
 
-export async function get_info_auth_by_nit(req, res) {
+export async function get_dte_by_id(req, res) {
 	const {Username, Password, Database} = get_credentials(req);
 	const {id} = req.params;
 	let Connection = null
@@ -393,8 +393,8 @@ export async function get_info_auth_by_nit(req, res) {
 
 		const stmt = await Connection.request()
 		stmt.query(`select *
-					from caja.caj1201
-					where codserial = ${id}`, (err, result) => {
+					from financiero.dte
+					where emisornit = '${id}'`, (err, result) => {
 			if (err) {
 				res.status(500).send(json_out('500', 'Error in controller get_cash_dairy_resume', err));
 			} else {

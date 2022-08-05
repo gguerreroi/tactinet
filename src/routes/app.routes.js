@@ -181,20 +181,55 @@ router.get('/cash/operations/documents/:id', is_auth, function (request, respons
 router.delete('/cash/operations/documents', is_auth, function (request, response) {
     const {
         uuid,
+        codserial,
         strnitemisor,
         strnitreceptor,
         strfechahoraemision,
         strmotivoanulacion
     } = request.body;
-    const date = new Date();
-    const fecha_anulacion = date.toISOString().split('T')[0];
+    console.log(request.body)
+    const info = {
+        UserInfo: request.session.passport.user,
+        me: '/cash/operations/day'
+    }
 
+    const date = new Date();
+
+    const dte_auth = app.get_auth_dte(info.UserInfo, strnitemisor)
+
+    const fecha_anulacion = date.toISOString().split('T')[0];
     const xml_anula = app.get_xml_anula(uuid, strnitemisor, strnitreceptor, strfechahoraemision, fecha_anulacion, strmotivoanulacion);
 
-    const dte_cancels_signed = fel.post_dte_signed(llave, codigo, alias, "S", btoa(xml_anula))
+    dte_auth.then(dte_auth_val => {
+        const {PREFIJO, LLAVEWS, TOKENSIGNER, EMISORNIT, EMISORCORREO} = dte_auth_val.data.data[0];
+
+        const dte_cancels_signed = fel.post_dte_signed(TOKENSIGNER, codserial, PREFIJO, "S", btoa(xml_anula))
+
+        dte_cancels_signed.then(dte_cancels_signed_val => {
+            const {resultado, descripcion, archivo} = dte_cancels_signed_val.data;
+            console.group("signed serial " + codserial)
+            console.log("resultado", resultado, "descripcion", descripcion, "archivo", archivo)
+            console.groupEnd()
+            if (resultado){
+                const dte_certify_cancel = fel.post_dte_cancels(EMISORNIT, EMISORCORREO, archivo, TOKENSIGNER, codserial)
+                dte_certify_cancel.then(dte_certify_cancel_val => {
+
+                }).catch(err => {
+                    console.log(err)
+
+                })
+            }
+            return response.json({resultado: resultado, descripcion: descripcion})
+        }).catch(err => {
+            console.log("catch dte_cancels_signed ", err)
+            return response.json({err})
+        })
+    }).catch(err => {
+        console.log("catch dte_auth ", err)
+        return response.json({err});
+    })
 
 
-    return response.json({});
 })
 
 export default router;

@@ -47,6 +47,18 @@ export async function get_one_detail_document(UserInfo, id) {
     });
 }
 
+export async function get_auth_dte(UserInfo, nit_emisor){
+    const {Username, Password, Database} = UserInfo.data;
+    return axios.get(`${API_URL}/dte/${nit_emisor}`,{
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Basic ${Buffer.from(`${Username}:${Password}`).toString('base64')}`,
+            'Database': Database
+        }
+    });
+}
+
+
 export async function set_destroy_session(request, response) {
     const a = axios.get(`${API_URL}/api/logout`);
 
