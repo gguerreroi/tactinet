@@ -425,7 +425,7 @@ export async function set_dte_info(req, res) {
 		stmt.input('serie', mssql.VarChar(max), serie);
 		stmt.input('uuid', mssql.VarChar(max), uuid);
 		stmt.output('message', mssql.VarChar(max));
-		stmt.execute('', (err, result) => {
+		stmt.execute('financiero.sp_dte', (err, result) => {
 			if (err) {
 				res.status(500).send(json_out('500', 'Error in controller set_dte_info', err));
 			}
