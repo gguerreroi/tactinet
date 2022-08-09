@@ -407,3 +407,33 @@ export async function get_dte_by_id(req, res) {
 	}
 }
 
+export async function set_dte_info(req, res) {
+	const {Username, Password, Database} = get_credentials(req);
+	const {id} = req.params;
+	const {es_anulacion, response, numero, serie, uuid} = req.body;
+	let Connection = null
+	try {
+		Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+		if (Connection.code === 500)
+			throw {code: Connection.code, message: Connection.message}
+
+		const stmt = await Connection.request();
+		stmt.input('codserial', mssql.VarChar(20), id);
+		stmt.input('es_anulacion', mssql.Bit, es_anulacion);
+		stmt.input('response', mssql.VarChar(max), response);
+		stmt.input('numero', mssql.Int, numero);
+		stmt.input('serie', mssql.VarChar(max), serie);
+		stmt.input('uuid', mssql.VarChar(max), uuid);
+		stmt.output('message', mssql.VarChar(max));
+		stmt.execute('', (err, result) => {
+			if (err) {
+				res.status(500).send(json_out('500', 'Error in controller set_dte_info', err));
+			}
+			else {
+				res.status(200).send(json_out('200', 'Run Ok', result.output.message));
+			}
+		})
+	} catch (e) {
+		res.status(500).send(json_out('500', 'Error in controller set_dte_info', e));
+	}
+}

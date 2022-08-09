@@ -187,7 +187,7 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
         strfechahoraemision,
         strmotivoanulacion
     } = request.body;
-    console.log(request.body)
+   
     const info = {
         UserInfo: request.session.passport.user,
         me: '/cash/operations/day'
@@ -207,26 +207,28 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
 
         dte_cancels_signed.then(dte_cancels_signed_val => {
             const {resultado, descripcion, archivo} = dte_cancels_signed_val.data;
-            console.group("signed serial " + codserial)
-            console.log("resultado", resultado, "descripcion", descripcion, "archivo", archivo)
-            console.groupEnd()
-            if (resultado){
-                const dte_certify_cancel = fel.post_dte_cancels(EMISORNIT, EMISORCORREO, archivo, TOKENSIGNER, codserial)
-                dte_certify_cancel.then(dte_certify_cancel_val => {
+            if (resultado)
+                fel.post_dte_cancels(EMISORNIT, EMISORCORREO, archivo, LLAVEWS, codserial, PREFIJO)
+                .then(dte_certify_cancel_val => {
+                    console.log('response dte_certify_cancel', dte_certify_cancel_val.data)
+                    const {resultado, descripcion, archivo} = dte_certify_cancel_val.data;
+                    if (resultado) 
+                        return response.json(dte_certify_cancel_val.data)
+
+                    return response.json({resultado: false, descripcion: descripcion})
 
                 }).catch(err => {
-                    console.log(err)
-
+                    console.log('err in dte_certify_cancel', err)
+                    return response.status(500).json(err)
                 })
-            }
-            return response.json({resultado: resultado, descripcion: descripcion})
+            
         }).catch(err => {
             console.log("catch dte_cancels_signed ", err)
-            return response.json({err})
+            return response.status(500).json({err})
         })
     }).catch(err => {
         console.log("catch dte_auth ", err)
-        return response.json({err});
+        return response.status(500).json({err});
     })
 
 

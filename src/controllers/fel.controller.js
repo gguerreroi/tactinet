@@ -22,7 +22,8 @@ export async function post_dte_cancels(
     correo_copia,
     dte_base64,
     llave,
-    serial){
+    serial,
+    prefijo){
     return axios.post(API_FEL_ANULA, {
         nit_emisor: nit_emisor,
         correo_copia: correo_copia,
@@ -30,7 +31,7 @@ export async function post_dte_cancels(
     },{
         headers: {
             'Content-Type': 'application/json',
-            'usuario': nit_emisor,
+            'usuario': prefijo,
             'llave': llave,
             'identificador': serial
         }
