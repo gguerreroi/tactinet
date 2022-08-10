@@ -21,13 +21,13 @@ router.post('/auth', (request, response, next) => {
 
 router.get('/failure', function (request, response) {
 
-    const mess = (request.session.message !== undefined) ? request.session.message.data.message : "Usuario o contraseña invalida"
+    const mess = (request.session.passport.user !== undefined) ? request.session.passport.user.data.message : "Usuario o contraseña invalida"
 
     response.status(401).json(json_out(401, mess))
 });
 
 router.get('/success', function (request, response) {
-    response.status(200).json(json_out(200, 'Login Success', request.session.message))
+    response.status(200).json(json_out(200, 'Login Success', request.session.passport.user))
 });
 
 router.get('/logout', function (request, response) {
@@ -88,15 +88,15 @@ router.get('/services/tasks/details/:id', is_auth, function (request, response) 
     }
     const {Permisos} = request.session.passport.user.data;
     if (Permisos.includes(info.me)) {
-        const one_task = app.get_one_task(request.params.id, request.session.message);
-        const comment_tasks = app.get_comments_by_task(request.params.id, request.session.message);
+        const one_task = app.get_one_task(request.params.id, info.UserInfo);
+        const comment_tasks = app.get_comments_by_task(request.params.id, info.UserInfo);
         Promise.all([one_task, comment_tasks]).then(value => {
             value[0].data.data[0].comments = value[1].data.data
             info.task = value[0].data.data[0];
             return response.render('services/tasks/by-id', info);
         }).catch(err => {
             return response.render('system/error-500', {
-                UserInfo: request.session.message, me: request.path, err: err
+                UserInfo: request.session.passport.user, me: request.path, err: err
             });
         })
     } else {
@@ -170,7 +170,7 @@ router.get('/cash/operations/documents/:id', is_auth, function (request, respons
             }
         ).catch(err => {
             return response.render('system/error-500', {
-                UserInfo: request.session.message, me: request.path, err: err
+                UserInfo: request.session.passport.user, me: request.path, err: err
             });
         })
     } else {
@@ -187,7 +187,7 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
         strfechahoraemision,
         strmotivoanulacion
     } = request.body;
-   
+
     const info = {
         UserInfo: request.session.passport.user,
         me: '/cash/operations/day'
@@ -202,26 +202,30 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
 
     dte_auth.then(dte_auth_val => {
         const {PREFIJO, LLAVEWS, TOKENSIGNER, EMISORNIT, EMISORCORREO} = dte_auth_val.data.data[0];
-
-        const dte_cancels_signed = fel.post_dte_signed(TOKENSIGNER, codserial, PREFIJO, "S", btoa(xml_anula))
-
-        dte_cancels_signed.then(dte_cancels_signed_val => {
-            const {resultado, descripcion, archivo} = dte_cancels_signed_val.data;
+        fel.post_dte_signed(TOKENSIGNER, codserial, PREFIJO, "S", btoa(xml_anula)).then(dte_sig => {
+            const {resultado, descripcion, archivo} = dte_sig.data;
             if (resultado)
-                fel.post_dte_cancels(EMISORNIT, EMISORCORREO, archivo, LLAVEWS, codserial, PREFIJO)
-                .then(dte_certify_cancel_val => {
-                    console.log('response dte_certify_cancel', dte_certify_cancel_val.data)
-                    const {resultado, descripcion, archivo} = dte_certify_cancel_val.data;
-                    if (resultado) 
-                        return response.json(dte_certify_cancel_val.data)
+                fel.post_dte_cancels(EMISORNIT, EMISORCORREO, archivo, LLAVEWS, codserial, PREFIJO).then(post_dte => {
+                    const {
+                        resultado,
+                        descripcion,
+                        xml_certificado,
+                        uuid,
+                        serie,
+                        numero,
+                        fecha
+                    } = post_dte.data;
+                    if (resultado) {
+
+                        return response.json(post_dte.data)
+                    }
 
                     return response.json({resultado: false, descripcion: descripcion})
-
                 }).catch(err => {
                     console.log('err in dte_certify_cancel', err)
                     return response.status(500).json(err)
                 })
-            
+
         }).catch(err => {
             console.log("catch dte_cancels_signed ", err)
             return response.status(500).json({err})
@@ -230,8 +234,6 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
         console.log("catch dte_auth ", err)
         return response.status(500).json({err});
     })
-
-
 })
 
 export default router;

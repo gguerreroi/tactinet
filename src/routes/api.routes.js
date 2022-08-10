@@ -39,10 +39,14 @@ r.get('/success',
 
 r.get('/logout',
     function (request, response) {
-        request.session.destroy(function (err) {
-            request.logout();
+        request.logout(function(err){
+            console.log('logout err', err)
             return response.redirect('/auth');
         });
+        // request.session.destroy(function (err) {
+        //     console.log('session destroy', err)
+        //
+        // });
     })
 
 r.get('/tasks/archive', is_auth_api, apic.get_task_archive);
@@ -69,5 +73,6 @@ r.get('/documents/details/:id', is_auth_api, apic.get_document_by_id)
 r.get('/documents/details/:id/details', is_auth_api, apic.get_document_details_by_id)
 
 r.get('/dte/:id', is_auth_api, apic.get_dte_by_id)
+r.post('/dte/:id', is_auth_api, apic.set_dte_info)
 
 export default r;
