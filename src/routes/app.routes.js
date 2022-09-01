@@ -215,6 +215,7 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
                         numero,
                         fecha
                     } = post_dte.data;
+
                     if (resultado) {
 
                         return response.json(post_dte.data)

@@ -89,3 +89,10 @@ export function get_xml_anula(uuid,
 	</dte:SAT>
 	</dte:GTAnulacionDocumento>`;
 }
+
+export function set_dte_anulacion(
+    request,
+    response
+){
+
+}

@@ -6,7 +6,7 @@ const API_FEL_CERTIFICA = 'https://certificador.feel.com.gt/fel/certificacion/v2
 
 const axios = require('axios');
 
-export async function post_dte_signed(llave, codigo, alias, es_anulacion="N", dte_base64){
+export async function post_dte_signed(llave, codigo, alias, es_anulacion = "N", dte_base64) {
 
     return axios.post(API_FEL_FIRMA, {
         llave: llave,
@@ -23,12 +23,12 @@ export async function post_dte_cancels(
     dte_base64,
     llave,
     serial,
-    prefijo){
+    prefijo) {
     return axios.post(API_FEL_ANULA, {
         nit_emisor: nit_emisor,
         correo_copia: correo_copia,
         xml_dte: dte_base64
-    },{
+    }, {
         headers: {
             'Content-Type': 'application/json',
             'usuario': prefijo,
@@ -43,12 +43,12 @@ export async function post_dte_certify(
     correo_copia,
     dte_base64,
     llave,
-    serial){
+    serial) {
     return axios.post(API_FEL_CERTIFICA, {
         nit_emisor: nit_emisor,
         correo_copia: correo_copia,
         xml_dte: dte_base64
-    },{
+    }, {
         headers: {
             'Content-Type': 'application/json',
             'usuario': nit_emisor,
@@ -56,4 +56,21 @@ export async function post_dte_certify(
             'identificador': serial
         }
     });
+}
+
+export async function registrar_anula_db(
+    id,
+    UserInfo,
+    dbody
+) {
+    const {Username, Password, Database} = UserInfo.data;
+    return axios.post(`http://localhost:3000/api/cash/operations/documents/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Basic ${Buffer.from(`${Username}:${Password}`).toString('base64')}`,
+                'Database': Database
+            },
+        data: dbody
+        }
+    );
 }
