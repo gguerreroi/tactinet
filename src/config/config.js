@@ -4,7 +4,7 @@ export default {
     DB: {
         USER: "gguerrero",
         PASSWORD: "H4x0r.231",
-        HOST: "45.5.118.219",
+        HOST: "10.60.110.2",
         DATABASE: "PLR0010"
     }
 }

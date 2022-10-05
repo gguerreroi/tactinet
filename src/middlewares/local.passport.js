@@ -91,7 +91,7 @@ authenticator.use('local', new strategy({
     const {database} = request.body;
     let permisos = [];
     try {
-        let Connection = await get_connection(username, password, '45.5.118.219', `PLR00${database}`)
+        let Connection = await get_connection(username, password, '10.60.110.2', `PLR00${database}`)
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}

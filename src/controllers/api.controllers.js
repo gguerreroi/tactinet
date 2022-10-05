@@ -9,7 +9,7 @@ export async function get_task_archive(req, res) {
     let Connection = null
 
     try {
-        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -34,7 +34,7 @@ export async function get_task_pending(req, res) {
     let Connection = null
 
     try {
-        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -59,7 +59,7 @@ export async function get_task_complete(req, res) {
     let Connection = null
 
     try {
-        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -85,7 +85,7 @@ export async function get_task_pending_by_user(req, res) {
     let Connection = null
 
     try {
-        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -111,7 +111,7 @@ export async function get_task_by_id(req, res) {
     let Connection = null
 
     try {
-        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -136,7 +136,7 @@ export async function get_comments_by_task(req, res) {
     const {Username, Password, Database} = get_credentials(req);
     let Connection = null
     try {
-        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -162,7 +162,7 @@ export async function add_comment_to_task(req, res) {
     const {strcomment} = req.body;
     let Connection = null
     try {
-        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
         const sp = await Connection.request()
         sp.input('codactividad', mssql.Int, id)
         sp.input('strcomment', mssql.VarChar(400), strcomment)
@@ -190,7 +190,7 @@ export async function update_task_by_id(req, res) {
     const {codestado, fecha_reprogram} = req.body;
     let Connection = null
     try {
-        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
 
         const sp = await Connection.request()
 
@@ -234,7 +234,7 @@ export async function add_image_to_task(request, response) {
     // try {
     //
     //
-    //     Connection = await getConnection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+    //     Connection = await getConnection(Username, Password, '10.60.110.2', `PLR00${Database}`);
     //     const sp = await Connection.request()
     //     sp.input('codactividad', mssql.Int, id)
     //     sp.input('strcomment', mssql.VarChar(400), strcomment)
@@ -262,7 +262,7 @@ export async function get_cash_dairy_resume(req, res) {
 
     let Connection = null
     try {
-        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -295,7 +295,7 @@ export async function get_cash_dairy_details(req, res) {
     const {dairy_date} = req.query;
     let Connection = null
     try {
-        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -328,7 +328,7 @@ export async function get_document_by_id(req, res) {
         if (id === undefined)
             throw {code: 500, message: 'id is required'}
 
-        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -357,7 +357,7 @@ export async function get_document_details_by_id(req, res) {
         if (id === undefined)
             throw {code: 500, message: 'id is required'}
 
-        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -386,7 +386,7 @@ export async function get_dte_by_id(req, res) {
         if (id === undefined)
             throw {code: 500, message: 'id is required'}
 
-        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -419,7 +419,7 @@ export async function set_dte_info(req, res) {
     } = req.body;
     let Connection = null
     try {
-        Connection = await get_connection(Username, Password, '45.5.118.219', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
 
