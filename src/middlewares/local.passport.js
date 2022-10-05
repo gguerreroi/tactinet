@@ -98,7 +98,7 @@ authenticator.use('local', new strategy({
 
         const query = await Connection.request()
 
-        await axios.post('http://localhost:3000/api/auth', {
+        await axios.post('http://10.60.110.4:3000/api/auth', {
             username: username,
             password: password,
             database: database

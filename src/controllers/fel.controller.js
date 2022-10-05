@@ -64,7 +64,7 @@ export async function registrar_anula_db(
     dbody
 ) {
     const {Username, Password, Database} = UserInfo.data;
-    return axios.post(`http://localhost:3000/api/cash/operations/documents/${id}`, {
+    return axios.post(`http://10.60.110.4:3000/api/cash/operations/documents/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Basic ${Buffer.from(`${Username}:${Password}`).toString('base64')}`,
