@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<dte:GTAnulacionDocumento xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:dte="http://www.sat.gob.gt/dte/fel/0.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="0.1" xsi:schemaLocation="http://www.sat.gob.gt/dte/fel/0.1.0">
-<dte:SAT>
-<dte:AnulacionDTE ID="DatosCertificados">
-<dte:DatosGenerales ID="DatosAnulacion" NumeroDocumentoAAnular="B6C4DB80-95BE-48E2-BCDE-8661A83A859C" NITEmisor="28163273" IDReceptor="CF" FechaEmisionDocumentoAnular="2022-07-11T00:00:00.000-06:00" FechaHoraAnulacion="2022-08-01T00:00:00.000-06:00" MotivoAnulacion="Cliente no quiso pagar la factura"></dte:DatosGenerales>
-</dte:AnulacionDTE>
-</dte:SAT>
-</dte:GTAnulacionDocumento>
