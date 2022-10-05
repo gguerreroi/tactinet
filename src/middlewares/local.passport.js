@@ -15,7 +15,7 @@ authenticator.use('api-local', new strategy({
     let Connection = null
     let permisos = [];
     try {
-        Connection = await get_connection(username, password, 'san01.sonivitac.com', `PLR00${database}`)
+        Connection = await get_connection(username, password, '10.60.110.2', `PLR00${database}`)
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
