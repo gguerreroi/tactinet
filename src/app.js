@@ -30,6 +30,7 @@ let dbsession = new Sequelize({
 app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'ejs');
 app.set('views', join(__dirname, 'views'));
+app.set('trust proxy', true);
 
 //middlewares
 app.use(morgan('combined'));

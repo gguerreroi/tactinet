@@ -35,8 +35,9 @@ router.get('/logout', function (request, response) {
 });
 
 router.get('/', is_auth, function (request, response) {
+    var ip = request.header('x-forwarded-for') || request.connection.remoteAddress;
     const info = {
-        UserInfo: request.session.passport.user, me: request.path
+        UserInfo: request.session.passport.user, me: request.path, ip: ip
     }
 
     response.render('index', info);
