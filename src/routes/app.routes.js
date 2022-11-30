@@ -163,20 +163,21 @@ router.get('/cash/operations/documents/:id', is_auth, function (request, respons
     const {Permisos} = request.session.passport.user.data;
     const doc_head = app.get_one_document(info.UserInfo, info.Serial);
     const doc_detail = app.get_one_detail_document(info.UserInfo, info.Serial);
-    if (Permisos.includes(info.me)) {
-        Promise.all([doc_head, doc_detail]).then(value => {
-                info.document = value[0].data.data[0];
-                info.document.detail = value[1].data.data;
-                return response.render('cash/operations/document', info);
-            }
-        ).catch(err => {
-            return response.render('system/error-500', {
-                UserInfo: request.session.passport.user, me: request.path, err: err
-            });
-        })
-    } else {
+
+    if (!Permisos.includes(info.me))
         return response.render('system/error-403')
-    }
+
+    Promise.all([doc_head, doc_detail]).then(value => {
+            info.document = value[0].data.data[0];
+            info.document.detail = value[1].data.data;
+            return response.render('cash/operations/document', info);
+        }
+    ).catch(err => {
+        return response.render('system/error-500', {
+            UserInfo: request.session.passport.user, me: request.path, err: err
+        });
+    })
+
 });
 
 router.delete('/cash/operations/documents', is_auth, function (request, response) {

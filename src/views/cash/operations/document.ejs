@@ -1,25 +1,24 @@
 <%
 var doc = document != undefined ? document : {};
 var encabezado = doc.codoperador == "8" ? {
-	stragencia: "ELECTROTEL",
-	strempresa: "COMINSA, SOCIEDAD ANONIMA",
-	strnit: "28163273",
-	stractividad: "Servicio de Internet Residencial",
-	strdireccion: "6 Avenida 1-70 Zona 4 Tactic A. V.",
-	strtelefono: "3667-3866",
-	strhorario_sem: "09:00am - 05:30pm",
-	strhorario_fs: "09:00am - 01:00pm"
+    stragencia: "ELECTROTEL",
+    strempresa: "COMINSA, SOCIEDAD ANONIMA",
+    strnit: "28163273",
+    stractividad: "Servicio de Internet Residencial",
+    strdireccion: "6 Avenida 1-70 Zona 4 Tactic A. V.",
+    strtelefono: "3667-3866",
+    strhorario_sem: "09:00am - 05:30pm",
+    strhorario_fs: "09:00am - 01:00pm"
 } : {
-	stragencia: "SONIVISION",
-	strempresa: "Jose Antonio Guerrero",
-	strnit: "3563626",
-	stractividad: "Servicio de television por cable",
-	strdireccion: "1 Calle 4-69 Zona 4 Tactic A. V.",
-	strtelefono: "79539140",
-	strhorario_sem: "08:30am - 01:00pm y 02:00pm - 05:30pm",
-	strhorario_fs: "08:30am - 02:30pm"
+    stragencia: "SONIVISION",
+    strempresa: "Jose Antonio Guerrero",
+    strnit: "3563626",
+    stractividad: "Servicio de television por cable",
+    strdireccion: "1 Calle 4-69 Zona 4 Tactic A. V.",
+    strtelefono: "79539140",
+    strhorario_sem: "08:30am - 01:00pm y 02:00pm - 05:30pm",
+    strhorario_fs: "08:30am - 02:30pm"
 };
-
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,70 +68,60 @@ var encabezado = doc.codoperador == "8" ? {
                     <div class="container">
                         <form id="frmdocumento" method="delete" action="/cash/operations/documents">
                             <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Documento Electronico</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="text-center">
-                                                <p class="fw-bolder"><%= encabezado.stragencia %></p>
-                                                <p class="fw-bolder"><%= encabezado.strempresa %></p>
-                                                <p class="fw-bolder">NIT: <%= encabezado.strnit %></p>
+                                <div class="card-header pt-10">
+                                    <div class="mw-lg-950px mx-auto w-100">
+                                        <div class="d-flex justify-content-between flex column flex-sm-row mb-19">
+                                            <h4 class="fw-bolder text-gray-800 fs-2qx pe-5 pb-7"><%- doc.coddocumento == 10 ? 'Comprobante de Pago' : 'Documento Tributario Electrónico' %></h4>
+                                            <div class="text-sm-end">
+                                                <div class="text-sm-end fw-semibold fs-4 text-muted mt-7">
+                                                    <div><%= doc.EMISORNOMBRECOMERCIAL %></div>
+                                                    <div><%= doc.EMISORNOMBRE %></div>
+                                                    <div>NIT: <%= doc.EMISORNIT %></div>
+                                                    <div><%= doc.EMISORDIRECCION %></div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group col-sm-12 col-md-3">
-                                            <label for="codoperador" class="form-label">Codigo Caja</label>
-                                            <input type="text" class="form-control" id="codoperador" name="codoperador"
-                                                   value="<%- doc.codoperador %>" readonly>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="pb-5">
+                                        <div class="d-flex flex-column gap-7 gap-md-10">
+                                            <div class="flex-root d-flex flex-column">
+                                                <div class="fw-bold fs-2">
+                                                    <span class="fs-5"><%- doc.STRNOMBRESER %></span><br>
+                                                    <span class="text-muted fs-5"><%- doc.STRDIRSERVICIO %></span><br>
+                                                    <span class="text-muted fs-5"><%- doc.STRNIT %></span>
+                                                </div>
+                                            </div>
+                                            <div class="separator"></div>
+                                            <div class="d-flex flex-column flex-sm-row gap-7 gap-md-10 fw-bold">
+                                                <div class="flex-root d-flex flex-column">
+                                                    <span class="text-muted">Fecha Emision</span>
+                                                    <span class="fs-5"><%- doc.FechaHoraEmision %></span>
+                                                </div>
+                                                <div class="flex-root d-flex flex-column">
+                                                    <span class="text-muted">Código Operador</span>
+                                                    <span class="fs-5"><%- doc.codoperador %></span>
+                                                </div>
+                                                <div class="flex-root d-flex flex-column">
+                                                    <span class="text-muted">Código Serial</span>
+                                                    <span class="fs-5"><%- doc.codserial %></span>
+                                                </div>
+                                                <div class="flex-root d-flex flex-column">
+                                                    <span class="text-muted">Cantidad</span>
+                                                    <span class="fs-5"><%- doc.TOTCANTIDAD %></span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group col-sm-12 col-md-3" >
-                                            <label for="codserial" class="form-label">Codigo Serial</label>
-                                            <input type="text" class="form-control" id="codserial" name="codserial"
-                                                   value="<%- doc.codserial %>" readonly>
-                                        </div>
-                                        <div class="form-group col-sm-12 col-md-3">
-                                            <label for="strfechahoraemision" class="form-label">Fecha Emision</label>
-                                            <input type="text" class="form-control" id="strfechahoraemision"
-                                                   name="strfechahoraemision"
-                                                   value="<%- doc.FechaHoraEmision %>" readonly>
-                                        </div>
-                                        <div class="form-group col-sm-12 col-md-3">
-                                            <label for="totcantidad" class="form-label">Cantidad</label>
-                                            <input type="text" class="form-control" id="totcantidad" name="totcantidad"
-                                                   value="<%- doc.TOTCANTIDAD %>" readonly>
-                                        </div>
-                                        <div class="form-group col-sm-12 col-md-4">
-                                            <label for="uuid" class="form-label">uuid</label>
-                                            <input type="text" class="form-control" id="uuid" name="uuid"
-                                                   value="<%- doc._uuid %>" readonly>
-                                        </div>
-                                        <div class="form-group col-sm-12 col-md-4">
-                                            <label for="strnitemisor" class="form-label">NIT Emisor</label>
-                                            <input type="text" class="form-control" id="strnitemisor"
-                                                   name="strnitemisor"
-                                                   value="<%= encabezado.strnit %>"
-                                                   readonly>
-                                        </div>
-                                        <div class="form-group col-sm-12 col-md-4">
-                                            <label for="strnitreceptor" class="form-label">Nit Receptor</label>
-                                            <input type="text" class="form-control" id="strnitreceptor" name="strnitreceptor"
-                                                   value="<%- doc.STRNIT %>" readonly>
-                                        </div>
-                                        <div class="form-group col-sm-12 col-md-6">
-                                            <label for="strnombreservicio" class="form-label">Nombre Servicio</label>
-                                            <input type="text" class="form-control" id="strnombreservicio"
-                                                   name="strnombreservicio" value="<%- doc.STRNOMBRESER %>" readonly>
-                                        </div>
-                                        <div class="form-group col-sm-12 col-md-6 ">
-                                            <label for="strdirservicio" class="form-label">Direccion Servicio</label>
-                                            <input type="text" class="form-control" id="strdirservicio"
-                                                   name="strdirservicio" value="<%- doc.STRDIRSERVICIO %>" readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="strmotivoanulacion" class="form-label">Motivo Anulacion</label>
-                                            <textarea class="form-control" id="strmotivoanulacion" required
-                                                      name="strmotivoanulacion" minlength="1" maxlength="255"></textarea>
+                                        <div class="d-flex flex-column gap-7 gap-md-10 fw-bold">
+                                            <div class="flex-root d-flex flex-column">
+                                                <span  class="text-muted">Número de Autorización</span>
+                                                <span><%- doc._uuid %></span>
+                                                <span  class="text-muted">Serie</span>
+                                                <span><%- doc._serie %></span>
+                                                <span  class="text-muted">Número</span>
+                                                <span><%- doc._numero %></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
