@@ -66,8 +66,8 @@ var encabezado = doc.codoperador == "8" ? {
             <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
                 <div class="d-flex flex-column-fluid">
                     <div class="container">
-                        <form id="frmdocumento" method="delete" action="/cash/operations/documents">
-                            <div class="card">
+
+                            <div class="card" id="fac">
                                 <div class="card-header pt-10">
                                     <div class="mw-lg-950px mx-auto w-100">
                                         <div class="d-flex justify-content-between flex column flex-sm-row mb-19">
@@ -88,48 +88,99 @@ var encabezado = doc.codoperador == "8" ? {
                                         <div class="d-flex flex-column gap-7 gap-md-10">
                                             <div class="flex-root d-flex flex-column">
                                                 <div class="fw-bold fs-2">
-                                                    <span class="fs-5"><%- doc.STRNOMBRESER %></span><br>
-                                                    <span class="text-muted fs-5"><%- doc.STRDIRSERVICIO %></span><br>
-                                                    <span class="text-muted fs-5"><%- doc.STRNIT %></span>
+                                                    <span class="fs-5 text-muted">Cliente: </span><span class="fs-6"><%- doc.STRNOMBRESER %></span><br>
+                                                    <span class="fs-5 text-muted">Dirección: </span><span class="fs-6"><%- doc.STRDIRSERVICIO %></span><br>
+                                                    <span class="fs-5 text-muted">Nit: </span><span class="fs-6"><%- doc.STRNIT %></span>
                                                 </div>
                                             </div>
                                             <div class="separator"></div>
                                             <div class="d-flex flex-column flex-sm-row gap-7 gap-md-10 fw-bold">
                                                 <div class="flex-root d-flex flex-column">
-                                                    <span class="text-muted">Fecha Emision</span>
-                                                    <span class="fs-5"><%- doc.FechaHoraEmision %></span>
+                                                    <span class="text-muted fs-5">Fecha Emision</span>
+                                                    <span class="fs-6"><%- doc.FechaHoraEmision %></span>
                                                 </div>
                                                 <div class="flex-root d-flex flex-column">
-                                                    <span class="text-muted">Código Operador</span>
-                                                    <span class="fs-5"><%- doc.codoperador %></span>
+                                                    <span class="text-muted fs-5"># Operador</span>
+                                                    <span class="fs-6"><%- doc.codoperador %></span>
                                                 </div>
                                                 <div class="flex-root d-flex flex-column">
-                                                    <span class="text-muted">Código Serial</span>
-                                                    <span class="fs-5"><%- doc.codserial %></span>
+                                                    <span class="text-muted fs-5"># Serial</span>
+                                                    <span class="fs-6"><%- doc.codserial %></span>
                                                 </div>
-                                                <div class="flex-root d-flex flex-column">
-                                                    <span class="text-muted">Cantidad</span>
-                                                    <span class="fs-5"><%- doc.TOTCANTIDAD %></span>
-                                                </div>
+
                                             </div>
                                         </div>
-                                        <div class="d-flex flex-column gap-7 gap-md-10 fw-bold">
+                                        <div class="d-flex flex-column flex-sm-row gap-7 gap-md-10 fw-bold pt-2">
                                             <div class="flex-root d-flex flex-column">
-                                                <span  class="text-muted">Número de Autorización</span>
-                                                <span><%- doc._uuid %></span>
-                                                <span  class="text-muted">Serie</span>
-                                                <span><%- doc._serie %></span>
-                                                <span  class="text-muted">Número</span>
-                                                <span><%- doc._numero %></span>
+                                                <span class="text-muted fs-5">Número de Autorización</span>
+                                                <span class="fs-6"><%- doc._uuid %></span>
+                                            </div>
+                                            <div class="flex-root d-flex flex-column">
+                                                <span class="text-muted fs-5">Serie</span>
+                                                <span class="fs-6"><%- doc._serie %></span>
+                                            </div>
+                                            <div class="flex-root d-flex flex-column">
+                                                <span class="text-muted fs-5">Número</span>
+                                                <span class="fs-6"><%- doc._numero %></span>
                                             </div>
                                         </div>
+                                        <div class="d-flex justify-content-between flex-column">
+                                            <div class="table-responsive border-bottom mb-9">
+                                                <table class="table align-middle table-row-dashed  mb-0 border">
+                                                    <thead class="bg-light">
+                                                    <tr class="border-bottom fs-5 fw-bold text-muted">
+                                                        <th class="pb-2">Descripción</th>
+                                                        <th class="text-end pb-2">Costo</th>
+                                                        <th class="text-end pb-2">Impuesto</th>
+                                                        <th class="text-end pb-2">Total</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="fw-semibold text-gray-600">
+                                                    <% doc.detail.forEach(row => { %>
+                                                        <tr>
+                                                            <td class="fw-bold "><%- row.strdescripcion %></td>
+                                                            <td class="text-end  pb-2"><%- row.mntgravable %></td>
+                                                            <td class="text-end  pb-2"><%- row.mntimpuesto %></td>
+                                                            <td class="text-end  pb-2"><%- row.total %></td>
+                                                        </tr>
+                                                    <% }) %>
+                                                    <tr>
+                                                        <td class="fs-3 text-dark fw-bolder text-end">TOTALES</td>
+                                                        <td class="text-dark fs-3 fw-bolder text-end"><%- doc.TOTGRAVABLE %></td>
+                                                        <td class="text-dark fs-3 fw-bolder text-end"><%- doc.TOTIMPUESTO %></td>
+                                                        <td class="text-dark fs-3 fw-bolder text-end"><%- doc.TOTCANTIDAD %></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <br>
+                                            <%- doc.EMISORNIT == '3563626' ? '* Sujeto a pagos trimestrales' : '* Sujeto a retención definitiva ISR'%>
+                                            <br>
+                                            <div class="d-flex justify-content-between flex-column flex-sm-row mb-19">
+                                                <table class="table border ">
+                                                    <thead class="bg-light">
+                                                    <tr>
+                                                        <th class="text-center">Datos del certificador</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td class="text-center">INFILE S. A. NIT: 12521337</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="text-sm-end">
+                                                    <div id="qrcode" class="qrcode"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="separator"></div>
                                     </div>
                                 </div>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-danger">REVERSAR</button>
                                 </div>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -141,11 +192,15 @@ var encabezado = doc.codoperador == "8" ? {
     <!--end::Page-->
 </div>
 <!--end::Root-->
+<!-- modal -->
+
+<!-- end modal -->
 <%- include('../../components/kt-scrolltop') %>
 <!--end::Main-->
 <%- include('../../components/web-footer') %>
 <!--begin::Page Custom Javascript(used by this page)-->
 <script src="assets/js/custom/widgets.js"></script>
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 <!--end::Page Custom Javascript-->
 
 <script>
@@ -185,7 +240,27 @@ var encabezado = doc.codoperador == "8" ? {
             }
         });
     });
+    $(document).ready(() => {
 
+        const numero='<%= doc._uuid %>';
+        const emisor='<%= doc.EMISORNIT %>';
+        const receptor = '<%= doc.STRNIT %>';
+        const monto='<%= doc.TOTCANTIDAD %>';
+
+        const url = `https://felpub.c.sat.gob.gt/verificador-web/publico/vistas/verificacionDte.jsf?tipo=autorizacion&numero=${numero}&emisor=${emisor}&receptor=${receptor}&monto=${monto}`;
+
+        let qrcodeContainer = document.getElementById("qrcode");
+        qrcodeContainer.innerHTML = "";
+        new QRCode(qrcodeContainer, {
+            text: url,
+            width: 128,
+            height: 128,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+    })
 </script>
 <!--end::Page Custom Javascript-->
 <!--end::Javascript-->
