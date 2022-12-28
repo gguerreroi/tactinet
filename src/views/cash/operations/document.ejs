@@ -66,123 +66,160 @@ var encabezado = doc.codoperador == "8" ? {
             <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
                 <div class="d-flex flex-column-fluid">
                     <div class="container">
-
-                            <div class="card" id="fac">
-                                <div class="card-header pt-10">
-                                    <div class="mw-lg-950px mx-auto w-100">
-                                        <div class="d-flex justify-content-between flex column flex-sm-row mb-19">
-                                            <h4 class="fw-bolder text-gray-800 fs-2qx pe-5 pb-7"><%- doc.coddocumento == 10 ? 'Comprobante de Pago' : 'Documento Tributario Electrónico' %></h4>
-                                            <div class="text-sm-end">
-                                                <div class="text-sm-end fw-semibold fs-4 text-muted mt-7">
-                                                    <div><%= doc.EMISORNOMBRECOMERCIAL %></div>
-                                                    <div><%= doc.EMISORNOMBRE %></div>
-                                                    <div>NIT: <%= doc.EMISORNIT %></div>
-                                                    <div><%= doc.EMISORDIRECCION %></div>
-                                                </div>
+                        <div class="card" id="fac">
+                            <div class="card-header pt-10">
+                                <div class="mw-lg-950px mx-auto w-100">
+                                    <div class="d-flex justify-content-between flex column flex-sm-row mb-19">
+                                        <h4 class="fw-bolder text-gray-800 fs-2qx pe-5 pb-7"><%- doc.coddocumento == 10 ? 'Comprobante de Pago' : 'Documento Tributario Electrónico' %>
+                                            <span class="badge badge-primary ">Aplicado</span></h4>
+                                        <div class="text-sm-end">
+                                            <div class="text-sm-end fw-semibold fs-4 text-muted mt-7">
+                                                <div><%= doc.EMISORNOMBRECOMERCIAL %></div>
+                                                <div><%= doc.EMISORNOMBRE %></div>
+                                                <div>NIT: <%= doc.EMISORNIT %></div>
+                                                <div><%= doc.EMISORDIRECCION %></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <div class="pb-5">
-                                        <div class="d-flex flex-column gap-7 gap-md-10">
-                                            <div class="flex-root d-flex flex-column">
-                                                <div class="fw-bold fs-2">
-                                                    <span class="fs-5 text-muted">Cliente: </span><span class="fs-6"><%- doc.STRNOMBRESER %></span><br>
-                                                    <span class="fs-5 text-muted">Dirección: </span><span class="fs-6"><%- doc.STRDIRSERVICIO %></span><br>
-                                                    <span class="fs-5 text-muted">Nit: </span><span class="fs-6"><%- doc.STRNIT %></span>
-                                                </div>
-                                            </div>
-                                            <div class="separator"></div>
-                                            <div class="d-flex flex-column flex-sm-row gap-7 gap-md-10 fw-bold">
-                                                <div class="flex-root d-flex flex-column">
-                                                    <span class="text-muted fs-5">Fecha Emision</span>
-                                                    <span class="fs-6"><%- doc.FechaHoraEmision %></span>
-                                                </div>
-                                                <div class="flex-root d-flex flex-column">
-                                                    <span class="text-muted fs-5"># Operador</span>
-                                                    <span class="fs-6"><%- doc.codoperador %></span>
-                                                </div>
-                                                <div class="flex-root d-flex flex-column">
-                                                    <span class="text-muted fs-5"># Serial</span>
-                                                    <span class="fs-6"><%- doc.codserial %></span>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-column flex-sm-row gap-7 gap-md-10 fw-bold pt-2">
-                                            <div class="flex-root d-flex flex-column">
-                                                <span class="text-muted fs-5">Número de Autorización</span>
-                                                <span class="fs-6"><%- doc._uuid %></span>
-                                            </div>
-                                            <div class="flex-root d-flex flex-column">
-                                                <span class="text-muted fs-5">Serie</span>
-                                                <span class="fs-6"><%- doc._serie %></span>
-                                            </div>
-                                            <div class="flex-root d-flex flex-column">
-                                                <span class="text-muted fs-5">Número</span>
-                                                <span class="fs-6"><%- doc._numero %></span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-between flex-column">
-                                            <div class="table-responsive border-bottom mb-9">
-                                                <table class="table align-middle table-row-dashed  mb-0 border">
-                                                    <thead class="bg-light">
-                                                    <tr class="border-bottom fs-5 fw-bold text-muted">
-                                                        <th class="pb-2">Descripción</th>
-                                                        <th class="text-end pb-2">Costo</th>
-                                                        <th class="text-end pb-2">Impuesto</th>
-                                                        <th class="text-end pb-2">Total</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody class="fw-semibold text-gray-600">
-                                                    <% doc.detail.forEach(row => { %>
-                                                        <tr>
-                                                            <td class="fw-bold "><%- row.strdescripcion %></td>
-                                                            <td class="text-end  pb-2"><%- row.mntgravable %></td>
-                                                            <td class="text-end  pb-2"><%- row.mntimpuesto %></td>
-                                                            <td class="text-end  pb-2"><%- row.total %></td>
-                                                        </tr>
-                                                    <% }) %>
-                                                    <tr>
-                                                        <td class="fs-3 text-dark fw-bolder text-end">TOTALES</td>
-                                                        <td class="text-dark fs-3 fw-bolder text-end"><%- doc.TOTGRAVABLE %></td>
-                                                        <td class="text-dark fs-3 fw-bolder text-end"><%- doc.TOTIMPUESTO %></td>
-                                                        <td class="text-dark fs-3 fw-bolder text-end"><%- doc.TOTCANTIDAD %></td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <br>
-                                            <%- doc.EMISORNIT == '3563626' ? '* Sujeto a pagos trimestrales' : '* Sujeto a retención definitiva ISR'%>
-                                            <br>
-                                            <div class="d-flex justify-content-between flex-column flex-sm-row mb-19">
-                                                <table class="table border ">
-                                                    <thead class="bg-light">
-                                                    <tr>
-                                                        <th class="text-center">Datos del certificador</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td class="text-center">INFILE S. A. NIT: 12521337</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                                <div class="text-sm-end">
-                                                    <div id="qrcode" class="qrcode"></div>
-                                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="pb-5">
+                                    <div class="d-flex flex-column gap-7 gap-md-10">
+                                        <div class="flex-root d-flex flex-column">
+                                            <div class="fw-bold fs-2">
+                                                <span class="fs-5 text-muted">Cliente: </span><span
+                                                        class="fs-6"><%- doc.STRNOMBRESER %></span><br>
+                                                <span class="fs-5 text-muted">Dirección: </span><span
+                                                        class="fs-6"><%- doc.STRDIRSERVICIO %></span><br>
+                                                <span class="fs-5 text-muted">Nit: </span><span
+                                                        class="fs-6"><%- doc.STRNIT %></span>
                                             </div>
                                         </div>
                                         <div class="separator"></div>
+                                        <div class="d-flex flex-column flex-sm-row gap-7 gap-md-10 fw-bold">
+                                            <div class="flex-root d-flex flex-column">
+                                                <span class="text-muted fs-5">Fecha Emision</span>
+                                                <span class="fs-6"><%- doc.FechaHoraEmision %></span>
+                                            </div>
+                                            <div class="flex-root d-flex flex-column">
+                                                <span class="text-muted fs-5"># Operador</span>
+                                                <span class="fs-6"><%- doc.codoperador %></span>
+                                            </div>
+                                            <div class="flex-root d-flex flex-column">
+                                                <span class="text-muted fs-5"># Serial</span>
+                                                <span class="fs-6"><%- doc.codserial %></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column flex-sm-row gap-7 gap-md-10 fw-bold pt-2">
+                                        <div class="flex-root d-flex flex-column">
+                                            <span class="text-muted fs-5">Número de Autorización</span>
+                                            <span class="fs-6"><%- doc._uuid %></span>
+                                        </div>
+                                        <div class="flex-root d-flex flex-column">
+                                            <span class="text-muted fs-5">Serie</span>
+                                            <span class="fs-6"><%- doc._serie %></span>
+                                        </div>
+                                        <div class="flex-root d-flex flex-column">
+                                            <span class="text-muted fs-5">Número</span>
+                                            <span class="fs-6"><%- doc._numero %></span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between flex-column">
+                                        <div class="table-responsive border-bottom mb-9">
+                                            <table class="table align-middle table-row-dashed  mb-0 border">
+                                                <thead class="bg-light">
+                                                <tr class="border-bottom fs-5 fw-bold text-muted">
+                                                    <th class="pb-2">Descripción</th>
+                                                    <th class="text-end pb-2">Costo</th>
+                                                    <th class="text-end pb-2">Impuesto</th>
+                                                    <th class="text-end pb-2">Total</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="fw-semibold text-gray-600">
+                                                <% doc.detail.forEach(row => { %>
+                                                    <tr>
+                                                        <td class="fw-bold "><%- row.strdescripcion %></td>
+                                                        <td class="text-end  pb-2"><%- row.mntgravable %></td>
+                                                        <td class="text-end  pb-2"><%- row.mntimpuesto %></td>
+                                                        <td class="text-end  pb-2"><%- row.total %></td>
+                                                    </tr>
+                                                <% }) %>
+                                                <tr>
+                                                    <td class="fs-3 text-dark fw-bolder text-end">TOTALES</td>
+                                                    <td class="text-dark fs-3 fw-bolder text-end"><%- doc.TOTGRAVABLE %></td>
+                                                    <td class="text-dark fs-3 fw-bolder text-end"><%- doc.TOTIMPUESTO %></td>
+                                                    <td class="text-dark fs-3 fw-bolder text-end"><%- doc.TOTCANTIDAD %></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <br>
+                                        <%- doc.EMISORNIT == '3563626' ? '* Sujeto a pagos trimestrales' : '* Sujeto a retención definitiva ISR' %>
+                                        <br>
+                                        <div class="d-flex justify-content-between flex-column flex-sm-row mb-19">
+                                            <table class="table border ">
+                                                <thead class="bg-light">
+                                                <tr>
+                                                    <th class="text-center">Datos del certificador</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="text-center">INFILE S. A. NIT: 12521337</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="text-sm-end">
+                                                <div id="qrcode" class="qrcode"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-danger">REVERSAR</button>
-                                </div>
                             </div>
+                        </div>
+                        <br>
+                        <div class="card">
+                            <div class="card-body">
+                                <button class="btn btn-primary" onclick="printDocument('fac')"><i
+                                            class="fa fa-print"></i>IMPRIMIR
+                                </button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#kt_modal_1">REVERSAR
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <form method="delete" action="/cash/operations/documents/" id="frmdocumento">
+                <div class="modal fade" tabindex="-1" id="kt_modal_1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Reversion de Comprobante</h3>
+                                <!--begin::Close-->
+                                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                                     aria-label="Close">
+                                    <span class="svg-icon svg-icon-1"></span>
+                                </div>
+                                <!--end::Close-->
+                            </div>
+                            <div class="modal-body">
+                                <p>Describa el motivo de reversión del documento</p>
+                                <textarea name="strmotivoanulacion" class="form-control form-control-solid" minlength="10" cols="3" required></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">CERRAR</button>
+                                <button type="submit" class="btn btn-danger" >REVERSAR</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+
             </div>
             <!--end::Content-->
             <%- include('../../components/bottom-footer.ejs') %>
@@ -205,17 +242,36 @@ var encabezado = doc.codoperador == "8" ? {
 
 <script>
     "use strict";
+    var info_dte = JSON.parse('<%- JSON.stringify(doc) %>');
+
+    function printDocument(divname) {
+        var element = document.getElementById(divname);
+        var a = window.open('', '', 'height=800, width=600');
+        a.document.write('<html>');
+        a.document.write(`<head> <%- include('../../components/web-header') %> </head>`);
+        a.document.write('<body>');
+        a.document.write(element.innerHTML);
+        a.document.write('</body></html>');
+        a.print();
+    }
+
     const url = `${window.location.origin}/api`;
     $("#frmdocumento").submit(function (e) {
         e.preventDefault();
         const form = $(this);
-        const data = form.serialize();
+        const dataform = form.serializeArray();
         const url = form.attr('action');
         const method = form.attr('method');
+        let data_ajax = [];
+        data_ajax.push(dataform[0])
+        for (var key in info_dte){
+            data_ajax.push({name: key, value: info_dte[key]})
+        }
+
         $.ajax({
             url: url,
             type: method,
-            data: data,
+            data: data_ajax,
             success: function (data) {
                 console.log(data);
                 if (data.success) {
@@ -242,10 +298,10 @@ var encabezado = doc.codoperador == "8" ? {
     });
     $(document).ready(() => {
 
-        const numero='<%= doc._uuid %>';
-        const emisor='<%= doc.EMISORNIT %>';
+        const numero = '<%= doc._uuid %>';
+        const emisor = '<%= doc.EMISORNIT %>';
         const receptor = '<%= doc.STRNIT %>';
-        const monto='<%= doc.TOTCANTIDAD %>';
+        const monto = '<%= doc.TOTCANTIDAD %>';
 
         const url = `https://felpub.c.sat.gob.gt/verificador-web/publico/vistas/verificacionDte.jsf?tipo=autorizacion&numero=${numero}&emisor=${emisor}&receptor=${receptor}&monto=${monto}`;
 
@@ -260,7 +316,22 @@ var encabezado = doc.codoperador == "8" ? {
             correctLevel: QRCode.CorrectLevel.H
         });
 
+
     })
+
+    function reversardoc() {
+        const url_reversa = `${window.location.origin}/cash/operations/documents`;
+
+        const data = {
+            uuid: '<%= doc._uuid %>',
+            codserial: '<%- doc.codserial %>',
+            strnitemisor: '<%= doc.EMISORNIT %>',
+            strnitreceptor: '<%= doc.STRNIT %>',
+            strfechahoraemision: '<%- doc.FechaHoraEmision %>',
+            strmotivoanulacion: document.getElementById('')
+        }
+
+    }
 </script>
 <!--end::Page Custom Javascript-->
 <!--end::Javascript-->
