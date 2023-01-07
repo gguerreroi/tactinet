@@ -472,33 +472,33 @@ export async function save_xml_cancel(req, res){
     }
 }
 
-export async function save_xml_cancel(req, res){
-    const {Username, Password, Database} = get_credentials(req);
-    const {
-        codserial,
-        xml_base_64
-    } = req.body;
-    let Connection = null
-    try{
-        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
-        if (Connection.code === 500)
-            throw {code: Connection.code, message: Connection.message}
-
-        const stmt = await Connection.request();
-
-        stmt.input('codserial', mssql.VarChar(20), codserial);
-        stmt.input('xml_signed', mssql.VarChar(max), xml_base_64);
-        stmt.output('codmsj', mssql.Int);
-        stmt.output('strmsj', mssql.VarChar(max));
-        stmt.execute('financiero.sp_xml_signed', (err, result)=>{
-            if (err)
-                throw err;
-
-            return res.status(200).send(json_out('200', 'Run Ok', result.output.message));
-        });
-
-    }catch (e) {
-        return res.status(500).send(json_out('500', 'Error in controller save_xml_cancel', e));
-    }
-}
+// export async function save_xml_cancel(req, res){
+//     const {Username, Password, Database} = get_credentials(req);
+//     const {
+//         codserial,
+//         xml_base_64
+//     } = req.body;
+//     let Connection = null
+//     try{
+//         Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
+//         if (Connection.code === 500)
+//             throw {code: Connection.code, message: Connection.message}
+//
+//         const stmt = await Connection.request();
+//
+//         stmt.input('codserial', mssql.VarChar(20), codserial);
+//         stmt.input('xml_signed', mssql.VarChar(max), xml_base_64);
+//         stmt.output('codmsj', mssql.Int);
+//         stmt.output('strmsj', mssql.VarChar(max));
+//         stmt.execute('financiero.sp_xml_signed', (err, result)=>{
+//             if (err)
+//                 throw err;
+//
+//             return res.status(200).send(json_out('200', 'Run Ok', result.output.message));
+//         });
+//
+//     }catch (e) {
+//         return res.status(500).send(json_out('500', 'Error in controller save_xml_cancel', e));
+//     }
+// }
 
