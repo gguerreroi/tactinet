@@ -183,12 +183,32 @@ router.get('/cash/operations/documents/:id', is_auth, function (request, respons
 
 router.delete('/cash/operations/documents', is_auth, function (request, response) {
     const {
-        uuid,
+        strmotivoanulacion,
+        EMISORNOMBRECOMERCIAL,
+        EMISORNOMBRE,
+        EMISORNIT,
+        EMISORDIRECCION,
+        coddocumento,
+        CODCLIENTE,
+        CODSERVICIO,
+        EMAIL,
+        STRNIT,
+        STRNOMBRESER,
+        STRDIRSERVICIO,
+        CODPOSTAL,
+        FechaHoraEmision,
+        STRMUN,
+        STRDEP,
         codserial,
-        strnitemisor,
-        strnitreceptor,
-        strfechahoraemision,
-        strmotivoanulacion
+        _estado,
+        _uuid,
+        _serie,
+        _numero,
+        codoperador,
+        stragencia,
+        TOTCANTIDAD,
+        TOTGRAVABLE,
+        TOTIMPUESTO
     } = request.body;
 
     const info = {
@@ -196,51 +216,59 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
         me: '/cash/operations/day'
     }
 
-    console.log('body', request.body);
-    response.json({'ready': true})
+    const date = new Date();
 
-    // const date = new Date();
-    //
-    // const dte_auth = app.get_auth_dte(info.UserInfo, strnitemisor)
-    //
-    // const fecha_anulacion = date.toISOString().split('T')[0];
-    // const xml_anula = app.get_xml_anula(uuid, strnitemisor, strnitreceptor, strfechahoraemision, fecha_anulacion, strmotivoanulacion);
-    //
-    // dte_auth.then(dte_auth_val => {
-    //     const {PREFIJO, LLAVEWS, TOKENSIGNER, EMISORNIT, EMISORCORREO} = dte_auth_val.data.data[0];
-    //     fel.post_dte_signed(TOKENSIGNER, codserial, PREFIJO, "S", btoa(xml_anula)).then(dte_sig => {
-    //         const {resultado, descripcion, archivo} = dte_sig.data;
-    //         if (resultado)
-    //             fel.post_dte_cancels(EMISORNIT, EMISORCORREO, archivo, LLAVEWS, codserial, PREFIJO).then(post_dte => {
-    //                 const {
-    //                     resultado,
-    //                     descripcion,
-    //                     xml_certificado,
-    //                     uuid,
-    //                     serie,
-    //                     numero,
-    //                     fecha
-    //                 } = post_dte.data;
-    //
-    //                 if (resultado) {
-    //
-    //                     return response.json(post_dte.data)
-    //                 }
-    //
-    //                 return response.json({resultado: false, descripcion: descripcion})
-    //             }).catch(err => {
-    //                 console.log('err in dte_certify_cancel', err)
-    //                 return response.status(500).json(err)
-    //             })
-    //
-    //     }).catch(err => {
-    //         console.log("catch dte_cancels_signed ", err)
-    //         return response.status(500).json({err})
-    //     })
-    // }).catch(err => {
-    //     console.log("catch dte_auth ", err)
-    //     return response.status(500).json({err});
-    // })
+    const dte_auth = app.get_auth_dte(info.UserInfo, EMISORNIT)
+
+    const fecha_anulacion = date.toISOString().split('T')[0];
+    const xml_anula = app.get_xml_anula(
+        _uuid,
+        EMISORNIT,
+        STRNIT,
+        FechaHoraEmision,
+        fecha_anulacion,
+        strmotivoanulacion);
+
+    dte_auth.then(dte_auth_val => {
+        const {PREFIJO, LLAVEWS, TOKENSIGNER, EMISORNIT, EMISORCORREO} = dte_auth_val.data.data[0];
+        fel.post_dte_signed(TOKENSIGNER, codserial, PREFIJO, "S", btoa(xml_anula)).then(dte_sig => {
+            const {resultado, descripcion, archivo} = dte_sig.data;
+            console.log('resultado: ', 'descripcion: ', descripcion, 'archivo: ', archivo)
+
+            if (resultado){
+
+                fel.post_dte_cancels(EMISORNIT, EMISORCORREO, archivo, LLAVEWS, codserial, PREFIJO).then(post_dte => {
+                    const {
+                        resultado,
+                        descripcion,
+                        xml_certificado,
+                        uuid,
+                        serie,
+                        numero,
+                        fecha
+                    } = post_dte.data;
+
+                    if (resultado){
+
+                        return response.json(post_dte.data)
+                    }
+
+                    return response.json({resultado: false, descripcion: descripcion})
+                }).catch(err => {
+                    console.log(' Error al anular DTE en la SAT ', err)
+                    return response.status(500).json(err)
+                })
+            }
+
+
+        }).catch(err => {
+            console.log(" Error al obtener firma del DTE ", err)
+            return response.status(500).json({err})
+        })
+    }).catch(err => {
+        console.log(" Error al obtener datos de autenticacion ", err)
+        return response.status(500).json({err});
+    })
 })
 
 export default router;
