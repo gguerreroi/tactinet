@@ -20,3 +20,7 @@ export async function set_db_dte(
         return e;
     }
 }
+
+export async function save_xmls_tocancel(Username, Password, Database, xml64){
+
+}

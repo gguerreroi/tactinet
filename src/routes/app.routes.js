@@ -2,6 +2,7 @@ import {Router} from "express";
 import {is_auth, is_auth_login} from "../middlewares/is-auth";
 import * as app from "../controllers/app.controllers"
 import * as fel from "../controllers/fel.controller"
+import * as feldb from "../controllers/fel-db.controller";
 
 import {json_out} from "../middlewares/json-out";
 
@@ -219,6 +220,7 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
     const date = new Date();
 
     const dte_auth = app.get_auth_dte(info.UserInfo, EMISORNIT)
+    const {Username, Password, Database} = info.UserInfo.data
 
     const fecha_anulacion = date.toISOString().split('T')[0];
     const xml_anula = app.get_xml_anula(
@@ -233,10 +235,10 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
         const {PREFIJO, LLAVEWS, TOKENSIGNER, EMISORNIT, EMISORCORREO} = dte_auth_val.data.data[0];
         fel.post_dte_signed(TOKENSIGNER, codserial, PREFIJO, "S", btoa(xml_anula)).then(dte_sig => {
             const {resultado, descripcion, archivo} = dte_sig.data;
-            console.log('resultado: ', 'descripcion: ', descripcion, 'archivo: ', archivo)
+            console.log('resultado: ', resultado, 'descripcion: ', descripcion, 'archivo: ', archivo)
 
             if (resultado){
-
+                feldb.save_xmls_tocancel(Username, Password, Database, archivo)
                 fel.post_dte_cancels(EMISORNIT, EMISORCORREO, archivo, LLAVEWS, codserial, PREFIJO).then(post_dte => {
                     const {
                         resultado,
