@@ -22,5 +22,14 @@ export async function set_db_dte(
 }
 
 export async function save_xmls_tocancel(Username, Password, Database, xml64){
+    let Connection = null;
+    try{
+        Connection = await get_connection(Username, Password, '10.60.110.2',Database)
+        if (Connection.code === 500)
+            throw {code: Connection.code, message: Connection.message}
 
+
+    }catch(e){
+        console.log(' Error en save_xmls_tocancel ', e)
+    }
 }
