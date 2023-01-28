@@ -238,7 +238,7 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
             console.log('resultado: ', resultado, 'descripcion: ', descripcion, 'archivo: ', archivo)
 
             if (resultado){
-                feldb.save_xmls_tocancel(Username, Password, Database, archivo)
+                feldb.save_xmls_tocancel(Username, Password, Database, codserial, archivo);
                 fel.post_dte_cancels(EMISORNIT, EMISORCORREO, archivo, LLAVEWS, codserial, PREFIJO).then(post_dte => {
                     const {
                         resultado,
@@ -251,7 +251,8 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
                     } = post_dte.data;
 
                     if (resultado){
-
+                        feldb.save_xml_dte(Username, Password, Database, codserial, numero, serie, uuid, xml_certificado, fecha)
+                        feldb.sp_reversa(Username, Password, Database, codserial)
                         return response.json(post_dte.data)
                     }
 
