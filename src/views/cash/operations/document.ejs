@@ -76,8 +76,8 @@ var encabezado = doc.codoperador == "8" ? {
                         <div class="card" id="fac">
                             <div class="card-header pt-10">
                                 <div class="mw-lg-950px mx-auto w-100">
-                                    <div class="d-flex justify-content-between flex column flex-sm-row mb-19">
-                                        <h4 class="fw-bolder text-gray-800 fs-2qx pe-5 pb-7">
+                                    <div class="d-flex justify-content-between flex column flex-sm-row mb-10">
+                                        <h4 class="fw-bolder text-gray-800 fs-2qx pe-1 pb-7">
                                             <%- doc.coddocumento == 10 ? 'Comprobante de Pago' : 'Documento Tributario Electrónico' %>
                                             <%- badge_status(doc._estado) %>
                                         </h4>
@@ -122,6 +122,7 @@ var encabezado = doc.codoperador == "8" ? {
 
                                         </div>
                                     </div>
+                                    <% if (doc.coddocumento == 9) { %>
                                     <div class="d-flex flex-column flex-sm-row gap-7 gap-md-10 fw-bold pt-2">
                                         <div class="flex-root d-flex flex-column">
                                             <span class="text-muted fs-5">Número de Autorización</span>
@@ -136,6 +137,7 @@ var encabezado = doc.codoperador == "8" ? {
                                             <span class="fs-6"><%- doc._numero %></span>
                                         </div>
                                     </div>
+                                    <% } %>
                                     <div class="d-flex justify-content-between flex-column">
                                         <div class="table-responsive border-bottom mb-9">
                                             <table class="table align-middle table-row-dashed  mb-0 border">
@@ -165,6 +167,7 @@ var encabezado = doc.codoperador == "8" ? {
                                                 </tbody>
                                             </table>
                                         </div>
+                                        <% if (doc.coddocumento == 9) { %>
                                         <br>
                                         <%- doc.EMISORNIT == '3563626' ? '* Sujeto a pagos trimestrales' : '* Sujeto a retención definitiva ISR' %>
                                         <br>
@@ -185,6 +188,7 @@ var encabezado = doc.codoperador == "8" ? {
                                                 <div id="qrcode" class="qrcode"></div>
                                             </div>
                                         </div>
+                                        <% } %>
                                     </div>
                                 </div>
                             </div>
@@ -256,6 +260,7 @@ var encabezado = doc.codoperador == "8" ? {
 <script>
     "use strict";
     var info_dte = JSON.parse('<%- JSON.stringify(doc) %>');
+    const url = `${window.location.origin}/api`;
 
     function printDocument(divname) {
         var element = document.getElementById(divname);
@@ -268,7 +273,6 @@ var encabezado = doc.codoperador == "8" ? {
         a.print();
     }
 
-    const url = `${window.location.origin}/api`;
     $("#frmdocumento").submit(function (e) {
         e.preventDefault();
         const form = $(this);
@@ -277,9 +281,9 @@ var encabezado = doc.codoperador == "8" ? {
         const method = form.attr('method');
         let data_ajax = [];
         data_ajax.push(dataform[0])
-        for (var key in info_dte){
+        for (var key in info_dte)
             data_ajax.push({name: key, value: info_dte[key]})
-        }
+
 
         $.ajax({
             url: url,
@@ -311,23 +315,26 @@ var encabezado = doc.codoperador == "8" ? {
     });
     $(document).ready(() => {
 
-        const numero = '<%= doc._uuid %>';
-        const emisor = '<%= doc.EMISORNIT %>';
-        const receptor = '<%= doc.STRNIT %>';
-        const monto = '<%= doc.TOTCANTIDAD %>';
+        if (info_dte.coddocumento == 9 ){
+            const numero = '<%= doc._uuid %>';
+            const emisor = '<%= doc.EMISORNIT %>';
+            const receptor = '<%= doc.STRNIT %>';
+            const monto = '<%= doc.TOTCANTIDAD %>';
 
-        const url = `https://felpub.c.sat.gob.gt/verificador-web/publico/vistas/verificacionDte.jsf?tipo=autorizacion&numero=${numero}&emisor=${emisor}&receptor=${receptor}&monto=${monto}`;
+            const url = `https://felpub.c.sat.gob.gt/verificador-web/publico/vistas/verificacionDte.jsf?tipo=autorizacion&numero=${numero}&emisor=${emisor}&receptor=${receptor}&monto=${monto}`;
 
-        let qrcodeContainer = document.getElementById("qrcode");
-        qrcodeContainer.innerHTML = "";
-        new QRCode(qrcodeContainer, {
-            text: url,
-            width: 128,
-            height: 128,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
-        });
+            let qrcodeContainer = document.getElementById("qrcode");
+            qrcodeContainer.innerHTML = "";
+            new QRCode(qrcodeContainer, {
+                text: url,
+                width: 128,
+                height: 128,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
 
 
     })
