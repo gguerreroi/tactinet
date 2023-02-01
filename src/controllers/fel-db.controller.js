@@ -20,12 +20,12 @@ export async function save_xml_dte(
         sp.input('numero', mssql.Int, numero)
         sp.input('serie', mssql.VarChar(400), serie)
         sp.input('uuid', mssql.VarChar(400), uuid)
-        sp.input('cnl_xml', mssql.VarChar(400), xml64)
+        sp.input('cnl_xml', mssql.NVarChar(mssql.MAX), xml64)
         sp.input('fecha', mssql.VarChar(400), fecha)
         sp.output('codmsj', mssql.Int)
         sp.output('strmsj', mssql.VarChar(400))
         sp.execute('financiero.sp_anular_dte', function(err, result){
-            if (!err)
+            if (err)
                 return console.log(' error al ejecutar sp_anular_dte ', err, result)
 
             return console.log(' sp ejecutado con exito', result.output.strmsj)
@@ -45,12 +45,12 @@ export async function save_xmls_tocancel(Username, Password, Database, codserial
         const sp = await Connection.request();
 
         sp.input('codserial', mssql.Int, codserial);
-        sp.input('xml_signed', mssql.VarChar(400), xml64);
+        sp.input('xml_signed', mssql.NVarChar(mssql.MAX), xml64);
         sp.output('codmsj', mssql.Int);
         sp.output('strmsj', mssql.VarChar(400));
 
         sp.execute('financiero.sp_xml_signed', function(err, result){
-            if (!err)
+            if (err)
                 return console.log(' error al ejecutar procedimiento xml_signed', err)
 
             return console.log(' ejecucion de procedimiento completado. ', result)
@@ -72,10 +72,10 @@ export async function sp_reversa(Username, Password, Database, codserial){
         const sp = await Connection.request();
         sp.input('codserial', mssql.Int, codserial);
         sp.execute('caja.sp_reversa', function(err, result){
-            if (!err)
+            if (err)
                 return console.log(' error al ejecutar procedimiento sp_reversa', err)
 
-            return console.log(' ejecucion de procedimiento completado. ')
+            return console.log(' sp_reversa ejecutado con exito. ')
         })
     } catch (e) {
         return console.log(' Error en sp_reversa ', e)
