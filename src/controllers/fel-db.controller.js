@@ -20,7 +20,7 @@ export async function save_xml_dte(
         sp.input('numero', mssql.Int, numero)
         sp.input('serie', mssql.VarChar(400), serie)
         sp.input('uuid', mssql.VarChar(400), uuid)
-        sp.input('cnl_xml', mssql.NVarChar(mssql.MAX), xml64)
+        sp.input('cnl_xml', mssql.VarChar(mssql.MAX), xml64)
         sp.input('fecha', mssql.VarChar(400), fecha)
         sp.output('codmsj', mssql.Int)
         sp.output('strmsj', mssql.VarChar(400))
@@ -45,7 +45,7 @@ export async function save_xmls_tocancel(Username, Password, Database, codserial
         const sp = await Connection.request();
 
         sp.input('codserial', mssql.Int, codserial);
-        sp.input('xml_signed', mssql.NVarChar(mssql.MAX), xml64);
+        sp.input('xml_signed', mssql.VarChar(mssql.MAX), xml64);
         sp.output('codmsj', mssql.Int);
         sp.output('strmsj', mssql.VarChar(400));
 

@@ -256,7 +256,7 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
                         return response.json(post_dte.data)
                     }
 
-                    return response.json({resultado: false, descripcion: descripcion})
+                    return response.status(500).json({resultado: false, descripcion: descripcion})
                 }).catch(err => {
                     console.log(' Error al anular DTE en la SAT ', err)
                     return response.status(500).json(err)
