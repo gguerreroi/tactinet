@@ -228,7 +228,7 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
             const {PREFIJO, LLAVEWS, TOKENSIGNER, EMISORNIT, EMISORCORREO} = dte_auth_val.data.data[0];
             fel.post_dte_signed(TOKENSIGNER, codserial, PREFIJO, "S", btoa(xml_anula)).then(dte_sig => {
                 const {resultado, descripcion, archivo} = dte_sig.data;
-                // console.log('resultado: ', resultado, 'descripcion: ', descripcion, 'archivo: ', archivo)
+                console.log('resultado: ', resultado, 'descripcion: ', descripcion, 'archivo: ', archivo, dte_sig.data)
 
                 if (resultado) {
                     feldb.save_xmls_tocancel(Username, Password, Database, codserial, archivo);
@@ -248,6 +248,8 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
                         console.log(' Error al anular DTE en la SAT ', err)
                         return response.status(500).json(err)
                     })
+                }else {
+                    return response.status(200).json({resultado: resultado, descripcion: descripcion});
                 }
 
 

@@ -226,7 +226,12 @@ var encabezado = doc.codoperador == "8" ? {
                             </div>
                             <div class="modal-body">
                                 <p>Describa el motivo de reversión del documento</p>
-                                <textarea name="strmotivoanulacion" class="form-control form-control-solid" minlength="10" cols="3" required></textarea>
+                                <textarea name="strmotivoanulacion"
+                                          class="form-control form-control-solid"
+                                          minlength="10"
+                                          cols="3"
+                                          onkeyup="removeCharacters()"
+                                          required></textarea>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">CERRAR</button>
@@ -261,6 +266,24 @@ var encabezado = doc.codoperador == "8" ? {
     "use strict";
     var info_dte = JSON.parse('<%- JSON.stringify(doc) %>');
     const url = `${window.location.origin}/api`;
+
+    const sinDiacriticos = (function(){
+        const de = 'ÁÃÀÄÂÉËÈÊÍÏÌÎÓÖÒÔÚÜÙÛÑÇáãàäâéëèêíïìîóöòôúüùûñç',
+            a = 'AAAAAEEEEIIIIOOOOUUUUNCaaaaaeeeeiiiioooouuuunc',
+            re = new RegExp('['+de+']' , 'ug');
+
+        return texto =>
+            texto.replace(
+                re,
+                match => a.charAt(de.indexOf(match))
+            );
+    })();
+
+    function removeCharacters(){
+        var x = document.getElementsByName('strmotivoanulacion')[0].value;
+        x = sinDiacriticos(x)
+        document.getElementsByName('strmotivoanulacion')[0].value = x.toUpperCase();
+    }
 
     function printDocument(divname) {
         var element = document.getElementById(divname);
