@@ -17,7 +17,7 @@ export async function save_xml_dte(
 
         const sp = await Connection.request()
         sp.input('codserial', mssql.Int, codserial)
-        sp.input('numero', mssql.Int, numero)
+        sp.input('numero', mssql.VarChar(50), numero)
         sp.input('serie', mssql.VarChar(400), serie)
         sp.input('uuid', mssql.VarChar(400), uuid)
         sp.input('cnl_xml', mssql.VarChar(mssql.MAX), xml64)
@@ -61,7 +61,7 @@ export async function save_xmls_tocancel(Username, Password, Database, codserial
     }
 }
 
-export async function sp_reversa(Username, Password, Database, codserial){
+export async function sp_reversa(Username, Password, Database, codserial, strcomentario=''){
     let Connection = null;
     try {
         Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`)
@@ -71,6 +71,7 @@ export async function sp_reversa(Username, Password, Database, codserial){
 
         const sp = await Connection.request();
         sp.input('codserial', mssql.Int, codserial);
+        sp.input('strmotivo', mssql.VarChar(400), strcomentario);
         sp.execute('caja.sp_reversa', function(err, result){
             if (err)
                 return console.log(' error al ejecutar procedimiento sp_reversa', err)

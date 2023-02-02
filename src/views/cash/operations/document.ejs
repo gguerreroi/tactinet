@@ -1,7 +1,7 @@
 <%
     function badge_status(estado){
         if (estado === 'RV')
-            return `<span class="badge badge-danger ">Reversado</span>`
+            return `<span class="badge badge-danger ">Anulado</span>`
 
         return `<span class="badge badge-primary ">Aplicado</span>`
     }
@@ -291,23 +291,25 @@ var encabezado = doc.codoperador == "8" ? {
             data: data_ajax,
             success: function (data) {
                 console.log('success', data);
-                if (data.success) {
+                if (data.resultado) {
                     Swal.fire({
-                        title: 'Exito!',
-                        text: data.message,
-                        type: 'success',
-                        confirmButtonText: 'Ok'
+                        icon: 'success',
+                        title: 'Documento anulado exitosamente!',
+                        text: data.descripcion,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar'
                     }).then((result) => {
                         if (result.value) {
-                            window.location.href = "/";
+                            window.location.reload();
                         }
                     });
                 } else {
                     Swal.fire({
+                        icon: 'error',
                         title: 'Error!',
-                        text: data.message,
-                        type: 'error',
-                        confirmButtonText: 'Ok'
+                        text: data.descripcion,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar'
                     });
                 }
             }

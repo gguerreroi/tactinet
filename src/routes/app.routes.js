@@ -15,8 +15,7 @@ router.get('/auth', is_auth_login, function (request, response) {
 
 router.post('/auth', (request, response, next) => {
     passport.authenticate('local', {
-        successRedirect: '/success',
-        failureRedirect: '/failure'
+        successRedirect: '/success', failureRedirect: '/failure'
     })(request, response, next);
 });
 
@@ -37,7 +36,7 @@ router.get('/logout', function (request, response) {
 
 router.get('/', is_auth, function (request, response) {
     var ip = request.header('x-forwarded-for') || request.connection.remoteAddress;
-    console.log('mi ip es: ',ip)
+    console.log('mi ip es: ', ip)
     const info = {
         UserInfo: request.session.passport.user, me: request.path, ip: ip
     }
@@ -166,15 +165,13 @@ router.get('/cash/operations/documents/:id', is_auth, function (request, respons
     const doc_head = app.get_one_document(info.UserInfo, info.Serial);
     const doc_detail = app.get_one_detail_document(info.UserInfo, info.Serial);
 
-    if (!Permisos.includes(info.me))
-        return response.render('system/error-403')
+    if (!Permisos.includes(info.me)) return response.render('system/error-403')
 
     Promise.all([doc_head, doc_detail]).then(value => {
-            info.document = value[0].data.data[0];
-            info.document.detail = value[1].data.data;
-            return response.render('cash/operations/document', info);
-        }
-    ).catch(err => {
+        info.document = value[0].data.data[0];
+        info.document.detail = value[1].data.data;
+        return response.render('cash/operations/document', info);
+    }).catch(err => {
         return response.render('system/error-500', {
             UserInfo: request.session.passport.user, me: request.path, err: err
         });
@@ -213,8 +210,7 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
     } = request.body;
 
     const info = {
-        UserInfo: request.session.passport.user,
-        me: '/cash/operations/day'
+        UserInfo: request.session.passport.user, me: '/cash/operations/day'
     }
 
     const date = new Date();
@@ -222,56 +218,52 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
     const dte_auth = app.get_auth_dte(info.UserInfo, EMISORNIT)
     const {Username, Password, Database} = info.UserInfo.data
 
-    const fecha_anulacion = date.toISOString().split('T')[0];
-    const xml_anula = app.get_xml_anula(
-        _uuid,
-        EMISORNIT,
-        STRNIT,
-        FechaHoraEmision,
-        fecha_anulacion,
-        strmotivoanulacion);
-
-    dte_auth.then(dte_auth_val => {
-        const {PREFIJO, LLAVEWS, TOKENSIGNER, EMISORNIT, EMISORCORREO} = dte_auth_val.data.data[0];
-        fel.post_dte_signed(TOKENSIGNER, codserial, PREFIJO, "S", btoa(xml_anula)).then(dte_sig => {
-            const {resultado, descripcion, archivo} = dte_sig.data;
-            console.log('resultado: ', resultado, 'descripcion: ', descripcion, 'archivo: ', archivo)
-
-            if (resultado){
-                feldb.save_xmls_tocancel(Username, Password, Database, codserial, archivo);
-                fel.post_dte_cancels(EMISORNIT, EMISORCORREO, archivo, LLAVEWS, codserial, PREFIJO).then(post_dte => {
-                    const {
-                        resultado,
-                        descripcion,
-                        xml_certificado,
-                        uuid,
-                        serie,
-                        numero,
-                        fecha
-                    } = post_dte.data;
-
-                    if (resultado){
-                        feldb.save_xml_dte(Username, Password, Database, codserial, numero, serie, uuid, xml_certificado, fecha)
-                        feldb.sp_reversa(Username, Password, Database, codserial)
-                        return response.json(post_dte.data)
-                    }
-
-                    return response.status(500).json({resultado: false, descripcion: descripcion})
-                }).catch(err => {
-                    console.log(' Error al anular DTE en la SAT ', err)
-                    return response.status(500).json(err)
-                })
-            }
+    if (coddocumento == '9') {
 
 
+        const fecha_anulacion = date.toISOString().split('T')[0];
+        const xml_anula = app.get_xml_anula(_uuid, EMISORNIT, STRNIT, FechaHoraEmision, fecha_anulacion, strmotivoanulacion);
+
+        dte_auth.then(dte_auth_val => {
+            const {PREFIJO, LLAVEWS, TOKENSIGNER, EMISORNIT, EMISORCORREO} = dte_auth_val.data.data[0];
+            fel.post_dte_signed(TOKENSIGNER, codserial, PREFIJO, "S", btoa(xml_anula)).then(dte_sig => {
+                const {resultado, descripcion, archivo} = dte_sig.data;
+                // console.log('resultado: ', resultado, 'descripcion: ', descripcion, 'archivo: ', archivo)
+
+                if (resultado) {
+                    feldb.save_xmls_tocancel(Username, Password, Database, codserial, archivo);
+                    fel.post_dte_cancels(EMISORNIT, EMISORCORREO, archivo, LLAVEWS, codserial, PREFIJO).then(post_dte => {
+                        const {
+                            resultado, descripcion, xml_certificado, uuid, serie, numero, fecha
+                        } = post_dte.data;
+
+                        if (resultado) {
+                            feldb.save_xml_dte(Username, Password, Database, codserial, numero, serie, uuid, xml_certificado, fecha)
+                            feldb.sp_reversa(Username, Password, Database, codserial, strmotivoanulacion)
+                            return response.json(post_dte.data)
+                        }
+
+                        return response.status(500).json({resultado: false, descripcion: descripcion})
+                    }).catch(err => {
+                        console.log(' Error al anular DTE en la SAT ', err)
+                        return response.status(500).json(err)
+                    })
+                }
+
+
+            }).catch(err => {
+                console.log(" Error al obtener firma del DTE ", err)
+                return response.status(500).json({err})
+            })
         }).catch(err => {
-            console.log(" Error al obtener firma del DTE ", err)
-            return response.status(500).json({err})
+            console.log(" Error al obtener datos de autenticacion ", err)
+            return response.status(500).json({err});
         })
-    }).catch(err => {
-        console.log(" Error al obtener datos de autenticacion ", err)
-        return response.status(500).json({err});
-    })
+
+    }else{
+        feldb.sp_reversa(Username, Password, Database, codserial, strmotivoanulacion)
+        return response.status(200).json({resultado: true, descripcion: 'Documento anulado con éxito'})
+    }
 })
 
 export default router;
