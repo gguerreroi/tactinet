@@ -243,10 +243,10 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
                             return response.json(post_dte.data)
                         }
 
-                        return response.status(500).json({resultado: false, descripcion: descripcion})
+                        return response.status(200).json({resultado: false, descripcion: descripcion})
                     }).catch(err => {
                         console.log(' Error al anular DTE en la SAT ', err)
-                        return response.status(500).json(err)
+                        return response.status(200).json(err)
                     })
                 }else {
                     return response.status(200).json({resultado: resultado, descripcion: descripcion});
@@ -255,11 +255,11 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
 
             }).catch(err => {
                 console.log(" Error al obtener firma del DTE ", err)
-                return response.status(500).json({err})
+                return response.status(200).json({err})
             })
         }).catch(err => {
             console.log(" Error al obtener datos de autenticacion ", err)
-            return response.status(500).json({err});
+            return response.status(200).json({err});
         })
 
     }else{
