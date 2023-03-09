@@ -111,7 +111,7 @@ export async function get_onu_details_status_by_id(req, res) {
 
 export async function catv_enable_onu_by_id(req, res) {
     const {id} = req.params;
-    const onu_status = axios.post(`onu/enable_catv/${id}`, {
+    const onu_status = axios.post(`${API_URL}/onu/enable_catv/${id}`, {
         headers: {
             'X-Token': API_KEY
         }
@@ -125,7 +125,7 @@ export async function catv_enable_onu_by_id(req, res) {
 
 export async function catv_enable_onu_bulk(req, res) {
     const {onus_external_ids} = req.body;
-    const catv_bulk = axios.post(`onu/bulk_enable_catv`, {
+    const catv_bulk = axios.post(`${API_URL}/onu/bulk_enable_catv`, {
         headers: {
             'X-Token': API_KEY
         },
@@ -140,7 +140,7 @@ export async function catv_enable_onu_bulk(req, res) {
 
 export async function onu_enable_by_id(req, res) {
     const {id} = req.params;
-    const enable_onu = axios.post(`onu/enable/${id}`, {
+    const enable_onu = axios.post(`${API_URL}/onu/enable/${id}`, {
         headers: {
             'X-Token': API_KEY
         }
@@ -149,12 +149,13 @@ export async function onu_enable_by_id(req, res) {
         res.status(200).send(json_out(200, 'OK', values[0].data));
     }).catch(error => {
         res.status(400).send(json_out(400, error.message));
+        console.log(error)
     });
 }
 
 export async function onu_disable_by_id(req, res) {
     const {id} = req.params;
-    const disable_onu = axios.post(`onu/disable/${id}`, {
+    const disable_onu = axios.post(`${API_URL}/onu/disable/${id}`, {
         headers: {
             'X-Token': API_KEY
         }
