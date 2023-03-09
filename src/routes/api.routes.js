@@ -66,7 +66,8 @@ r.get("/onu/:id/status/administrative", is_auth_api, onu.get_onu_administrative_
 r.get("/onu/:id/status/details", is_auth_api, onu.get_onu_details_status_by_id)
 r.get("/onu/:id/status/catv", is_auth_api, onu.get_onu_catv_status_by_id)
 r.get("/onu/:id/status/full", is_auth_api, onu.get_onu_full_status_by_id)
-
+r.post("/onu/:id/enable", is_auth_api, onu.onu_enable_by_id)
+r.post("/onu/:id/disable", is_auth_api, onu.onu_disable_by_id);
 r.get('/cash/dairy/resume', is_auth_api, apic.get_cash_dairy_resume)
 r.get('/cash/dairy/details', is_auth_api, apic.get_cash_dairy_details)
 r.get('/documents/details/:id', is_auth_api, apic.get_document_by_id)

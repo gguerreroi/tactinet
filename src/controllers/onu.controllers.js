@@ -23,8 +23,8 @@ export async function get_onu_signal_by_id(req, res) {
     });
 }
 
-export async function get_onu_status_by_id(req, res){
-const {id} = req.params;
+export async function get_onu_status_by_id(req, res) {
+    const {id} = req.params;
     const onu_status = axios.get(`${API_URL}/onu/get_onu_status/${id}`, {
         headers: {
             'X-Token': API_KEY
@@ -38,7 +38,7 @@ const {id} = req.params;
     });
 }
 
-export async function get_onu_administrative_status_by_id(req, res){
+export async function get_onu_administrative_status_by_id(req, res) {
     const {id} = req.params;
     const onu_administrative_status = axios.get(`${API_URL}/onu/get_onu_administrative_status/${id}`, {
         headers: {
@@ -52,7 +52,7 @@ export async function get_onu_administrative_status_by_id(req, res){
     });
 }
 
-export async function get_onu_unconfigured(req, res){
+export async function get_onu_unconfigured(req, res) {
     const onu_unconfigured = axios.get(`${API_URL}/onu/unconfigured_onus`, {
         headers: {
             'X-Token': API_KEY
@@ -67,8 +67,7 @@ export async function get_onu_unconfigured(req, res){
 }
 
 
-
-export async function get_onu_catv_status_by_id(req, res){
+export async function get_onu_catv_status_by_id(req, res) {
     const {id} = req.params;
     const onu_catv_status = axios.get(`${API_URL}/onu/get_onu_catv_status/${id}`, {
         headers: {
@@ -82,7 +81,7 @@ export async function get_onu_catv_status_by_id(req, res){
     });
 }
 
-export async function get_onu_full_status_by_id(req, res){
+export async function get_onu_full_status_by_id(req, res) {
     const {id} = req.params;
     const onu_full_status_info = axios.get(`${API_URL}/onu/get_onu_full_status_info/${id}`, {
         headers: {
@@ -96,7 +95,7 @@ export async function get_onu_full_status_by_id(req, res){
     });
 }
 
-export async function get_onu_details_status_by_id(req, res){
+export async function get_onu_details_status_by_id(req, res) {
     const {id} = req.params;
     const onu_details_status = axios.get(`${API_URL}/onu/get_onu_details/${id}`, {
         headers: {
@@ -109,3 +108,61 @@ export async function get_onu_details_status_by_id(req, res){
         res.status(400).send(json_out(400, error.message));
     });
 }
+
+export async function catv_enable_onu_by_id(req, res) {
+    const {id} = req.params;
+    const onu_status = axios.post(`onu/enable_catv/${id}`, {
+        headers: {
+            'X-Token': API_KEY
+        }
+    });
+    Promise.all([onu_status]).then(values => {
+        res.status(200).send(json_out(200, 'OK', values[0].data));
+    }).catch(error => {
+        res.status(400).send(json_out(400, error.message));
+    });
+}
+
+export async function catv_enable_onu_bulk(req, res) {
+    const {onus_external_ids} = req.body;
+    const catv_bulk = axios.post(`onu/bulk_enable_catv`, {
+        headers: {
+            'X-Token': API_KEY
+        },
+        data: onus_external_ids
+    });
+    Promise.all([catv_bulk]).then(values => {
+        res.status(200).send(json_out(200, 'OK', values[0].data));
+    }).catch(error => {
+        res.status(400).send(json_out(400, error.message));
+    });
+}
+
+export async function onu_enable_by_id(req, res) {
+    const {id} = req.params;
+    const enable_onu = axios.post(`onu/enable/${id}`, {
+        headers: {
+            'X-Token': API_KEY
+        }
+    });
+    Promise.all([enable_onu]).then(values => {
+        res.status(200).send(json_out(200, 'OK', values[0].data));
+    }).catch(error => {
+        res.status(400).send(json_out(400, error.message));
+    });
+}
+
+export async function onu_disable_by_id(req, res) {
+    const {id} = req.params;
+    const disable_onu = axios.post(`onu/disable/${id}`, {
+        headers: {
+            'X-Token': API_KEY
+        }
+    });
+    Promise.all([disable_onu]).then(values => {
+        res.status(200).send(json_out(200, 'OK', values[0].data));
+    }).catch(error => {
+        res.status(400).send(json_out(400, error.message));
+    });
+}
+
