@@ -19,7 +19,7 @@ export async function get_onu_signal_by_id(req, res) {
     Promise.all([onu_signal]).then(values => {
         res.status(200).send(json_out(200, 'OK', values[0].data));
     }).catch(error => {
-        res.status(400).send(json_out(400, error.message));
+        res.status(error.status).send(json_out(400, error.message));
     });
 }
 
@@ -140,7 +140,7 @@ export async function catv_enable_onu_bulk(req, res) {
 
 export async function onu_enable_by_id(req, res) {
     const {id} = req.params;
-    const enable_onu = axios.post(`${API_URL}/onu/enable/${id}`, {
+    const enable_onu = axios.post(`${API_URL}/onu/enable/${id}`,{}, {
         headers: {
             'X-Token': API_KEY
         }
@@ -148,14 +148,14 @@ export async function onu_enable_by_id(req, res) {
     Promise.all([enable_onu]).then(values => {
         res.status(200).send(json_out(200, 'OK', values[0].data));
     }).catch(error => {
-        res.status(400).send(json_out(400, error.message));
-        console.log(error)
+        res.status(error.status).send(json_out(error.status, error.message, error.data));
+
     });
 }
 
 export async function onu_disable_by_id(req, res) {
     const {id} = req.params;
-    const disable_onu = axios.post(`${API_URL}/onu/disable/${id}`, {
+    const disable_onu = axios.post(`${API_URL}/onu/disable/${id}`, {},{
         headers: {
             'X-Token': API_KEY
         }
@@ -163,7 +163,7 @@ export async function onu_disable_by_id(req, res) {
     Promise.all([disable_onu]).then(values => {
         res.status(200).send(json_out(200, 'OK', values[0].data));
     }).catch(error => {
-        res.status(400).send(json_out(400, error.message));
+        res.status(error.status).send(json_out(error.status, error.message, error.data));
     });
 }
 

@@ -61,15 +61,18 @@ r.post('/tasks/pending/:id/images', is_auth_api, apic.add_image_to_task)
 
 r.get('/onu/:id/unconfigured', is_auth_api, onu.get_onu_unconfigured)
 r.get('/onu/:id/signal', is_auth_api, onu.get_onu_signal_by_id)
+r.post("/onu/:id/enable", is_auth_api, onu.onu_enable_by_id)
+r.post("/onu/:id/disabled", is_auth_api, onu.onu_disable_by_id);
 r.get('/onu/:id/status', is_auth_api, onu.get_onu_status_by_id)
 r.get("/onu/:id/status/administrative", is_auth_api, onu.get_onu_administrative_status_by_id)
 r.get("/onu/:id/status/details", is_auth_api, onu.get_onu_details_status_by_id)
 r.get("/onu/:id/status/catv", is_auth_api, onu.get_onu_catv_status_by_id)
 r.get("/onu/:id/status/full", is_auth_api, onu.get_onu_full_status_by_id)
-r.post("/onu/:id/enable", is_auth_api, onu.onu_enable_by_id)
-r.post("/onu/:id/disable", is_auth_api, onu.onu_disable_by_id);
+
+
 r.get('/cash/dairy/resume', is_auth_api, apic.get_cash_dairy_resume)
 r.get('/cash/dairy/details', is_auth_api, apic.get_cash_dairy_details)
+
 r.get('/documents/details/:id', is_auth_api, apic.get_document_by_id)
 r.get('/documents/details/:id/details', is_auth_api, apic.get_document_details_by_id)
 
