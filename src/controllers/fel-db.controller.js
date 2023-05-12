@@ -1,6 +1,7 @@
 "use strict"
 
 import {get_connection, mssql} from "../middlewares/database";
+import config from "../config/config";
 
 export async function save_xml_dte(
     Username,
@@ -10,7 +11,7 @@ export async function save_xml_dte(
 ) {
     let Connection = null;
     try {
-        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`);
+        Connection = await get_connection(Username, Password, `${config.DB.HOST}`, `PLR00${Database}`);
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -38,7 +39,7 @@ export async function save_xml_dte(
 export async function save_xmls_tocancel(Username, Password, Database, codserial, xml64) {
     let Connection = null;
     try {
-        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`)
+        Connection = await get_connection(Username, Password, `${config.DB.HOST}`, `PLR00${Database}`)
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
 
@@ -64,7 +65,7 @@ export async function save_xmls_tocancel(Username, Password, Database, codserial
 export async function sp_reversa(Username, Password, Database, codserial, strcomentario=''){
     let Connection = null;
     try {
-        Connection = await get_connection(Username, Password, '10.60.110.2', `PLR00${Database}`)
+        Connection = await get_connection(Username, Password, `${config.DB.HOST}`, `PLR00${Database}`)
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}

@@ -14,6 +14,8 @@ const passport = require('passport');
 
 const app = express();
 
+require('dotenv').config();
+
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 require('./middlewares/local.passport');
 
@@ -28,6 +30,7 @@ let dbsession = new Sequelize({
 
 
 app.set('port', process.env.PORT || 3000);
+
 app.set('view engine', 'ejs');
 app.set('views', join(__dirname, 'views'));
 app.set('trust proxy', true);

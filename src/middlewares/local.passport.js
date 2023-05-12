@@ -1,6 +1,6 @@
 const authenticator = require('passport');
 const strategy = require('passport-local').Strategy;
-
+import config from "../config/config";
 import axios from "axios";
 
 import {get_connection} from "./database";
@@ -15,7 +15,7 @@ authenticator.use('api-local', new strategy({
     let Connection = null
     let permisos = [];
     try {
-        Connection = await get_connection(username, password, '10.60.110.2', `PLR00${database}`)
+        Connection = await get_connection(username, password, `${config.DB.HOST}`, `PLR00${database}`)
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -91,7 +91,7 @@ authenticator.use('local', new strategy({
     const {database} = request.body;
     let permisos = [];
     try {
-        let Connection = await get_connection(username, password, '10.60.110.2', `PLR00${database}`)
+        let Connection = await get_connection(username, password, `${config.DB.HOST}`, `PLR00${database}`)
 
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}

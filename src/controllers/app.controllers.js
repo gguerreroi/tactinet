@@ -1,6 +1,6 @@
 "use strict";
 
-const API_URL = 'http://10.60.110.4:3000/api';
+const API_URL = 'http://127.0.0.1:3000/api';
 const axios = require('axios');
 
 export async function get_one_task(id, UserInfo) {

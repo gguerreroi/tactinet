@@ -4,7 +4,7 @@ export default {
     DB: {
         USER: "gguerrero",
         PASSWORD: "H4x0r.231",
-        HOST: "10.60.110.2",
+        HOST: "san01.sonivitac.com",
         DATABASE: "PLR0010"
     }
 }
