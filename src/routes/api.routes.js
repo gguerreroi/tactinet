@@ -13,7 +13,7 @@ r.get('/', function (request, response) {
 })
 
 r.post('/auth',
-     (request, response, next) =>{
+    (request, response, next) => {
         passport.authenticate('api-local', {
             successRedirect: '/api/success',
             failureRedirect: '/api/failure'
@@ -33,13 +33,13 @@ r.get('/failure',
 
 r.get('/success',
     function (request, response) {
-       
+
         return response.status(200).send(json_out(200, 'Login Success', request.session.message))
     });
 
 r.get('/logout',
     function (request, response) {
-        request.logout(function(err){
+        request.logout(function (err) {
             console.log('logout err', err)
             return response.redirect('/auth');
         });
@@ -68,7 +68,9 @@ r.get("/onu/:id/status/administrative", is_auth_api, onu.get_onu_administrative_
 r.get("/onu/:id/status/details", is_auth_api, onu.get_onu_details_status_by_id)
 r.get("/onu/:id/status/catv", is_auth_api, onu.get_onu_catv_status_by_id)
 r.get("/onu/:id/status/full", is_auth_api, onu.get_onu_full_status_by_id)
+r.get("/onu/:id/speedprofile", is_auth_api, onu.get_onu_speed_profile_by_id);
 
+r.delete("/onu/:id", is_auth_api, onu.onu_delete_by_id)
 
 r.get('/cash/dairy/resume', is_auth_api, apic.get_cash_dairy_resume)
 r.get('/cash/dairy/details', is_auth_api, apic.get_cash_dairy_details)

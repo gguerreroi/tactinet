@@ -8,7 +8,8 @@ const TNOnuInfo = function () {
     let button_del_onu;
     let onu_status_icon;
     let onu_status_input;
-
+    let onu_bw_up_input;
+    let onu_bw_dw_input;
     let onu_signal_rx_icon;
     let onu_signal_rx_input;
     let onu_signal_tx_icon;
@@ -123,6 +124,25 @@ const TNOnuInfo = function () {
         submit_button.disabled = true;
 
         $.ajax({
+            url: `${url}/onu/${onu_id}/speedprofile`,
+            type: 'GET'
+        }).done(function(speed_profile) {
+            console.log("speed_profile", speed_profile);
+            const {data} = speed_profile;
+            if (typeof(data) == "object"){
+                onu_bw_dw_input.value =  data.download_speed_profile_name;
+                onu_bw_up_input.value = data.upload_speed_profile_name;
+            }else{
+                console.log("typeof data: ", typeof(data))
+                // data.forEach(function(value, index, array){
+                //     console.log(value)
+                // })
+            }
+        }).fail(function(fail_speed){
+            console.log("fail_speed", fail_speed)
+        })
+
+        $.ajax({
             url: `${url}/onu/${onu_id}/status/details`,
             type: 'GET'
         }).done(function (status_admin) {
@@ -212,7 +232,36 @@ const TNOnuInfo = function () {
             }
         }).then(action => {
             if (action.isConfirmed){
-                console.log("action for delete")
+                $.ajax({
+                    url: `${url}/onu/${onu_id}`,
+                    type: 'DELETE'
+                }).done(function (del_data) {
+                    Swal.fire({
+                        text: del_data.data.response,
+                        icon: 'success',
+                        buttonsStyling: false,
+                        confirmButtonText: 'Ok',
+                        customClass: {
+                            confirmButton: 'btn btn-secondary'
+                        }
+                    })
+                }).fail(function (del_fail) {
+                    Swal.fire({
+                        text: del_fail.responseJSON.data,
+                        icon: 'error',
+                        buttonsStyling: false,
+                        confirmButtonText: 'Ok',
+                        customClass: {
+                            confirmButton: 'btn btn-secondary'
+                        }
+                    })
+                }).always(function () {
+                    button_del_onu.removeAttribute('data-kt-indicator');
+                    button_del_onu.disabled = false;
+                })
+            }else{
+                button_del_onu.removeAttribute('data-kt-indicator');
+                button_del_onu.disabled = false;
             }
         })
     }
@@ -250,6 +299,8 @@ const TNOnuInfo = function () {
             onu_signal_catv_input = document.getElementById('onu-signal-catv-input');
             txt_onu_details = document.getElementById('txt-onu-info');
             onu_signal_catv_icon = $("#onu-signal-catv-icon");
+            onu_bw_up_input = document.getElementById('onu-bw-up-input');
+            onu_bw_dw_input = document.getElementById('onu-bw-dw-input');
             onu_id = document.getElementById('input-codservicio').value;
             onu_div_alert = $("#div-onu-alert");
 

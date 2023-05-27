@@ -167,3 +167,37 @@ export async function onu_disable_by_id(req, res) {
     });
 }
 
+export async function onu_delete_by_id(req, res){
+    const {id} = req.params;
+    const delete_onu = axios.post(`${API_URL}/onu/delete/${id}`, {},{
+        headers: {
+            'X-Token': API_KEY
+        }
+    });
+    Promise.all([delete_onu]).then(values => {
+        res.status(200).send(json_out(200, 'OK', values[0].data));
+    }).catch(error => {
+        let status = error.status === undefined ? error.response.status : error.status;
+        let data = error.data === undefined ? error.response.error : error.data;
+        data = data === undefined ? error.response.data.error : data;
+        res.status(status).send(json_out(status, data, data));
+    })
+}
+
+export async function get_onu_speed_profile_by_id(req, res){
+    const {id} = req.params;
+    const spo = axios.get(`${API_URL}/onu/get_onu_speed_profiles/${id}`, {
+        headers: {
+            'X-Token': API_KEY
+        }
+    });
+    Promise.all([spo]).then(values => {
+        res.status(200).send(json_out(200, 'Ok', values[0].data))
+    }).catch(error => {
+        console.log('otro error', error)
+        let status = error.status === undefined ? error.response.status : error.status;
+        let data = error.data === undefined ? error.response.error : error.data;
+        data = data === undefined ? error.response.data.error : data;
+        res.status(status).send(json_out(status, data, data));
+    })
+}
