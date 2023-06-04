@@ -1,317 +1,253 @@
-<% if (CODCLASIFICACION == "ISI" || CODCLASIFICACION == "ISX" ){ %>
-    <div class="row">
-        <div class="mt-9">
-            <div class="card card-bordered-w-100 card-shadow-1">
-                <div class="card-header">
-                    <div class="card-title">
-                        <span class="fs-4 fw-bolder text-gray-900 text-hover-primary mb-1 mb-2 lh-1">Activacion de Servicio</span>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="stepper stepper-pills" id="onu_stepper_activate">
-                            <div class="stepper-nav flex-center flex-wrap mb-10">
-                                <div class="stepper-item mx-8-my-4 current" data-kt-stepper-element="nav">
-                                    <div class="stepper-wrapper d-flex align-items-center">
-                                        <div class="stepper-icon w-40px h-40px">
-                                            <i class="stepper-check fas fa-check"></i>
-                                            <span class="stepper-number">1</span>
-                                        </div>
-                                    </div>
-                                    <div class="stepper-label">
-                                        <h3 class="stepper-title">Foto</h3>
-                                        <div class="stepper-desc">Toma fotografia de la serie del equipo</div>
-                                    </div>
-                                    <div class="stepper-line h-40px"></div>
-                                </div>
-                                <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav">
-                                    <!--begin::Wrapper-->
-                                    <div class="stepper-wrapper d-flex align-items-center">
-                                        <!--begin::Icon-->
-                                        <div class="stepper-icon w-40px h-40px">
-                                            <i class="stepper-check fas fa-check"></i>
-                                            <span class="stepper-number">2</span>
-                                        </div>
-                                        <!--begin::Icon-->
-
-                                        <!--begin::Label-->
-                                        <div class="stepper-label">
-                                            <h3 class="stepper-title">
-                                                Serie
-                                            </h3>
-                                            <div class="stepper-desc">
-                                                Escriba los ultimos 4 caracteres del numero de serie
-                                            </div>
-                                        </div>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Wrapper-->
-
-                                    <!--begin::Line-->
-                                    <div class="stepper-line h-40px"></div>
-                                    <!--end::Line-->
-                                </div>
-                                <!--end::Step 2-->
-                                <!--begin::Step 3-->
-                                <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav">
-                                    <!--begin::Wrapper-->
-                                    <div class="stepper-wrapper d-flex align-items-center">
-                                        <!--begin::Icon-->
-                                        <div class="stepper-icon w-40px h-40px">
-                                            <i class="stepper-check fas fa-check"></i>
-                                            <span class="stepper-number">3</span>
-                                        </div>
-                                        <!--begin::Icon-->
-
-                                        <!--begin::Label-->
-                                        <div class="stepper-label">
-                                            <h3 class="stepper-title">
-                                                Confirmar
-                                            </h3>
-
-                                            <div class="stepper-desc">
-                                                Verifique todos los datos antes de activar
-                                            </div>
-                                        </div>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Wrapper-->
-
-                                    <!--begin::Line-->
-                                    <div class="stepper-line h-40px"></div>
-                                    <!--end::Line-->
-                                </div>
-                                <!--end::Step 3-->
-                            </div>
-                            <!--begin::Form-->
-                            <form class="form w-lg-500px mx-auto" novalidate="novalidate"
-                                  id="kt_stepper_example_basic_form">
-                                <!--begin::Group-->
-                                <div class="mb-5">
-                                    <!--begin::Step 1-->
-                                    <div class="flex-column current" data-kt-stepper-element="content">
-                                        <!--begin::Input group-->
-                                        <div class="fv-row mb-10">
-                                            <!--begin::Label-->
-                                            <label class="form-label">Example Label 1</label>
-                                            <!--end::Label-->
-                                            <!--begin::Input-->
-                                            <input type="text" class="form-control form-control-solid" name="input1"
-                                                   placeholder="" value=""/>
-                                            <!--end::Input-->
-                                        </div>
-                                        <!--end::Input group-->
-
-                                        <!--begin::Input group-->
-                                        <div class="fv-row mb-10">
-                                            <!--begin::Label-->
-                                            <label class="form-label">Example Label 2</label>
-                                            <!--end::Label-->
-
-                                            <!--begin::Input-->
-                                            <input type="text" class="form-control form-control-solid" name="input2"
-                                                   placeholder="" value=""/>
-                                            <!--end::Input-->
-                                        </div>
-                                        <!--end::Input group-->
-
-                                        <!--begin::Input group-->
-                                        <div class="fv-row mb-10">
-                                            <!--begin::Label-->
-                                            <label class="form-label">Example Label 3</label>
-                                            <!--end::Label-->
-
-                                            <!--begin::Switch-->
-                                            <label class="form-check form-switch form-check-custom form-check-solid">
-                                                <input class="form-check-input" type="checkbox" checked="checked"
-                                                       value="1"/>
-                                                <span class="form-check-label">
-                            Switch
-                        </span>
-                                            </label>
-                                            <!--end::Switch-->
-                                        </div>
-                                        <!--end::Input group-->
-                                    </div>
-                                    <!--begin::Step 1-->
-
-                                    <!--begin::Step 1-->
-                                    <div class="flex-column" data-kt-stepper-element="content">
-                                        <!--begin::Input group-->
-                                        <div class="fv-row mb-10">
-                                            <!--begin::Label-->
-                                            <label class="form-label">Example Label 1</label>
-                                            <!--end::Label-->
-
-                                            <!--begin::Input-->
-                                            <input type="text" class="form-control form-control-solid" name="input1"
-                                                   placeholder="" value=""/>
-                                            <!--end::Input-->
-                                        </div>
-                                        <!--end::Input group-->
-
-                                        <!--begin::Input group-->
-                                        <div class="fv-row mb-10">
-                                            <!--begin::Label-->
-                                            <label class="form-label">Example Label 2</label>
-                                            <!--end::Label-->
-
-                                            <!--begin::Input-->
-                                            <textarea class="form-control form-control-solid" rows="3" name="input2"
-                                                      placeholder=""></textarea>
-                                            <!--end::Input-->
-                                        </div>
-                                        <!--end::Input group-->
-
-                                        <!--begin::Input group-->
-                                        <div class="fv-row mb-10">
-                                            <!--begin::Label-->
-                                            <label class="form-label">Example Label 3</label>
-                                            <!--end::Label-->
-
-                                            <!--begin::Input-->
-                                            <label class="form-check form-check-custom form-check-solid">
-                                                <input class="form-check-input" checked="checked" type="checkbox"
-                                                       value="1"/>
-                                                <span class="form-check-label">
-                            Checkbox
-                        </span>
-                                            </label>
-                                            <!--end::Input-->
-                                        </div>
-                                        <!--end::Input group-->
-                                    </div>
-                                    <!--begin::Step 1-->
-
-                                    <!--begin::Step 1-->
-                                    <div class="flex-column" data-kt-stepper-element="content">
-                                        <!--begin::Input group-->
-                                        <div class="fv-row mb-10">
-                                            <!--begin::Label-->
-                                            <label class="form-label d-flex align-items-center">
-                                                <span class="required">Input 1</span>
-                                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
-                                                   title="Example tooltip"></i>
-                                            </label>
-                                            <!--end::Label-->
-
-                                            <!--begin::Input-->
-                                            <input type="text" class="form-control form-control-solid" name="input1"
-                                                   placeholder="" value=""/>
-                                            <!--end::Input-->
-                                        </div>
-                                        <!--end::Input group-->
-
-                                        <!--begin::Input group-->
-                                        <div class="fv-row mb-10">
-                                            <!--begin::Label-->
-                                            <label class="form-label">
-                                                Input 2
-                                            </label>
-                                            <!--end::Label-->
-
-                                            <!--begin::Input-->
-                                            <input type="text" class="form-control form-control-solid" name="input2"
-                                                   placeholder="" value=""/>
-                                            <!--end::Input-->
-                                        </div>
-                                        <!--end::Input group-->
-                                    </div>
-                                    <!--begin::Step 1-->
-
-                                    <!--begin::Step 1-->
-                                    <div class="flex-column" data-kt-stepper-element="content">
-                                        <!--begin::Input group-->
-                                        <div class="fv-row mb-10">
-                                            <!--begin::Label-->
-                                            <label class="form-label d-flex align-items-center">
-                                                <span class="required">Input 1</span>
-                                                <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
-                                                   title="Example tooltip"></i>
-                                            </label>
-                                            <!--end::Label-->
-
-                                            <!--begin::Input-->
-                                            <input type="text" class="form-control form-control-solid" name="input1"
-                                                   placeholder="" value=""/>
-                                            <!--end::Input-->
-                                        </div>
-                                        <!--end::Input group-->
-
-                                        <!--begin::Input group-->
-                                        <div class="fv-row mb-10">
-                                            <!--begin::Label-->
-                                            <label class="form-label">
-                                                Input 2
-                                            </label>
-                                            <!--end::Label-->
-
-                                            <!--begin::Input-->
-                                            <input type="text" class="form-control form-control-solid" name="input2"
-                                                   placeholder="" value=""/>
-                                            <!--end::Input-->
-                                        </div>
-                                        <!--end::Input group-->
-
-                                        <!--begin::Input group-->
-                                        <div class="fv-row mb-10">
-                                            <!--begin::Label-->
-                                            <label class="form-label">
-                                                Input 3
-                                            </label>
-                                            <!--end::Label-->
-
-                                            <!--begin::Input-->
-                                            <input type="text" class="form-control form-control-solid" name="input3"
-                                                   placeholder="" value=""/>
-                                            <!--end::Input-->
-                                        </div>
-                                        <!--end::Input group-->
-                                    </div>
-                                    <!--begin::Step 1-->
-                                </div>
-                                <!--end::Group-->
-
-                                <!--begin::Actions-->
-                                <div class="d-flex flex-stack">
-                                    <!--begin::Wrapper-->
-                                    <div class="me-2">
-                                        <button type="button" class="btn btn-light btn-active-light-primary"
-                                                data-kt-stepper-action="previous">
-                                            Back
-                                        </button>
-                                    </div>
-                                    <!--end::Wrapper-->
-
-                                    <!--begin::Wrapper-->
-                                    <div>
-                                        <button type="button" class="btn btn-primary" data-kt-stepper-action="submit">
-                    <span class="indicator-label">
-                        Submit
-                    </span>
-                                            <span class="indicator-progress">
-                        Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                    </span>
-                                        </button>
-
-                                        <button type="button" class="btn btn-primary" data-kt-stepper-action="next">
-                                            Continue
-                                        </button>
-                                    </div>
-                                    <!--end::Wrapper-->
-                                </div>
-                                <!--end::Actions-->
-                            </form>
-                            <!--end::Form-->
+<div class="row">
+    <div class="mt-9">
+        <div class="stepper stepper-pills" id="onu_stepper_activate">
+            <div class="stepper-nav flex-center flex-wrap mb-10">
+                <div class="stepper-item mx-8-my-4 current" data-kt-stepper-element="nav">
+                    <div class="stepper-wrapper d-flex align-items-center">
+                        <div class="stepper-icon w-40px h-40px">
+                            <i class="stepper-check fas fa-check"></i>
+                            <span class="stepper-number">1</span>
                         </div>
                     </div>
+                    <div class="stepper-label">
+                        <h3 class="stepper-title">Foto</h3>
+                        <div class="stepper-desc">Toma fotografia de la serie del equipo</div>
+                    </div>
+                    <div class="stepper-line h-40px"></div>
+                </div>
+                <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav">
+                    <div class="stepper-wrapper d-flex align-items-center">
+                        <div class="stepper-icon w-40px h-40px">
+                            <i class="stepper-check fas fa-check"></i>
+                            <span class="stepper-number">2</span>
+                        </div>
+                        <div class="stepper-label">
+                            <h3 class="stepper-title">Serie</h3>
+                            <div class="stepper-desc">Escriba el numero de serie de la ONU</div>
+                        </div>
+                    </div>
+                    <div class="stepper-line h-40px"></div>
+                </div>
+                <div class="stepper-item mx-8 my-4" data-kt-stepper-element="nav">
+                    <div class="stepper-wrapper d-flex align-items-center">
+                        <div class="stepper-icon w-40px h-40px">
+                            <i class="stepper-check fas fa-check"></i>
+                            <span class="stepper-number">3</span>
+                        </div>
+                        <div class="stepper-label">
+                            <h3 class="stepper-title">Confirmar</h3>
+                            <div class="stepper-desc">Verifique todos los datos antes de activar</div>
+                        </div>
+                    </div>
+                    <div class="stepper-line h-40px"></div>
                 </div>
             </div>
+            <!--begin::Form-->
+            <form class="form mx-auto" novalidate="novalidate"
+                  id="kt_stepper_example_basic_form">
+                <div class="mb-5">
+                    <div class="flex-column current" data-kt-stepper-element="content">
+                        <!--begin::Input group-->
+                        <div class="form-group row">
+                            <!--begin::Label-->
+                            <label class="col-lg-2 col-form-label text-lg-right">Cargar Foto:</label>
+                            <!--end::Label-->
+
+                            <!--begin::Col-->
+                            <div class="col-lg-10">
+                                <!--begin::Dropzone-->
+                                <div class="dropzone dropzone-queue mb-2" id="kt_dropzonejs_example_3">
+                                    <!--begin::Controls-->
+                                    <div class="dropzone-panel mb-lg-0 mb-2">
+                                        <a class="dropzone-select btn btn-sm btn-primary me-2">Adjuntar foto</a>
+                                        <a class="dropzone-remove-all btn btn-sm btn-light-primary">Borrar
+                                            todo</a>
+                                    </div>
+                                    <!--end::Controls-->
+
+                                    <!--begin::Items-->
+                                    <div class="dropzone-items wm-200px">
+                                        <div class="dropzone-item" style="display:none">
+                                            <!--begin::File-->
+                                            <div class="dropzone-file">
+                                                <div class="dropzone-filename" title="some_image_file_name.jpg">
+                                                    <span data-dz-name>some_image_file_name.jpg</span>
+                                                    <strong>(<span data-dz-size>340kb</span>)</strong>
+                                                </div>
+
+                                                <div class="dropzone-error" data-dz-errormessage></div>
+                                            </div>
+                                            <!--end::File-->
+
+                                            <!--begin::Progress-->
+                                            <div class="dropzone-progress">
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-primary"
+                                                         role="progressbar" aria-valuemin="0"
+                                                         aria-valuemax="100" aria-valuenow="0"
+                                                         data-dz-uploadprogress>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end::Progress-->
+
+                                            <!--begin::Toolbar-->
+                                            <div class="dropzone-toolbar">
+                                                        <span class="dropzone-delete" data-dz-remove><i
+                                                                    class="bi bi-x fs-1"></i></span>
+                                            </div>
+                                            <!--end::Toolbar-->
+                                        </div>
+                                    </div>
+                                    <!--end::Items-->
+                                </div>
+                                <!--end::Dropzone-->
+                                <span class="form-text text-muted">El tamaño maximo de la foto es de 2mb.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Step 1-->
+
+                    <!--begin::Step 2-->
+                    <div class="flex-column" data-kt-stepper-element="content">
+                        <div class="fv-row mb-10">
+                            <button class="btn form-control btn-dark w-100" id="btn_search">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="16" height="16"
+                                     fill="currentColor" class="bi bi-search"
+                                     viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                </svg>
+                                <span class="indicator-label">Buscar</span>
+                                <span class="indicator-progress">Obteniendo información...<span
+                                            class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>
+                            </button>
+                        </div>
+                        <div id="onus_available">
+
+
+                        </div>
+                    </div>
+                    <!--begin::Step 2-->
+
+                    <!--begin::Step 3-->
+                    <div class="flex-column" data-kt-stepper-element="content">
+                        <div id="onu_verify">
+                            <div class="fv-row mb-10">
+                                <label class="form-label" for="olt_id">Olt id</label>
+                                <input type="text" class="form-control form-control-solid"
+                                       id="olt_id"
+                                       name="olt_id"
+                                       />
+                            </div>
+                            <div class="fv-row mb-10">
+                                <label class="form-label" for="pon_type">Pon type</label>
+                                <input type="text" class="form-control form-control-solid"
+                                       id="pon_type"
+                                       name="pon_type"
+                                       />
+                            </div>
+                            <div class="fv-row mb-10">
+                                <label class="form-label" for="board">Slot</label>
+                                <input type="text" class="form-control form-control-solid"
+                                       id="board"
+                                       name="board"
+                                       />
+                            </div>
+                            <div class="fv-row mb-10">
+                                <label class="form-label" for="port">Port</label>
+                                <input type="text" class="form-control form-control-solid"
+                                       id="port"
+                                       name="port"
+                                       />
+                            </div>
+                            <div class="fv-row mb-10">
+                                <label class="form-label" for="sn">sn</label>
+                                <input type="text" class="form-control form-control-solid"
+                                       id="sn"
+                                       name="sn"/>
+                            </div>
+                            <div class="fv-row mb-10">
+                                <label class="form-label" for="vlan">vlan</label>
+                                <input type="text" class="form-control form-control-solid"
+                                       id="vlan"
+                                       name="vlan"/>
+                            </div>
+                            <div class="fv-row mb-10">
+                                <label class="form-label" for="onu_type">onu type</label>
+                                <input type="text" class="form-control form-control-solid"
+                                       id="onu_type"
+                                       name="onu_type"/>
+                            </div>
+                            <div class="fv-row mb-10">
+                                <label class="form-label" for="zone">zone</label>
+                                <input type="text" class="form-control form-control-solid"
+                                       id="zone"
+                                       name="zone"/>
+                            </div>
+                            <div class="fv-row mb-10">
+                                <label class="form-label" for="odb">odb</label>
+                                <input type="text" class="form-control form-control-solid"
+                                       id="odb"
+                                       name="odb"/>
+                            </div>
+                            <div class="fv-row mb-10">
+                                <label class="form-label" for="name">name</label>
+                                <input type="text" class="form-control form-control-solid"
+                                       id="name"
+                                       name="name"/>
+                            </div>
+                            <div class="fv-row mb-10">
+                                <label class="form-label" for="address_or_comment">address or comment</label>
+                                <input type="text" class="form-control form-control-solid"
+                                       id="address_or_comment"
+                                       name="address_or_comment"/>
+                            </div>
+                            <div class="fv-row mb-10">
+                                <label class="form-label" for="onu_mode">onu mode</label>
+                                <input type="text" class="form-control form-control-solid"
+                                       id="onu_mode"
+                                       name="onu_mode"/>
+                            </div>
+                            <div class="fv-row mb-10">
+                                <label class="form-label" for="onu_external_id">id</label>
+                                <input type="text" class="form-control form-control-solid"
+                                       id="onu_external_id"
+                                       name="onu_external_id"/>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--begin::Step 3-->
+
+                </div>
+                <!--end::Group-->
+
+                <!--begin::Actions-->
+                <div class="d-flex flex-stack">
+                    <div class="me-2">
+                        <button type="button"
+                                class="btn btn-light btn-active-light-primary"
+                                data-kt-stepper-action="previous">Regresar
+                        </button>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" data-kt-stepper-action="submit">
+                            <span class="indicator-label">Activar</span>
+                            <span class="indicator-progress">Procesando... <span
+                                        class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                        </button>
+                        <button type="button" class="btn btn-primary" data-kt-stepper-action="next">
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+                <!--end::Actions-->
+            </form>
+            <!--end::Form-->
         </div>
+
+
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            TKOnuActivate.init();
-        })
-    </script>
-<% } %>
+</div>

@@ -7,7 +7,8 @@ const API_URL = 'https://sonivision.telecomti.net/api';
 const API_KEY = '773c3fa0df1c49f5aae7044cf064e843';
 
 const axios = require('axios');
-
+const fileUpload = require('express-fileupload');
+const fs = require('fs');
 export async function get_onu_signal_by_id(req, res) {
     const {id} = req.params;
     const onu_signal = axios.get(`${API_URL}/onu/get_onu_signal/${id}`, {
@@ -53,7 +54,7 @@ export async function get_onu_administrative_status_by_id(req, res) {
 }
 
 export async function get_onu_unconfigured(req, res) {
-    const onu_unconfigured = axios.get(`${API_URL}/onu/unconfigured_onus`, {
+    const onu_unconfigured = axios.get(`${API_URL}/onu/unconfigured_onus_for_olt/2`, {
         headers: {
             'X-Token': API_KEY
         }
@@ -200,4 +201,95 @@ export async function get_onu_speed_profile_by_id(req, res){
         data = data === undefined ? error.response.data.error : data;
         res.status(status).send(json_out(status, data, data));
     })
+}
+
+export async function get_onu_all_unconfigured(req, res){
+    const {id} = req.params;
+    const spo = axios.get(`${API_URL}/onu/get_onu_speed_profiles/${id}`, {
+        headers: {
+            'X-Token': API_KEY
+        }
+    });
+    Promise.all([spo]).then(values => {
+        res.status(200).send(json_out(200, 'Ok', values[0].data))
+    }).catch(error => {
+        console.log('otro error', error)
+        let status = error.status === undefined ? error.response.status : error.status;
+        let data = error.data === undefined ? error.response.error : error.data;
+        data = data === undefined ? error.response.data.error : data;
+        res.status(status).send(json_out(status, data, data));
+    })
+}
+
+export async function onu_restore_factory_by_id(req, res){
+    const {id} = req.params;
+    const default_onu = axios.post(`${API_URL}/onu/restore_factory_defaults/${id}`, {},{
+        headers: {
+            'X-Token': API_KEY
+        }
+    });
+    Promise.all([default_onu]).then(values => {
+        res.status(200).send(json_out(200, 'OK', values[0].data));
+    }).catch(error => {
+        let status = error.status === undefined ? error.response.status : error.status;
+        let data = error.data === undefined ? error.response.error : error.data;
+        data = data === undefined ? error.response.data.error : data;
+        res.status(status).send(json_out(status, data, data));
+    })
+}
+
+export async function onu_reboot_by_id(req, res){
+    const {id} = req.params;
+    const default_onu = axios.post(`${API_URL}/onu/reboot/${id}`, {},{
+        headers: {
+            'X-Token': API_KEY
+        }
+    });
+    Promise.all([default_onu]).then(values => {
+        res.status(200).send(json_out(200, 'OK', values[0].data));
+    }).catch(error => {
+        let status = error.status === undefined ? error.response.status : error.status;
+        let data = error.data === undefined ? error.response.error : error.data;
+        data = data === undefined ? error.response.data.error : data;
+        res.status(status).send(json_out(status, data, data));
+    })
+}
+
+
+
+export async function onu_bulk_disabled_by_id(req, res){
+    const {onu_ids} = req.body;
+    if (onu_ids === undefined)
+        throw new Error('onu_ids is undefined');
+
+    const bulk_onu = axios.post(`${API_URL}/onu/bulk_disable`, {onus_external_ids: onu_ids},{
+        headers: {
+            'X-Token': API_KEY
+        }
+    });
+    Promise.all([bulk_onu]).then(values => {
+        res.status(200).send(json_out(200, 'OK', values[0].data));
+    }).catch(error => {
+        let status = error.status === undefined ? error.response.status : error.status;
+        let data = error.data === undefined ? error.response.error : error.data;
+        data = data === undefined ? error.response.data.error : data;
+        res.status(status).send(json_out(status, data, data));
+    })
+}
+
+export async function onu_upload_label(req, res){
+    const {id} = req.params;
+    const {file} = req.files;
+    const path_img =__dirname + '/../../public/assets/media/labels/'
+    try{
+
+        if (file === undefined) throw new Error("file undefined");
+        if (!file.mimetype.includes('image')) throw new Error ("file is not image");
+
+        file.mv(path_img + id +"." + file.name.split('.')[1]);
+
+        res.status(200).send(json_out("200", "Imagen cargada con exito", null))
+    }catch(e){
+        res.status(400).send(json_out("400", e.message, e))
+    }
 }

@@ -63,14 +63,18 @@ r.get('/onu/:id/unconfigured', is_auth_api, onu.get_onu_unconfigured)
 r.get('/onu/:id/signal', is_auth_api, onu.get_onu_signal_by_id)
 r.post("/onu/:id/enable", is_auth_api, onu.onu_enable_by_id)
 r.post("/onu/:id/disabled", is_auth_api, onu.onu_disable_by_id);
+r.post("/onu/:id/upload", is_auth_api, onu.onu_upload_label);
 r.get('/onu/:id/status', is_auth_api, onu.get_onu_status_by_id)
 r.get("/onu/:id/status/administrative", is_auth_api, onu.get_onu_administrative_status_by_id)
 r.get("/onu/:id/status/details", is_auth_api, onu.get_onu_details_status_by_id)
 r.get("/onu/:id/status/catv", is_auth_api, onu.get_onu_catv_status_by_id)
 r.get("/onu/:id/status/full", is_auth_api, onu.get_onu_full_status_by_id)
 r.get("/onu/:id/speedprofile", is_auth_api, onu.get_onu_speed_profile_by_id);
+r.post("/onu/bulk/disable", is_auth_api, onu.onu_bulk_disabled_by_id);
 
-r.delete("/onu/:id", is_auth_api, onu.onu_delete_by_id)
+r.delete("/onu/:id", is_auth_api, onu.onu_delete_by_id);
+r.patch("/onu/:id", is_auth_api, onu.onu_restore_factory_by_id);
+r.post("/onu/:id", is_auth_api, onu.onu_reboot_by_id);
 
 r.get('/cash/dairy/resume', is_auth_api, apic.get_cash_dairy_resume)
 r.get('/cash/dairy/details', is_auth_api, apic.get_cash_dairy_details)

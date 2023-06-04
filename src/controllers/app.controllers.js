@@ -25,6 +25,17 @@ export async function get_comments_by_task(id, UserInfo) {
     });
 }
 
+export async function get_onu_speed_profile(id, UserInfo){
+    const {Username, Password, Database} = UserInfo.data;
+    return axios.get(`${API_URL}/onu/${id}/speedprofile`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Basic ${Buffer.from(`${Username}:${Password}`).toString('base64')}`,
+            'Database': Database
+        }
+    });
+}
+
 export async function get_one_document(UserInfo, id) {
     const {Username, Password, Database} = UserInfo.data;
     return axios.get(`${API_URL}/documents/details/${id}`, {

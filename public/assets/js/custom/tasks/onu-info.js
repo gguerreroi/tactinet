@@ -17,6 +17,8 @@ const TNOnuInfo = function () {
     let onu_signal_catv_input;
     let onu_signal_catv_icon;
     let txt_onu_details;
+    let button_reset_factory;
+    let button_restart;
 
     const onu_alert = function (title, description, type) {
         return `<div class="alert alert-dismissible bg-light-${type} border border-${type} d-flex flex-column flex-sm-row p-5 mb-10 mt-4">
@@ -127,13 +129,13 @@ const TNOnuInfo = function () {
             url: `${url}/onu/${onu_id}/speedprofile`,
             type: 'GET'
         }).done(function(speed_profile) {
-            console.log("speed_profile", speed_profile);
+
             const {data} = speed_profile;
             if (typeof(data) == "object"){
                 onu_bw_dw_input.value =  data.download_speed_profile_name;
                 onu_bw_up_input.value = data.upload_speed_profile_name;
             }else{
-                console.log("typeof data: ", typeof(data))
+                console.log("typeof data: ", typeof(data), data)
                 // data.forEach(function(value, index, array){
                 //     console.log(value)
                 // })
@@ -147,13 +149,13 @@ const TNOnuInfo = function () {
             type: 'GET'
         }).done(function (status_admin) {
             const {administrative_status, catv} = status_admin.data.onu_details;
-            if (administrative_status == "Disabled") {
+            if (administrative_status === "Disabled") {
                 var e = {code: 'ONU_DISABLED', message: 'la ONU fue desactivada'}
                 onu_div_alert.html('').html(onu_alert(`${e.code}`, `${e.message}`, 'danger'));
 
             }
 
-            if (administrative_status != "Disabled")
+            if (administrative_status !== "Disabled")
                 $.ajax({
                     url: `${url}/onu/${onu_id}/status`,
                     type: 'GET'
@@ -266,6 +268,110 @@ const TNOnuInfo = function () {
         })
     }
 
+    const btn_reset_onu = function() {
+        button_reset_factory.setAttribute('data-kt-indicator','on');
+        button_reset_factory.disabled = true;
+        Swal.fire({
+            text: '¿Esta seguro de restablecer a valores de fabrica la ONU?',
+            icon: 'warning',
+            buttonsStyling: false,
+            confirmButtonText: 'Si, Resetear',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                confirmButton: 'btn btn-warning',
+                cancelButton: 'btn btn-secondary'
+            }
+        }).then(action => {
+            if (action.isConfirmed){
+                $.ajax({
+                    url: `${url}/onu/${onu_id}`,
+                    type: 'PATCH'
+                }).done(function (res_data) {
+                    console.log("res_data: ", res_data)
+                    Swal.fire({
+                        text: res_data.data.response,
+                        icon: 'success',
+                        buttonsStyling: false,
+                        confirmButtonText: 'Ok',
+                        customClass: {
+                            confirmButton: 'btn btn-secondary'
+                        }
+                    })
+                }).fail(function (del_fail) {
+                    console.log(del_fail)
+                    Swal.fire({
+                        text: del_fail.responseJSON.data,
+                        icon: 'error',
+                        buttonsStyling: false,
+                        confirmButtonText: 'Ok',
+                        customClass: {
+                            confirmButton: 'btn btn-secondary'
+                        }
+                    })
+                }).always(function () {
+                    button_reset_factory.removeAttribute('data-kt-indicator');
+                    button_reset_factory.disabled = false;
+                })
+            }else{
+                button_reset_factory.removeAttribute('data-kt-indicator');
+                button_reset_factory.disabled = false;
+            }
+        })
+    }
+
+    const btn_reboot = function() {
+        button_restart.setAttribute('data-kt-indicator','on');
+        button_restart.disabled = true;
+        Swal.fire({
+            text: '¿Esta seguro de reiniciar la ONU?',
+            icon: 'warning',
+            buttonsStyling: false,
+            confirmButtonText: 'Si, Reiniciar',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                confirmButton: 'btn btn-warning',
+                cancelButton: 'btn btn-secondary'
+            }
+        }).then(action => {
+            if (action.isConfirmed){
+                $.ajax({
+                    url: `${url}/onu/${onu_id}`,
+                    type: 'POST'
+                }).done(function (res_data) {
+                    console.log("res_data: ", res_data)
+                    Swal.fire({
+                        text: res_data.data.response,
+                        icon: 'success',
+                        buttonsStyling: false,
+                        confirmButtonText: 'Ok',
+                        customClass: {
+                            confirmButton: 'btn btn-secondary'
+                        }
+                    })
+                }).fail(function (del_fail) {
+                    console.log(del_fail)
+                    Swal.fire({
+                        text: del_fail.responseJSON.data,
+                        icon: 'error',
+                        buttonsStyling: false,
+                        confirmButtonText: 'Ok',
+                        customClass: {
+                            confirmButton: 'btn btn-secondary'
+                        }
+                    })
+                }).always(function () {
+                    button_restart.removeAttribute('data-kt-indicator');
+                    button_restart.disabled = false;
+                })
+            }else{
+                button_restart.removeAttribute('data-kt-indicator');
+                button_restart.disabled = false;
+            }
+        })
+    }
+
     const handle = function () {
         submit_button.addEventListener('click', function (e) {
             e.preventDefault();
@@ -282,6 +388,15 @@ const TNOnuInfo = function () {
             btn_del_onu();
         })
 
+        button_reset_factory.addEventListener('click', function (e) {
+            e.preventDefault();
+            btn_reset_onu();
+        })
+
+        button_restart.addEventListener('click', function (e) {
+            e.preventDefault();
+            btn_reboot();
+        })
     }
 
 
@@ -290,6 +405,8 @@ const TNOnuInfo = function () {
             submit_button = document.getElementById('btn-get-info');
             button_onu_info = document.getElementById('btn-get-ont-info');
             button_del_onu = document.getElementById('btn-del-onu');
+            button_reset_factory = document.getElementById('btn-reset-factory');
+            button_restart = document.getElementById('btn-reboot');
             onu_status_icon = $("#onu-status-icon");
             onu_status_input = document.getElementById('onu-status-input');
             onu_signal_rx_icon = $("#onu-signal-rx-icon");

@@ -92,7 +92,9 @@ router.get('/services/tasks/details/:id', is_auth, function (request, response) 
     if (Permisos.includes(info.me)) {
         const one_task = app.get_one_task(request.params.id, info.UserInfo);
         const comment_tasks = app.get_comments_by_task(request.params.id, info.UserInfo);
+
         Promise.all([one_task, comment_tasks]).then(value => {
+
             value[0].data.data[0].comments = value[1].data.data
             info.task = value[0].data.data[0];
             return response.render('services/tasks/by-id', info);
