@@ -183,8 +183,16 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                                                 </div>
                                             </div>
                                             <div class="col-12 hide">
-                                                <input type="number" readonly id="input-codservicio"
-                                                       value="<%- tasks.CODSERVICIO %>">
+                                                <input type="number" id="input-codservicio"
+                                                       value="<%- tasks.CODSERVICIO %>" readonly>
+                                                <input type="text"  id="input-strnombreser"
+                                                       value="<%- tasks.STRNOMBRESER%>" readonly>
+                                                <input type="text" id="input-strsector"
+                                                       value="<%- tasks.STRSECTOR%>" readonly>
+                                                <input type="text" id="input-bw-dw"
+                                                       value="<%- tasks.OLT_SP_DW_NAME %>" readonly>
+                                                <input type="text" id="input-bw-up"
+                                                       value="<%- tasks.OLT_SP_UP_NAME %>" readonly>
                                             </div>
                                         </div>
                                     </div>

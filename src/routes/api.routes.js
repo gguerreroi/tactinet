@@ -64,6 +64,8 @@ r.get('/onu/:id/signal', is_auth_api, onu.get_onu_signal_by_id)
 r.post("/onu/:id/enable", is_auth_api, onu.onu_enable_by_id)
 r.post("/onu/:id/disabled", is_auth_api, onu.onu_disable_by_id);
 r.post("/onu/:id/upload", is_auth_api, onu.onu_upload_label);
+r.post("/onu/:id/authorize", is_auth_api, onu.onu_authorize);
+
 r.get('/onu/:id/status', is_auth_api, onu.get_onu_status_by_id)
 r.get("/onu/:id/status/administrative", is_auth_api, onu.get_onu_administrative_status_by_id)
 r.get("/onu/:id/status/details", is_auth_api, onu.get_onu_details_status_by_id)

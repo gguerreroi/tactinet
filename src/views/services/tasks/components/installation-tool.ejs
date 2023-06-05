@@ -130,7 +130,20 @@
                         </div>
                     </div>
                     <!--begin::Step 2-->
-
+<!--
+board: 9
+external_id: null
+id: 0
+is_disabled: 0
+new_location: null
+old_location: null
+onu: "0"
+onu_type_id: "62"
+onu_type_name: "HG8546M"
+pon_type: "gpon"
+port: 5
+sn: "HWTCAA1C839A"
+-->
                     <!--begin::Step 3-->
                     <div class="flex-column" data-kt-stepper-element="content">
                         <div id="onu_verify">
@@ -138,83 +151,92 @@
                                 <label class="form-label" for="olt_id">Olt id</label>
                                 <input type="text" class="form-control form-control-solid"
                                        id="olt_id"
-                                       name="olt_id"
-                                       />
+                                       name="olt_id" readonly/>
                             </div>
                             <div class="fv-row mb-10">
                                 <label class="form-label" for="pon_type">Pon type</label>
                                 <input type="text" class="form-control form-control-solid"
                                        id="pon_type"
-                                       name="pon_type"
-                                       />
+                                       name="pon_type" readonly/>
                             </div>
                             <div class="fv-row mb-10">
                                 <label class="form-label" for="board">Slot</label>
                                 <input type="text" class="form-control form-control-solid"
                                        id="board"
-                                       name="board"
-                                       />
+                                       name="board" readonly/>
                             </div>
                             <div class="fv-row mb-10">
                                 <label class="form-label" for="port">Port</label>
                                 <input type="text" class="form-control form-control-solid"
                                        id="port"
-                                       name="port"
-                                       />
+                                       name="port" readonly/>
                             </div>
                             <div class="fv-row mb-10">
                                 <label class="form-label" for="sn">sn</label>
                                 <input type="text" class="form-control form-control-solid"
                                        id="sn"
-                                       name="sn"/>
+                                       name="sn" readonly/>
                             </div>
                             <div class="fv-row mb-10">
                                 <label class="form-label" for="vlan">vlan</label>
                                 <input type="text" class="form-control form-control-solid"
                                        id="vlan"
-                                       name="vlan"/>
+                                       name="vlan" readonly/>
                             </div>
                             <div class="fv-row mb-10">
                                 <label class="form-label" for="onu_type">onu type</label>
                                 <input type="text" class="form-control form-control-solid"
                                        id="onu_type"
-                                       name="onu_type"/>
+                                       name="onu_type" readonly/>
+                            </div>
+                            <div class="mb-10">
+                                <label class="form-label" for="onu_mode">onu_mode</label>
+                                <select id="onu_mode" name="onu_mode" class="form-control form-select" required>
+                                    <option value="Routing" selected>Routing</option>
+                                    <option value="Bridging">Bridging</option>
+                                </select>
                             </div>
                             <div class="fv-row mb-10">
                                 <label class="form-label" for="zone">zone</label>
                                 <input type="text" class="form-control form-control-solid"
                                        id="zone"
-                                       name="zone"/>
+                                       name="zone" readonly/>
                             </div>
                             <div class="fv-row mb-10">
                                 <label class="form-label" for="odb">odb</label>
                                 <input type="text" class="form-control form-control-solid"
                                        id="odb"
-                                       name="odb"/>
+                                       name="odb" readonly/>
                             </div>
                             <div class="fv-row mb-10">
                                 <label class="form-label" for="name">name</label>
                                 <input type="text" class="form-control form-control-solid"
                                        id="name"
-                                       name="name"/>
+                                       name="name" readonly/>
                             </div>
                             <div class="fv-row mb-10">
                                 <label class="form-label" for="address_or_comment">address or comment</label>
                                 <input type="text" class="form-control form-control-solid"
                                        id="address_or_comment"
-                                       name="address_or_comment"/>
-                            </div>
-                            <div class="fv-row mb-10">
-                                <label class="form-label" for="onu_mode">onu mode</label>
-                                <input type="text" class="form-control form-control-solid"
-                                       id="onu_mode"
-                                       name="onu_mode"/>
+                                       name="address_or_comment" readonly/>
                             </div>
                             <div class="fv-row mb-10">
                                 <label class="form-label" for="onu_external_id">id</label>
                                 <input type="text" class="form-control form-control-solid"
                                        id="onu_external_id"
-                                       name="onu_external_id"/>
+                                       name="onu_external_id" readonly/>
+                            </div>
+                            <div class="mb-10">
+                                <label class="form-label" for="upload_speed_profile_name">upload_speed_profile_name</label>
+                                <input type="text" class="form-control form-control-solid"
+                                        id="upload_speed_profile_name"
+                                        name="upload_speed_profile_name" readonly>
+                            </div>
+                            <div class="mb-10">
+                                <label class="form-label" for="download_speed_profile_name">download_speed_profile_name</label>
+                                <input type="text" class="form-control form-control-solid"
+                                       id="download_speed_profile_name"
+                                       name="download_speed_profile_name" readonly>
                             </div>
                         </div>
 
@@ -233,7 +255,7 @@
                         </button>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-primary" data-kt-stepper-action="submit">
+                        <button type="button" class="btn btn-primary" data-kt-stepper-action="submit" id="btn-authorize-onu">
                             <span class="indicator-label">Activar</span>
                             <span class="indicator-progress">Procesando... <span
                                         class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

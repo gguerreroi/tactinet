@@ -7,6 +7,8 @@ const API_URL = 'https://sonivision.telecomti.net/api';
 const API_KEY = '773c3fa0df1c49f5aae7044cf064e843';
 
 const axios = require('axios');
+const FormData = require('form-data');
+
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
 export async function get_onu_signal_by_id(req, res) {
@@ -289,6 +291,53 @@ export async function onu_upload_label(req, res){
         file.mv(path_img + id +"." + file.name.split('.')[1]);
 
         res.status(200).send(json_out("200", "Imagen cargada con exito", null))
+    }catch(e){
+        res.status(400).send(json_out("400", e.message, e))
+    }
+}
+
+export async function onu_authorize(req, res){
+    const {id} = req.params;
+    const {body} = req;
+    let data = new FormData();
+
+    data.append('olt_id', body.olt_id)
+    data.append('pon_type', body.pon_type)
+    data.append('board', body.board)
+    data.append('port', body.port)
+    data.append('sn', body.sn)
+    data.append('vlan', body.vlan)
+    data.append('onu_type', body.onu_type)
+    data.append('onu_mode', body.onu_mode)
+    data.append('zone', body.zone)
+    data.append('odb', body.odb)
+    data.append('name', body.name)
+    data.append('address_or_comment', body.address_or_comment)
+    data.append('upload_speed_profile_name', body.upload_speed_profile_name)
+    data.append('download_speed_profile_name', body.download_speed_profile_name)
+    data.append('onu_external_id', body.onu_external_id)
+
+    try{
+        const config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `${API_URL}/onu/authorize_onu`,
+            headers: {
+                'X-Token': API_KEY,
+                    ...data.getHeaders()
+            },
+            data: data
+        }
+        axios(config).then(function(res_auth){
+            console.log('res_auth', res_auth)
+            res.status(200).send(json_out(200, 'OK', res_auth.data));
+        }).catch(function (error){
+            let status = error.status === undefined ? error.response.status : error.status;
+            let data = error.data === undefined ? error.response.error : error.data;
+            data = data === undefined ? error.response.data.error : data;
+            res.status(status).send(json_out(status, data, data));
+        })
+
     }catch(e){
         res.status(400).send(json_out("400", e.message, e))
     }
