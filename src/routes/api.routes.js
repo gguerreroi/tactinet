@@ -4,6 +4,7 @@ import {is_auth_api} from "../middlewares/is-auth";
 import * as apic from "../controllers/api.controllers";
 import * as onu from "../controllers/onu.controllers";
 import {get_onu_details_status_by_id, get_onu_unconfigured} from "../controllers/onu.controllers";
+import {get_customers_by_plan} from "../controllers/api.controllers";
 
 const passport = require('passport');
 const r = Router();
@@ -83,6 +84,8 @@ r.get('/cash/dairy/details', is_auth_api, apic.get_cash_dairy_details)
 
 r.get('/documents/details/:id', is_auth_api, apic.get_document_by_id)
 r.get('/documents/details/:id/details', is_auth_api, apic.get_document_details_by_id)
+
+r.get("/dashboard/customers-by-plan", is_auth_api, apic.get_customers_by_plan)
 
 r.get('/dte/:id', is_auth_api, apic.get_dte_by_id)
 r.post('/dte/:id', is_auth_api, apic.set_dte_info)

@@ -443,14 +443,14 @@ export async function set_dte_info(req, res) {
     }
 }
 
-export async function save_xml_cancel(req, res){
+export async function save_xml_cancel(req, res) {
     const {Username, Password, Database} = get_credentials(req);
     const {
         codserial,
         xml_base_64
     } = req.body;
     let Connection = null
-    try{
+    try {
         Connection = await get_connection(Username, Password, `${config.DB.HOST}`, `PLR00${Database}`);
         if (Connection.code === 500)
             throw {code: Connection.code, message: Connection.message}
@@ -461,14 +461,14 @@ export async function save_xml_cancel(req, res){
         stmt.input('xml_signed', mssql.VarChar(max), xml_base_64);
         stmt.output('codmsj', mssql.Int);
         stmt.output('strmsj', mssql.VarChar(max));
-        stmt.execute('financiero.sp_xml_signed', (err, result)=>{
+        stmt.execute('financiero.sp_xml_signed', (err, result) => {
             if (err)
                 throw err;
 
             return res.status(200).send(json_out('200', 'Run Ok', result.output.message));
         });
 
-    }catch (e) {
+    } catch (e) {
         return res.status(500).send(json_out('500', 'Error in controller save_xml_cancel', e));
     }
 }
@@ -503,3 +503,26 @@ export async function save_xml_cancel(req, res){
 //     }
 // }
 
+
+export async function get_customers_by_plan(req, res) {
+    const {Username, Password, Database} = get_credentials(req);
+    let Connection = null
+    try {
+        Connection = await get_connection(Username, Password, `${config.DB.HOST}`, `PLR00${Database}`);
+
+        if (Connection.code === 500)
+            throw {code: Connection.code, message: Connection.message}
+
+        const stmt = await Connection.request()
+        stmt.query(`select *
+                    from servicios.vw_clientes_x_cartera`, (err, result) => {
+            if (err) {
+                res.status(500).send(json_out('500', 'Error in controller get_cash_dairy_resume', err));
+            } else {
+                res.status(200).send(json_out('200', 'Run Ok', result.recordset));
+            }
+        });
+    } catch (e) {
+        res.status(500).send(json_out('500', 'Error in controller get_customers_by_plan', e));
+    }
+}

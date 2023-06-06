@@ -9,8 +9,6 @@ const API_KEY = '773c3fa0df1c49f5aae7044cf064e843';
 const axios = require('axios');
 const FormData = require('form-data');
 
-const fileUpload = require('express-fileupload');
-const fs = require('fs');
 export async function get_onu_signal_by_id(req, res) {
     const {id} = req.params;
     const onu_signal = axios.get(`${API_URL}/onu/get_onu_signal/${id}`, {
