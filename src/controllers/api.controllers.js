@@ -506,6 +506,7 @@ export async function save_xml_cancel(req, res) {
 
 export async function get_customers_by_plan(req, res) {
     const {Username, Password, Database} = get_credentials(req);
+    const {view} = req.params;
     let Connection = null
     try {
         Connection = await get_connection(Username, Password, `${config.DB.HOST}`, `PLR00${Database}`);
@@ -515,11 +516,11 @@ export async function get_customers_by_plan(req, res) {
 
         const stmt = await Connection.request()
         stmt.query(`select *
-                    from servicios.vw_clientes_x_cartera`, (err, result) => {
+                    from dashboard.${view}`, (err, result) => {
             if (err) {
                 res.status(500).send(json_out('500', 'Error in controller get_cash_dairy_resume', err));
             } else {
-                res.status(200).send(json_out('200', 'Run Ok', result.recordset));
+                res.status(200).send(result.recordset);
             }
         });
     } catch (e) {

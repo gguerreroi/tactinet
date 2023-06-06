@@ -85,7 +85,7 @@ r.get('/cash/dairy/details', is_auth_api, apic.get_cash_dairy_details)
 r.get('/documents/details/:id', is_auth_api, apic.get_document_by_id)
 r.get('/documents/details/:id/details', is_auth_api, apic.get_document_details_by_id)
 
-r.get("/dashboard/customers-by-plan", is_auth_api, apic.get_customers_by_plan)
+r.get("/dashboard/:view", is_auth_api, apic.get_customers_by_plan)
 
 r.get('/dte/:id', is_auth_api, apic.get_dte_by_id)
 r.post('/dte/:id', is_auth_api, apic.set_dte_info)
