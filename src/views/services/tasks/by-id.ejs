@@ -185,10 +185,10 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                                             <div class="col-12 hide">
                                                 <input type="number" id="input-codservicio"
                                                        value="<%- tasks.CODSERVICIO %>" readonly>
-                                                <input type="text"  id="input-strnombreser"
-                                                       value="<%- tasks.STRNOMBRESER%>" readonly>
+                                                <input type="text" id="input-strnombreser"
+                                                       value="<%- tasks.STRNOMBRESER %>" readonly>
                                                 <input type="text" id="input-strsector"
-                                                       value="<%- tasks.STRSECTOR%>" readonly>
+                                                       value="<%- tasks.STRSECTOR %>" readonly>
                                                 <input type="text" id="input-bw-dw"
                                                        value="<%- tasks.OLT_SP_DW_NAME %>" readonly>
                                                 <input type="text" id="input-bw-up"
@@ -202,11 +202,12 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                         <!--end::Row-->
 
                         <% if (tasks.STRCLASIFICACION.toLowerCase().includes("internet")){ %>
-                                <%- include('components/diagnostic-tool')   %>
+                            <%- include('components/diagnostic-tool') %>
                         <% } %>
 
                         <div class="row">
                             <div class="mt-9">
+
                                 <div class="card card-bordered w-100">
                                     <div class="card-header">
                                         <div class="card-title">
@@ -223,36 +224,43 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                                         </div>
                                     </div>
                                     <div class="card-footer pt-4">
-										<textarea
-                                                class="form-control form-control-flush mb-3"
-                                                name="strcomment" id="strcomment" rows="1" data-kt-element="input"
-                                                placeholder="Escriba un comentario"></textarea>
-                                        <div class="d-flex flex-stack">
-                                            <div class="d-flex align-items-center me-2">
-                                                <button onclick="getUploadFiles()"
-                                                        class="btn btn-sm btn-icon btn-active-light-primary me-1"
-                                                        type="button" data-bs-toggle="tooltip" title=""
-                                                        data-bs-original-title="Subir foto">
-                                                    <i class="bi bi-paperclip fs-3"></i>
-                                                </button>
-                                                <form id="frmimg">
+                                        <form id="form-comment">
+
+<!--										<textarea-->
+<!--                                                class="form-control form-control-flush mb-3"-->
+<!--                                                name="strcomment" id="strcomment" rows="1" data-kt-element="input"-->
+<!--                                                placeholder="Escriba un comentario" required></textarea>-->
+                                            <input class="form-control form-control-flush mb-3"
+                                                   placeholder="Escriba un comentario"
+                                                   name="strcomment" data-kt-element="input"
+                                                   required>
+
+                                            <div class="d-flex flex-stack">
+                                                <div class="d-flex align-items-center me-2">
+                                                    <button id="btn-upload-photo-comment"
+                                                            class="btn btn-sm btn-icon btn-active-light-primary me-1"
+                                                            type="button" data-bs-toggle="tooltip" title=""
+                                                            data-bs-original-title="Subir foto">
+                                                        <i class="bi bi-paperclip fs-3"></i>
+                                                    </button>
                                                     <input type="file" name="file[]" multiple
                                                            style="display: none" id="file"
-                                                           onchange="uploadFiles()" accept="image/*">
-                                                    <input type="submit" id="frmsubmit" style="display: none">
-                                                </form>
+                                                           accept="image/*">
+                                                </div>
+                                                <button id="btn-publicar"
+                                                        class="btn btn-primary"
+                                                        data-kt-element="send">
+                                                    <i class="bi bi-chat-square-text-fill fs-4 me-2"></i>
+                                                    Publicar
+                                                </button>
                                             </div>
-                                            <button id="btncomment"
-                                                    class="btn btn-primary"
-                                                    data-kt-element="send">
-                                                <i class="bi bi-chat-square-text-fill fs-4 me-2"></i>
-                                                Publicar
-                                            </button>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="mt-9">
                                 <div class="card card-bordered w-100">
@@ -399,217 +407,64 @@ const tasks = task.CODACTIVIDAD === undefined ? {
 <script src="assets/js/custom/tasks/modal-reprogram.js"></script>
 <script src="assets/js/custom/tasks/onu-info.js"></script>
 <script src="assets/js/custom/tasks/onu-activate.js"></script>
+<script src="assets/js/custom/tasks/tasks-general.js"></script>
 <!--end::Page Custom Javascript-->
 <!--end::Javascript-->
 <script>
     moment.locale('es');
-
-    const btnfinish = document.getElementById('btnfinish');
-    const btncancel = document.getElementById('btncancel');
-    const btnarchive = document.getElementById('btnarchive');
-    const btncomment = document.getElementById('btncomment');
+    Tasks.init();
 
 
-    btnfinish.addEventListener('click', e => {
-        e.preventDefault();
-        Swal.fire({
-            text: '¿Estás seguro de finalizar la gestion?',
-            icon: 'warning',
-            buttonsStyling: false,
-            confirmButtonText: 'Si, finalizar',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-secondary'
-            }
-        }).then(result => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: `${url}/tasks/details/${codactividad}`,
-                    type: 'PUT',
-                    data: {
-                        'codestado': 'OF'
-                    }
-                }).then(response => {
-                    Swal.fire({
-                        text: 'Orden marcada como Completada!',
-                        icon: 'success',
-                        buttonsStyling: false,
-                        confirmButtonText: 'Ok',
-                        customClass: {
-                            confirmButton: 'btn btn-success'
-                        }
-                    }).then(result => {
-                        if (result.isConfirmed) {
-                            window.location.href = `./services/tasks/by-user`;
-                        }
-                    })
-                }).catch(error => {
-                    Swal.fire({
-                        text: 'Error al marcar como completada la orden',
-                        icon: 'error',
-                        buttonsStyling: false,
-                        confirmButtonText: 'Ok',
-                        customClass: {
-                            confirmButton: 'btn btn-danger'
-                        }
-                    })
-                })
-            }
-        })
-    });
-
-    btncancel.addEventListener('click', e => {
-        e.preventDefault();
-        Swal.fire({
-            text: '¿Estás seguro de anular la gestion?',
-            icon: 'warning',
-            buttonsStyling: false,
-            confirmButtonText: 'Si, cancelar',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            customClass: {
-                confirmButton: 'btn btn-danger',
-                cancelButton: 'btn btn-secondary'
-            }
-        }).then(result => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: `${url}/tasks/details/${codactividad}`,
-                    type: 'PUT',
-                    data: {
-                        'codestado': 'OA'
-                    }
-                }).then(response => {
-                    Swal.fire({
-                        text: 'Gestion marcada como Anulada!',
-                        icon: 'success',
-                        buttonsStyling: false,
-                        confirmButtonText: 'Ok',
-                        customClass: {
-                            confirmButton: 'btn btn-success'
-                        }
-                    }).then(result => {
-                        if (result.isConfirmed)
-                            window.location.href = `./services/tasks/by-user`;
-                    })
-                }).catch(error => {
-                    console.error(error)
-                    Swal.fire({
-                        text: 'Error al marcar como anulada la gestion',
-                        icon: 'error',
-                        buttonsStyling: false,
-                        confirmButtonText: 'Ok',
-                        customClass: {
-                            confirmButton: 'btn btn-danger'
-                        }
-                    })
-                })
-            }
-        })
-    });
-
-    btnarchive.addEventListener('click', e => {
-        e.preventDefault();
-        Swal.fire({
-            text: '¿Estás seguro de archivar la gestion?',
-            icon: 'warning',
-            buttonsStyling: false,
-            confirmButtonText: 'Si, archivar',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            customClass: {
-                confirmButton: 'btn btn-secondary',
-                cancelButton: 'btn btn-danger'
-            }
-        }).then(result => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: `${url}/tasks/details/${codactividad}`,
-                    type: 'PUT',
-                    data: {
-                        'codestado': 'AR'
-                    }
-                }).then(response => {
-                    Swal.fire({
-                        text: 'Orden marcada como Archivada!',
-                        icon: 'success',
-                        buttonsStyling: false,
-                        confirmButtonText: 'Ok',
-                        customClass: {
-                            confirmButton: 'btn btn-secondary'
-                        }
-                    }).then(result => {
-                        if (result.isConfirmed) {
-                            window.location.href = `./services/tasks/by-user`;
-                        }
-                    })
-                }).catch(error => {
-                    Swal.fire({
-                        text: 'Error al marcar como completada la orden',
-                        icon: 'error',
-                        buttonsStyling: false,
-                        confirmButtonText: 'Ok',
-                        customClass: {
-                            confirmButton: 'btn btn-danger'
-                        }
-                    })
-                })
-            }
-        })
-    });
-
-    btncomment.addEventListener('click', e => {
-        e.preventDefault();
-        $.ajax({
-            url: `${url}/tasks/details/${codactividad}/comments`,
-            type: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            data: {
-                strcomment: $('#strcomment').val()
-            }
-        }).done(data => {
-            console.log(data);
-            window.location.reload();
-        }).fail(err => {
-            console.log(err);
-        })
-    });
-
-    function getUploadFiles() {
-        document.getElementById('file').click();
-    }
-
-    function uploadFiles() {
-        document.getElementById('frmsubmit').click();
-    }
-
-    $("#frmimg").submit(function (e) {
-        e.preventDefault();
-        const files = document.getElementById('file').files;
-        const fd = new FormData();
-        files.forEach(function (currentFile, index, array) {
-            fd.append('file[]', currentFile, currentFile.name);
-        })
-
-        $.ajax({
-            url: `${url}/tasks/pending/${codactividad}/images`,
-            type: 'post',
-            data: fd,
-            processData: false,
-            mimeType: "multipart/form-data",
-            contentType: false
-        }).done(result => {
-            console.log("done")
-            console.log(result);
-        }).catch(err => {
-            console.log("error")
-            console.log(err);
-        })
-    })
+    // btncomment.addEventListener('click', e => {
+    //     e.preventDefault();
+    //     $.ajax({
+    //         url: `${url}/tasks/details/${codactividad}/comments`,
+    //         type: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/x-www-form-urlencoded',
+    //         },
+    //         data: {
+    //             strcomment: $('#strcomment').val()
+    //         }
+    //     }).done(data => {
+    //         console.log(data);
+    //         window.location.reload();
+    //     }).fail(err => {
+    //         console.log(err);
+    //     })
+    // });
+    //
+    // function getUploadFiles() {
+    //     document.getElementById('file').click();
+    // }
+    //
+    // function uploadFiles() {
+    //     document.getElementById('frmsubmit').click();
+    // }
+    //
+    // $("#frmimg").submit(function (e) {
+    //     e.preventDefault();
+    //     const files = document.getElementById('file').files;
+    //     const fd = new FormData();
+    //     files.forEach(function (currentFile, index, array) {
+    //         fd.append('file[]', currentFile, currentFile.name);
+    //     })
+    //
+    //     $.ajax({
+    //         url: `${url}/tasks/pending/${codactividad}/images`,
+    //         type: 'post',
+    //         data: fd,
+    //         processData: false,
+    //         mimeType: "multipart/form-data",
+    //         contentType: false
+    //     }).done(result => {
+    //         console.log("done")
+    //         console.log(result);
+    //     }).catch(err => {
+    //         console.log("error")
+    //         console.log(err);
+    //     })
+    // })
 </script>
 <script>
     // set the dropzone container id
