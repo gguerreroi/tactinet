@@ -19,6 +19,7 @@ const TNOnuInfo = function () {
     let txt_onu_details;
     let button_reset_factory;
     let button_restart;
+    let button_enable_catv;
 
     const onu_alert = function (title, description, type) {
         return `<div class="alert alert-dismissible bg-light-${type} border border-${type} d-flex flex-column flex-sm-row p-5 mb-10 mt-4">
@@ -372,6 +373,37 @@ const TNOnuInfo = function () {
         })
     }
 
+    function enableCatv(event){
+        const btn = this;
+        event.preventDefault();
+        btn.disabled = true;
+        btn.setAttribute('data-kt-indicator','on');
+        $.ajax({
+            url: `${url}/onu/${onu_id}/catv`,
+            type: 'POST'
+        }).done(function(response){
+            console.log(response)
+        }).fail(function(error){
+            console.log(error)
+            const msj = error.responseJSON;
+            let message = msj.state.Message != undefined ? msj.state.Message : "Se produjo un error";
+
+            Swal.fire({
+                text: message,
+                icon: 'error',
+                buttonsStyling: false,
+                confirmButtonText: 'Ok',
+                customClass: {
+                    confirmButton: 'btn btn-danger'
+                }
+            })
+
+        }).always(function(){
+            btn.removeAttribute('data-kt-indicator');
+            btn.disabled = false;
+        })
+    }
+
     const handle = function () {
         submit_button.addEventListener('click', function (e) {
             e.preventDefault();
@@ -397,7 +429,10 @@ const TNOnuInfo = function () {
             e.preventDefault();
             btn_reboot();
         })
+
+        button_enable_catv.addEventListener('click', enableCatv);
     }
+
 
 
     return {
@@ -420,7 +455,7 @@ const TNOnuInfo = function () {
             onu_bw_dw_input = document.getElementById('onu-bw-dw-input');
             onu_id = document.getElementById('input-codservicio').value;
             onu_div_alert = $("#div-onu-alert");
-
+            button_enable_catv = document.getElementById('button-enable-catv');
             handle();
         }
     };

@@ -5,7 +5,9 @@ const Tasks = function () {
     let btn_finish;
     let btn_cancel;
     let btn_archive;
-    let str_comment;
+    let btn_upload_photo_comment;
+    let input_photo_multiple;
+    let btn_comment;
 
     function finishTask(e) {
         e.preventDefault();
@@ -157,25 +159,46 @@ const Tasks = function () {
         })
     }
 
-    function submitComment(e) {
-        e.preventDefault();
-        console.log("subir comentario")
+    function showDialogUploadPhoto(){
+        input_photo_multiple.click();
     }
 
-    function submitFormWithEnter(e) {
-        if ((e.keyCode || e.which) === 13) {
-            $(this).parents('form').submit();
-            return false;
+    function submitComment(event) {
+        event.preventDefault();
+        btn_comment.setAttribute('data-kt-indicator', 'on')
+        btn_comment.disabled = true;
+
+        const action = `${url}/tasks/details/${codactividad}/comments`;
+        const form = event.currentTarget;
+        const formData = new FormData(form);
+        const fetchOptions = {
+            method: form.method,
+            body: formData,
         }
+        $.ajax({
+            url: action,
+            type: form.method,
+            data: formData,
+            processData: false,
+            mimeType: form.enctype,
+            contentType: false
+        }).done(function(response){
+            window.location.reload();
+        }).catch(function(error){
+            console.log('error', error)
+        }).always(function(){
+            btn_comment.disabled=false;
+            btn_comment.removeAttribute('data-kt-indicator');
+        })
     }
+
 
     const handle = function () {
-        btn_finish.addEventListener("click", finishTask)
-        btn_cancel.addEventListener("click", cancelTask)
-        btn_archive.addEventListener("click", archiveTask)
-        form_comment.addEventListener("submit", submitComment)
-        //str_comment.addEventListener("keydown", submitFormWithEnter)
-
+        btn_finish.addEventListener("click", finishTask);
+        btn_cancel.addEventListener("click", cancelTask);
+        btn_archive.addEventListener("click", archiveTask);
+        form_comment.addEventListener("submit", submitComment);
+        btn_upload_photo_comment.addEventListener("click", showDialogUploadPhoto);
     }
 
     return {
@@ -184,7 +207,9 @@ const Tasks = function () {
             btn_cancel = document.getElementById('btncancel');
             btn_archive = document.getElementById('btnarchive');
             form_comment = document.getElementById('form-comment');
-            str_comment = document.getElementById('strcomment');
+            btn_upload_photo_comment = document.getElementById('btn-upload-photo-comment');
+            input_photo_multiple = document.getElementById('input-photo-multiple');
+            btn_comment = document.getElementById('btn-publicar')
             handle();
         }
     }

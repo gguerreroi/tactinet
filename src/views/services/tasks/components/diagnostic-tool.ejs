@@ -141,6 +141,15 @@
                                            readonly>
                                 </div>
                             </div>
+                            <div class="col-12 mt-4 <%- tasks.STRTARIFA.toLowerCase().includes("combo") ? "" : "hide" %>">
+                                <button id="button-enable-catv"
+                                        class="btn form-control btn-light-success btn-lg w-100">
+                                    <span class="indicator-label">Activar CATV</span>
+                                    <span class="indicator-progress">
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                    </span>
+                                </button>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-12" id="div-onu-alert">
@@ -237,15 +246,7 @@
                         <%- include('./installation-tool', {}); %>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
 </div>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        TNOnuInfo.init();
-        TKOnuActivate.init();
-    })
-</script>
