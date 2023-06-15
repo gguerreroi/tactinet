@@ -202,7 +202,7 @@ const Tasks = function () {
     }
 
     return {
-        init: function () {
+        initTaskOptions: function () {
             btn_finish = document.getElementById('btnfinish');
             btn_cancel = document.getElementById('btncancel');
             btn_archive = document.getElementById('btnarchive');

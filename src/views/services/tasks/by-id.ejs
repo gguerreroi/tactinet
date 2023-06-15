@@ -407,6 +407,7 @@ const tasks = task.CODACTIVIDAD === undefined ? {
     const url = `${window.location.origin}/api`;
     const [a, b, c, d, codactividad] = window.location.pathname.split('/');
     var global_onus_available;
+    const TASK_TYPE = '<%= tasks.STRCLASIFICACION %>';
 </script>
 <%- include('../../components/web-footer') %>
 <!--begin::Page Custom Javascript(used by this page)-->
@@ -421,122 +422,73 @@ const tasks = task.CODACTIVIDAD === undefined ? {
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         moment.locale('es');
-        TNOnuInfo.init();
-        TKOnuActivate.init();
-        Tasks.init();
+        Tasks.initTaskOptions();
+        // Si la tarea es de internet o combo
+        if (TASK_TYPE.toLowerCase().includes("internet") || TASK_TYPE.toLowerCase().includes("combo")) {
+            TNOnuInfo.init();
+            TKOnuActivate.init();
+        }
     });
-
-    // btncomment.addEventListener('click', e => {
-    //     e.preventDefault();
-    //     $.ajax({
-    //         url: `${url}/tasks/details/${codactividad}/comments`,
-    //         type: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/x-www-form-urlencoded',
-    //         },
-    //         data: {
-    //             strcomment: $('#strcomment').val()
-    //         }
-    //     }).done(data => {
-    //         console.log(data);
-    //         window.location.reload();
-    //     }).fail(err => {
-    //         console.log(err);
-    //     })
-    // });
-    //
-    // function getUploadFiles() {
-    //     document.getElementById('file').click();
-    // }
-    //
-    // function uploadFiles() {
-    //     document.getElementById('frmsubmit').click();
-    // }
-    //
-    // $("#frmimg").submit(function (e) {
-    //     e.preventDefault();
-    //     const files = document.getElementById('file').files;
-    //     const fd = new FormData();
-    //     files.forEach(function (currentFile, index, array) {
-    //         fd.append('file[]', currentFile, currentFile.name);
-    //     })
-    //
-    //     $.ajax({
-    //         url: `${url}/tasks/pending/${codactividad}/images`,
-    //         type: 'post',
-    //         data: fd,
-    //         processData: false,
-    //         mimeType: "multipart/form-data",
-    //         contentType: false
-    //     }).done(result => {
-    //         console.log("done")
-    //         console.log(result);
-    //     }).catch(err => {
-    //         console.log("error")
-    //         console.log(err);
-    //     })
-    // })
 </script>
-<script>
-    // set the dropzone container id
-    const id = "#kt_dropzonejs_example_3";
-    const dropzone = document.querySelector(id);
-    const codservice = document.getElementById('input-codservicio').value;
-    // set the preview element template
-    var previewNode = dropzone.querySelector(".dropzone-item");
-    previewNode.id = "";
-    var previewTemplate = previewNode.parentNode.innerHTML;
-    previewNode.parentNode.removeChild(previewNode);
+<% if (tasks.STRCLASIFICACION.toLowerCase().includes("internet") || tasks.STRCLASIFICACION.toLowerCase().includes("combo")){ %>
+    <script>
+        // set the dropzone container id
+        const id = "#kt_dropzonejs_example_3";
+        const dropzone = document.querySelector(id);
+        const codservice = document.getElementById('input-codservicio').value;
+        // set the preview element template
+        var previewNode = dropzone.querySelector(".dropzone-item");
+        previewNode.id = "";
+        var previewTemplate = previewNode.parentNode.innerHTML;
+        previewNode.parentNode.removeChild(previewNode);
 
-    var myDropzone = new Dropzone(id, { // Make the whole body a dropzone
-        url: `${url}/onu/${codservice}/upload`, // Set the url for your upload script location
-        parallelUploads: 20,
-        maxFilesize: 10, // Max filesize in MB
-        previewTemplate: previewTemplate,
-        previewsContainer: id + " .dropzone-items", // Define the container to display the previews
-        clickable: id + " .dropzone-select" // Define the element that should be used as click trigger to select files.
-    });
-
-    myDropzone.on("addedfile", function (file) {
-        // Hookup the start button
-        const dropzoneItems = dropzone.querySelectorAll('.dropzone-item');
-        dropzoneItems.forEach(dropzoneItem => {
-            dropzoneItem.style.display = '';
+        var myDropzone = new Dropzone(id, { // Make the whole body a dropzone
+            url: `${url}/onu/${codservice}/upload`, // Set the url for your upload script location
+            parallelUploads: 20,
+            maxFilesize: 10, // Max filesize in MB
+            previewTemplate: previewTemplate,
+            previewsContainer: id + " .dropzone-items", // Define the container to display the previews
+            clickable: id + " .dropzone-select" // Define the element that should be used as click trigger to select files.
         });
-    });
 
-    // Update the total progress bar
-    myDropzone.on("totaluploadprogress", function (progress) {
-        const progressBars = dropzone.querySelectorAll('.progress-bar');
-        progressBars.forEach(progressBar => {
-            progressBar.style.width = progress + "%";
-        });
-    });
-
-    myDropzone.on("sending", function (file) {
-        // Show the total progress bar when upload starts
-        const progressBars = dropzone.querySelectorAll('.progress-bar');
-        progressBars.forEach(progressBar => {
-            progressBar.style.opacity = "1";
-        });
-    });
-
-    // Hide the total progress bar when nothing"s uploading anymore
-    myDropzone.on("complete", function (progress) {
-        const progressBars = dropzone.querySelectorAll('.dz-complete');
-
-        setTimeout(function () {
-            progressBars.forEach(progressBar => {
-                progressBar.querySelector('.progress-bar').style.opacity = "0";
-                progressBar.querySelector('.progress').style.opacity = "0";
+        myDropzone.on("addedfile", function (file) {
+            // Hookup the start button
+            const dropzoneItems = dropzone.querySelectorAll('.dropzone-item');
+            dropzoneItems.forEach(dropzoneItem => {
+                dropzoneItem.style.display = '';
             });
-        }, 300);
-    });
+        });
 
-    // Nodelist
-    const autosize_elements = document.querySelectorAll('.kt_autosize');
-    autosize(autosize_elements);
-</script>
+        myDropzone.on("totaluploadprogress", function (progress) {
+            const progressBars = dropzone.querySelectorAll('.progress-bar');
+            progressBars.forEach(progressBar => {
+                progressBar.style.width = progress + "%";
+            });
+        });
+
+        myDropzone.on("sending", function (file) {
+            // Show the total progress bar when upload starts
+            const progressBars = dropzone.querySelectorAll('.progress-bar');
+            progressBars.forEach(progressBar => {
+                progressBar.style.opacity = "1";
+            });
+        });
+
+        myDropzone.on("complete", function (progress) {
+            const progressBars = dropzone.querySelectorAll('.dz-complete');
+
+            setTimeout(function () {
+                progressBars.forEach(progressBar => {
+                    progressBar.querySelector('.progress-bar').style.opacity = "0";
+                    progressBar.querySelector('.progress').style.opacity = "0";
+                });
+            }, 300);
+        });
+
+        const autosize_elements = document.querySelectorAll('.kt_autosize');
+        autosize(autosize_elements);
+    </script>
+<% } %>
 </body>
 <!--end::Body-->
 </html>
