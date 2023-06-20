@@ -527,3 +527,28 @@ export async function get_customers_by_plan(req, res) {
         res.status(500).send(json_out('500', 'Error in controller get_customers_by_plan', e));
     }
 }
+
+export async function get_customers(req, res) {
+
+    const {Username, Database, Password} = get_credentials(req);
+    let Connection = null
+
+    try {
+        Connection = await get_connection(Username, Password, `${config.DB.HOST}`, `PLR00${Database}`);
+
+        if (Connection.code === 500)
+            throw {code: Connection.code, message: Connection.message}
+
+        const stmt = await Connection.request()
+        stmt.query(`SELECT *
+                    FROM clientes.vw_catalogo_clientes`, (err, result) => {
+            if (err) {
+                res.status(500).send(json_out('500', 'Error in query getAll customer', err));
+            } else {
+                res.status(200).send(json_out('200', 'Run Ok', result.recordset));
+            }
+        });
+    } catch (e) {
+        res.status(500).send(json_out('500', 'Error general in controller getAll customer ', e));
+    }
+}

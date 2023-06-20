@@ -91,4 +91,6 @@ r.get("/dashboard/:view", is_auth_api, apic.get_customers_by_plan)
 r.get('/dte/:id', is_auth_api, apic.get_dte_by_id)
 r.post('/dte/:id', is_auth_api, apic.set_dte_info)
 
+r.get('/customers', is_auth_api, apic.get_customers);
+
 export default r;
