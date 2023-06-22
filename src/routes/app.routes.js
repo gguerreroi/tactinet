@@ -56,9 +56,9 @@ router.get('/customers/maintenance/customer', is_auth, function (request, respon
     }
 });
 
-router.get('/customers/maintenance/customer/:id', is_auth, function (request, response) {
+router.get('/customers/maintenance/customer/details/:id', is_auth, function (request, response) {
     const info = {
-        UserInfo: request.session.passport.user, me: request.path
+        UserInfo: request.session.passport.user, me: '/customers/maintenance/customer'
     }
     const {Permisos} = request.session.passport.user.data;
     if (Permisos.includes(info.me)) {

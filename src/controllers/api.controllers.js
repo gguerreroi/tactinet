@@ -540,8 +540,16 @@ export async function get_customers(req, res) {
             throw {code: Connection.code, message: Connection.message}
 
         const stmt = await Connection.request()
-        stmt.query(`SELECT *
-                    FROM clientes.vw_catalogo_clientes`, (err, result) => {
+        stmt.query(`select cc.CODCLIENTE,
+                           clientes.fn_strnombrecompleto(cc.P_NOMBRE, cc.S_NOMBRE, cc.T_NOMBRE, cc.P_APELLIDO,
+                                                         cc.S_APELLIDO,
+                                                         cc.T_APELLIDO) 'STRNOMBRECOMPLETO', 
+                                                         cc.DIRECCION_RESIDENCIA,
+                           cc.TELEFONO,
+                           cc.MOVIL,
+                           cc.NIT,
+                           cc.CUI
+                    from clientes.core cc`, (err, result) => {
             if (err) {
                 res.status(500).send(json_out('500', 'Error in query getAll customer', err));
             } else {
