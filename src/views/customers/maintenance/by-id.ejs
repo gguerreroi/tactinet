@@ -1,24 +1,8 @@
 <%
- function inputfloat(
-         colsm,
-         colmd,
-         collg,
-         type,
-         label,
-         iid, name = '', vale = ''
-
- ){
-     name = name === '' ? iid : name;
-     return `<div class="col-12 col-sm-${colsm} col-md-${colmd} col-lg-${collg}">
-                <div class="form-floating mb-7">
-                    <input type="${type}" class="form-control" id="${iid}" name="${name}" value="${vale}">
-                    <label for="${iid}">${label}</label>
-                </div>
-            </div>`;
+ function inputfloat(...spread){
+     return ''
  }
-
  %>
-
 <!DOCTYPE html>
 <html lang="en">
 <!--begin::Head-->
@@ -61,33 +45,29 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <%- inputfloat(
-                                                    colsm='6',
-                                                    colmd='4',
-                                                    collg='3',
-                                                    type='text',
-                                                    label='CIF',
-                                                    iid='CODCLIENTE',
-                                                    vale=''
-                                            ) %>
-                                            <%- inputfloat(
-                                                    colsm='6',
-                                                    colmd='4',
-                                                    collg='3',
-                                                    type='text',
-                                                    label='CUI',
-                                                    iid='CUI',
-                                                    vale=''
-                                            ) %>
-                                            <%- inputfloat(
-                                                    colsm='6',
-                                                    colmd='4',
-                                                    collg='3',
-                                                    type='text',
-                                                    label='Fecha Vencimiento DPI',
-                                                    iid='CUIVENCIMIENTO',
-                                                    vale=''
-                                            ) %>
+                                            <%- include('../components/input-float.ejs',{
+                                            colsm:"6", colmd:"4", collg:"3",
+                                            type:"text", label:"CIF", iid:"CODCLIENTE",
+                                            vale:"", name:""
+                                            }); %>
+                                            <%- /*include('../components/input-float',{
+                                            colsm:'6',
+                                            colmd:'4',
+                                            collg:'3',
+                                            type:'text',
+                                            label:'CUI',
+                                            iid:'CUI',
+                                            vale: ''})*/
+                                            %>
+                                            <%- /*include('../components/input-float',{
+                                            colsm:'6',
+                                            colmd:'4',
+                                            collg:'3',
+                                            type:'text',
+                                            label:'Fecha Vencimiento DPI',
+                                            iid:'CUIVENCIMIENTO',
+                                            vale:''}
+                                            )*/ %>
 
                                         </div>
                                         <div class="row">
@@ -249,6 +229,68 @@
                                                         <option value="1">001 NINGUNA</option>
                                                     </select>
                                                     <label for="CODOCUPACION">Ocupacion</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                                <div class="form-floating border rounded mb-7">
+                                                    <select class="form-select form-select-transparent"
+                                                            name="CONDICIONMIGRATORIA"
+                                                            id="CONDICIONMIGRATORIA">
+                                                        <option value="1">001 NINGUNA</option>
+                                                    </select>
+                                                    <label for="CONDICIONMIGRATORIA">Condición Migratoria</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <span class="fw-bold mb-7">Dirección de Residencia</span>
+                                            <%- inputfloat(
+                                                    colsm='12',
+                                                    colmd='12',
+                                                    collg='12',
+                                                    type='text',
+                                                    label='Direccion',
+                                                    iid='DIRECCION_RESIDENCIA',
+                                                    vale=''
+                                            ) %>
+                                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                                <div class="form-floating border rounded mb-7">
+                                                    <select class="form-select form-select-transparent"
+                                                            name="CODGEOPAISRESIDENCIA"
+                                                            id="CODGEOPAISRESIDENCIA">
+                                                        <option value="320">320 GUATEMALA</option>
+                                                    </select>
+                                                    <label for="CODGEOPAISRESIDENCIA">País</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                                <div class="form-floating border rounded mb-7">
+                                                    <select class="form-select form-select-transparent"
+                                                            name="CODGEODEPRESIDENCIA"
+                                                            id="CODGEODEPRESIDENCIA">
+                                                        <option value="16">16 ALTA VERAPAZ</option>
+                                                    </select>
+                                                    <label for="CODGEODEPRESIDENCIA">Departamento</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                                <div class="form-floating border rounded mb-7">
+                                                    <select class="form-select form-select-transparent"
+                                                            name="CODGEOMUNRESIDENCIA"
+                                                            id="CODGEOMUNRESIDENCIA">
+                                                        <option value="4">04 TACTIC</option>
+                                                    </select>
+                                                    <label for="CODGEOMUNRESIDENCIA">Municipio</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                                <div class="form-floating border rounded mb-7">
+                                                    <select class="form-select form-select-transparent"
+                                                            name="CODGEOALDRESIDENCIA"
+                                                            id="CODGEOALDRESIDENCIA">
+                                                        <option value="1">001 TACTIC</option>
+                                                    </select>
+                                                    <label for="CODGEOALDRESIDENCIA">Aldea</label>
                                                 </div>
                                             </div>
                                         </div>
