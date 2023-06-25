@@ -1,21 +1,21 @@
 "use strict";
 
-const KTCustomer = function(){
+const KTCustomer = function () {
     let form_customer;
 
-    function handle(){
+    function handle() {
 
     }
 
     return {
-        init: function(){
-            console.log("codcliente", codcliente)
+        init: function () {
+
             handle();
         },
-        initNewCustomer: function(){
+        initNewCustomer: function () {
 
         },
-        initEditCustomer: function(){
+        initEditCustomer: function () {
 
         }
     }
