@@ -382,7 +382,7 @@ const TNOnuInfo = function () {
             url: `${url}/onu/${onu_id}/catv`,
             type: 'POST'
         }).done(function(resp){
-            console.log(resp)
+
             const {response} = resp.data;
             Swal.fire({
                 text: response,
@@ -394,7 +394,7 @@ const TNOnuInfo = function () {
                 }
             })
         }).fail(function(error){
-            console.log(error)
+
             const msj = error.responseJSON;
             let message = msj.state.Message != undefined ? msj.state.Message : "Se produjo un error";
 
