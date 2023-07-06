@@ -2,6 +2,12 @@
  function inputfloat(...spread){
      return ''
  }
+
+ var row = UserInfo.data == undefined ? {
+     CODCLIENTE: "987",
+     CODGENERO: ""
+ } : UserInfo.data;
+
  %>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +54,7 @@
                                             <%- include('../components/input-float.ejs',{
                                             colsm:"6", colmd:"4", collg:"3",
                                             type:"text", label:"CIF", iid:"CODCLIENTE",
-                                            vale:"", name:""
+                                            vale: row.CODCLIENTE, name:""
                                             }); %>
                                             <%- /*include('../components/input-float',{
                                             colsm:'6',

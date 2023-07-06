@@ -60,6 +60,7 @@ router.get('/customers/maintenance/customer/details/:id', is_auth, function (req
     const info = {
         UserInfo: request.session.passport.user, me: '/customers/maintenance/customer'
     }
+
     const {Permisos} = request.session.passport.user.data;
     if (Permisos.includes(info.me)) {
         return response.render('customers/maintenance/by-id', info);
@@ -230,7 +231,7 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
             const {PREFIJO, LLAVEWS, TOKENSIGNER, EMISORNIT, EMISORCORREO} = dte_auth_val.data.data[0];
             fel.post_dte_signed(TOKENSIGNER, codserial, PREFIJO, "S", btoa(xml_anula)).then(dte_sig => {
                 const {resultado, descripcion, archivo} = dte_sig.data;
-                console.log('resultado: ', resultado, 'descripcion: ', descripcion, 'archivo: ', archivo, dte_sig.data)
+
 
                 if (resultado) {
                     feldb.save_xmls_tocancel(Username, Password, Database, codserial, archivo);
@@ -247,7 +248,7 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
 
                         return response.status(200).json({resultado: false, descripcion: descripcion})
                     }).catch(err => {
-                        console.log(' Error al anular DTE en la SAT ', err)
+
                         return response.status(200).json(err)
                     })
                 }else {
@@ -256,11 +257,11 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
 
 
             }).catch(err => {
-                console.log(" Error al obtener firma del DTE ", err)
+
                 return response.status(200).json({err})
             })
         }).catch(err => {
-            console.log(" Error al obtener datos de autenticacion ", err)
+
             return response.status(200).json({err});
         })
 

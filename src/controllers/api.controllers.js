@@ -171,10 +171,10 @@ export async function add_comment_to_task(req, res) {
         sp.output('strmsj', mssql.VarChar(400))
         sp.execute('actividad.sp_add_comment', function (err, result) {
             if (err) {
-                console.log("in in err")
+
                 res.status(500).send(json_out('500', 'Error in controller addComment', err));
             } else {
-                console.log("else in err")
+
                 res.status(200).send(json_out('200', `${result.output.codmsj} - ${result.output.strmsj}`, result.recordset));
             }
         });
@@ -221,10 +221,10 @@ export async function add_image_to_task(request, response) {
     const {Username, Password, Database} = get_credentials(request);
     const {id} = request.params;
 
-    console.log("request.files ", request.files)
+
 
     try {
-        console.log("files: ", files)
+
         response.status(200).send(json_out('200', 'Run Ok', null));
     } catch (e) {
         response.status(500).send(json_out('500', 'Error in controller addImage', e));
@@ -243,10 +243,10 @@ export async function add_image_to_task(request, response) {
     //     sp.output('strmsj', mssql.VarChar(400))
     //     sp.execute('actividad.sp_add_comment', function(err, result) {
     //         if (err) {
-    //             console.log("in in err")
+
     //             res.status(500).send(JsonOut('500', 'Error in controller addComment', err));
     //         }else{
-    //             console.log("else in err")
+
     //             res.status(200).send(JsonOut('200', `${result.output.codmsj} - ${result.output.strmsj}`, result.recordset));
     //         }
     //     });
@@ -550,6 +550,30 @@ export async function get_customers(req, res) {
                            cc.NIT,
                            cc.CUI
                     from clientes.core cc`, (err, result) => {
+            if (err) {
+                res.status(500).send(json_out('500', 'Error in query getAll customer', err));
+            } else {
+                res.status(200).send(json_out('200', 'Run Ok', result.recordset));
+            }
+        });
+    } catch (e) {
+        res.status(500).send(json_out('500', 'Error general in controller getAll customer ', e));
+    }
+}
+
+export async function get_customers_by_id(req, res) {
+    const {Username, Database, Password} = get_credentials(req);
+    const {id} = req.params;
+    let Connection = null
+
+    try {
+        Connection = await get_connection(Username, Password, `${config.DB.HOST}`, `PLR00${Database}`);
+
+        if (Connection.code === 500)
+            throw {code: Connection.code, message: Connection.message}
+
+        const stmt = await Connection.request()
+        stmt.query(`select * from clientes.core cc where codcliente = ${id}`, (err, result) => {
             if (err) {
                 res.status(500).send(json_out('500', 'Error in query getAll customer', err));
             } else {
