@@ -85,20 +85,20 @@ const TNOnuInfo = function () {
         onu_status_icon.removeClass('svg-icon-dark');
         onu_status_icon.removeClass('svg-icon-muted');
 
-        if (status_data.onu_status == 'Online')
+        if (status_data.onu_status === 'Online')
             onu_status_icon.addClass('svg-icon-success');
-        else if (status_data.onu_status == 'LOS')
+        else if (status_data.onu_status === 'LOS')
             onu_status_icon.addClass('svg-icon-danger');
-        else if (status_data.onu_status == 'Power fail')
+        else if (status_data.onu_status === 'Power fail')
             onu_status_icon.addClass('svg-icon-dark');
-        else if (status_data.onu_status == 'Offline')
+        else if (status_data.onu_status === 'Offline')
             onu_status_icon.addClass('svg-icon-muted');
 
         onu_status_input.value = status_data.onu_status;
     }
     const set_onu_catv = function (status_data) {
         onu_signal_catv_input.value = status_data;
-        if (status_data == "Enabled")
+        if (status_data === "Enabled")
             onu_signal_catv_icon.html('').html(svg_signal_success());
     }
 
@@ -107,13 +107,13 @@ const TNOnuInfo = function () {
         onu_signal_tx_input.value = signal_data.onu_signal_1490;
         onu_signal_rx_input.value = signal_data.onu_signal_1310;
         // 'Critical', 'Warning', 'Very good'
-        if (signal_data.onu_signal == 'Critical') {
+        if (signal_data.onu_signal === 'Critical') {
             onu_signal_tx_icon.html('').html(svg_signal_danger());
             onu_signal_rx_icon.html('').html(svg_signal_danger());
-        } else if (signal_data.onu_signal == 'Warning') {
+        } else if (signal_data.onu_signal === 'Warning') {
             onu_signal_tx_icon.html('').html(svg_signal_warning());
             onu_signal_rx_icon.html('').html(svg_signal_warning());
-        } else if (signal_data.onu_signal == 'Very good') {
+        } else if (signal_data.onu_signal === 'Very good') {
             onu_signal_tx_icon.html('').html(svg_signal_success());
             onu_signal_rx_icon.html('').html(svg_signal_success());
         } else {
@@ -125,7 +125,7 @@ const TNOnuInfo = function () {
     const get_onu_optical_info = function () {
         submit_button.setAttribute('data-kt-indicator', 'on')
         submit_button.disabled = true;
-
+        /*
         $.ajax({
             url: `${url}/onu/${onu_id}/speedprofile`,
             type: 'GET'
@@ -137,23 +137,21 @@ const TNOnuInfo = function () {
                 onu_bw_up_input.value = data.upload_speed_profile_name;
             }else{
                 console.log("typeof data: ", typeof(data), data)
-                // data.forEach(function(value, index, array){
-                //     console.log(value)
-                // })
             }
         }).fail(function(fail_speed){
             console.log("fail_speed", fail_speed)
-        })
+        })    */
 
         $.ajax({
             url: `${url}/onu/${onu_id}/status/details`,
             type: 'GET'
         }).done(function (status_admin) {
-            const {administrative_status, catv} = status_admin.data.onu_details;
+
+            const {administrative_status, catv, board, port, service_ports} = status_admin.data.onu_details;
+
             if (administrative_status === "Disabled") {
                 var e = {code: 'ONU_DISABLED', message: 'la ONU fue desactivada'}
                 onu_div_alert.html('').html(onu_alert(`${e.code}`, `${e.message}`, 'danger'));
-
             }
 
             if (administrative_status !== "Disabled")
