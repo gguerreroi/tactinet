@@ -107,3 +107,14 @@ export function set_dte_anulacion(
 ){
 
 }
+
+export async function get_one_customers(id, UserInfo) {
+    const {Username, Password, Database} = UserInfo.data;
+    return axios.get(`${API_URL}/customers/${id}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Basic ${Buffer.from(`${Username}:${Password}`).toString('base64')}`,
+            'Database': Database
+        }
+    });
+}

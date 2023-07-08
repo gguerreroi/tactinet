@@ -107,7 +107,6 @@ export async function get_task_pending_by_user(req, res) {
 }
 
 export async function get_task_by_id(req, res) {
-
     const {Username, Password, Database} = get_credentials(req);
     let Connection = null
 

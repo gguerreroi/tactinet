@@ -58,12 +58,22 @@ router.get('/customers/maintenance/customer', is_auth, function (request, respon
 
 router.get('/customers/maintenance/customer/details/:id', is_auth, function (request, response) {
     const info = {
-        UserInfo: request.session.passport.user, me: '/customers/maintenance/customer'
+        UserInfo: request.session.passport.user,
+        me: '/customers/maintenance/customer',
+        id: request.params.id, customer: []
     }
-
     const {Permisos} = request.session.passport.user.data;
     if (Permisos.includes(info.me)) {
-        return response.render('customers/maintenance/by-id', info);
+        const customer = app.get_one_customers(request.params.id, info.UserInfo)
+        Promise.all([customer]).then(val => {
+            info.customer = val[0].data.data[0];
+            return response.render('customers/maintenance/by-id', info);
+        }).catch(err => {
+            return response.render('system/error-500', {
+                UserInfo: request.session.passport.user, me: request.path, err: err
+            });
+        })
+
     } else {
         return response.render('system/error-403')
     }
@@ -87,7 +97,9 @@ router.get('/services/tasks/pending', is_auth, function (request, response) {
 
 router.get('/services/tasks/details/:id', is_auth, function (request, response) {
     let info = {
-        UserInfo: request.session.passport.user, me: '/services/tasks/pending', id: request.params.id, task: []
+        UserInfo: request.session.passport.user,
+        me: '/services/tasks/pending',
+        id: request.params.id, task: []
     }
     const {Permisos} = request.session.passport.user.data;
     if (Permisos.includes(info.me)) {

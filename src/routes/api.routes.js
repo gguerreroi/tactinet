@@ -3,8 +3,8 @@ import {json_out} from "../middlewares/json-out";
 import {is_auth_api} from "../middlewares/is-auth";
 import * as apic from "../controllers/api.controllers";
 import * as onu from "../controllers/onu.controllers";
-import {get_onu_details_status_by_id, get_onu_unconfigured} from "../controllers/onu.controllers";
-import {get_customers_by_plan} from "../controllers/api.controllers";
+import * as catalogue from "../controllers/catalogue.controllers";
+
 
 const passport = require('passport');
 const r = Router();
@@ -92,5 +92,8 @@ r.get('/dte/:id', is_auth_api, apic.get_dte_by_id)
 r.post('/dte/:id', is_auth_api, apic.set_dte_info)
 
 r.get('/customers', is_auth_api, apic.get_customers);
+r.get('/customers/:id', is_auth_api, apic.get_customers_by_id);
+
+r.get("/catalogue/:view/:cod/:str", is_auth_api, catalogue.get_catalogue);
 
 export default r;
