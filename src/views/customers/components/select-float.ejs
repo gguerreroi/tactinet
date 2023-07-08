@@ -1,6 +1,9 @@
 <div class="col-12 col-sm-<%= colsm %>> col-md-<%= colmd %> col-lg-<%= collg %>">
-    <div class="form-floating mb-7">
-        <select name="<%= name %>" id="<%= iid %>" class="form-select" aria-label="<%= label %>">
+    <div class="form-floating rounded mb-7">
+        <select name="<%= name %>"
+                id="<%= iid %>"
+                class="form-select form-select-transparent"
+                aria-label="<%= label %>" >
             <option value="" <%- vale === "" ? "selected" : "" %> disabled hidden>Seleccione una opción</option>
             <% options.forEach(function(value, index, array){ %>
                 <option value="<%= value.id %>" <%- value.id === vale ? "selected" : "" %>><%= value.text %></option>
