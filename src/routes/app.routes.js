@@ -56,13 +56,24 @@ router.get('/customers/maintenance/customer', is_auth, function (request, respon
     }
 });
 
-router.get('/customers/maintenance/customer/:id', is_auth, function (request, response) {
+router.get('/customers/maintenance/customer/details/:id', is_auth, function (request, response) {
     const info = {
-        UserInfo: request.session.passport.user, me: request.path
+        UserInfo: request.session.passport.user,
+        me: '/customers/maintenance/customer',
+        id: request.params.id, customer: []
     }
     const {Permisos} = request.session.passport.user.data;
     if (Permisos.includes(info.me)) {
-        return response.render('customers/maintenance/by-id', info);
+        const customer = app.get_one_customers(request.params.id, info.UserInfo)
+        Promise.all([customer]).then(val => {
+            info.customer = val[0].data.data[0];
+            return response.render('customers/maintenance/by-id', info);
+        }).catch(err => {
+            return response.render('system/error-500', {
+                UserInfo: request.session.passport.user, me: request.path, err: err
+            });
+        })
+
     } else {
         return response.render('system/error-403')
     }
@@ -86,7 +97,9 @@ router.get('/services/tasks/pending', is_auth, function (request, response) {
 
 router.get('/services/tasks/details/:id', is_auth, function (request, response) {
     let info = {
-        UserInfo: request.session.passport.user, me: '/services/tasks/pending', id: request.params.id, task: []
+        UserInfo: request.session.passport.user,
+        me: '/services/tasks/pending',
+        id: request.params.id, task: []
     }
     const {Permisos} = request.session.passport.user.data;
     if (Permisos.includes(info.me)) {
@@ -230,7 +243,7 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
             const {PREFIJO, LLAVEWS, TOKENSIGNER, EMISORNIT, EMISORCORREO} = dte_auth_val.data.data[0];
             fel.post_dte_signed(TOKENSIGNER, codserial, PREFIJO, "S", btoa(xml_anula)).then(dte_sig => {
                 const {resultado, descripcion, archivo} = dte_sig.data;
-                console.log('resultado: ', resultado, 'descripcion: ', descripcion, 'archivo: ', archivo, dte_sig.data)
+
 
                 if (resultado) {
                     feldb.save_xmls_tocancel(Username, Password, Database, codserial, archivo);
@@ -247,7 +260,7 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
 
                         return response.status(200).json({resultado: false, descripcion: descripcion})
                     }).catch(err => {
-                        console.log(' Error al anular DTE en la SAT ', err)
+
                         return response.status(200).json(err)
                     })
                 }else {
@@ -256,11 +269,11 @@ router.delete('/cash/operations/documents', is_auth, function (request, response
 
 
             }).catch(err => {
-                console.log(" Error al obtener firma del DTE ", err)
+
                 return response.status(200).json({err})
             })
         }).catch(err => {
-            console.log(" Error al obtener datos de autenticacion ", err)
+
             return response.status(200).json({err});
         })
 

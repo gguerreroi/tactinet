@@ -1,0 +1,9 @@
+<%
+    name = name === '' ? iid : name
+%>
+<div class="col-12 col-sm-<%= colsm %> col-md-<%= colmd %> col-lg-<%= collg %>">
+    <div class="form-floating mb-7">
+        <input type="<%= type %>" class="form-control" id="<%= iid %>" name="<%= name %>" value="<%= vale %>">
+        <label for="<%= iid %>"><%= label %></label>
+    </div>
+</div>
