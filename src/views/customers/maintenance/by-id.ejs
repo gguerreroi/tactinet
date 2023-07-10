@@ -67,14 +67,14 @@ var row = customer === undefined ? {
                                                 <%- include('../components/select-float',{
                                                 colsm: "6", colmd: "4", collg: "3",
                                                 name:"CODGENERO", iid: "CODGENERO",
-                                                label: "GENERO", vale: row.CODGENERO,
+                                                label: "Genero ", vale: row.CODGENERO,
                                                 options: [
                                                 {id: "M", text: "MASCULINO"},
                                                 {id: "F", text: "FEMENINO"} ] }) %>
                                                 <%- include('../components/select-float',{
                                                 colsm: "6", colmd: "4", collg: "3",
                                                 name:"CODESTADOCIVIL", iid: "CODESTADOCIVIL",
-                                                label: "ESTADO CIVIL", vale: row.CODESTADOCIVIL,
+                                                label: "Estado civil", vale: row.CODESTADOCIVIL,
                                                 options: [
                                                 {id: "S", text: "SOLTERO"},
                                                 {id: "C", text: "CASADO"} ] }) %>
@@ -112,29 +112,6 @@ var row = customer === undefined ? {
                                                 label:"Fecha Nacimiento", type: "text", vale: row.FCHNACIMIENTO }) %>
                                             </div>
                                             <div class="row">
-                                                <span class="fw-bold mb-2">Lugar de nacimiento</span>
-                                                <%- include('../components/select-float',{
-                                                colsm: "6", colmd: "4", collg: "3",
-                                                name:"CODGEOPAISNACIMIENTO", iid: "CODGEOPAISNACIMIENTO",
-                                                label: "País", vale: row.CODGEOPAISNACIMIENTO,
-                                                options: [ ] }) %>
-                                                <%- include('../components/select-float',{
-                                                colsm: "6", colmd: "4", collg: "3",
-                                                name:"CODGEODEPNACIMIENTO", iid: "CODGEODEPNACIMIENTO",
-                                                label: "Departamento", vale: row.CODGEODEPNACIMIENTO,
-                                                options: [ ] }) %>
-                                                <%- include('../components/select-float',{
-                                                colsm: "6", colmd: "4", collg: "3",
-                                                name:"CODGEOMUNNACIMIENTO", iid: "CODGEOMUNNACIMIENTO",
-                                                label: "Municipio", vale: row.CODGEOMUNNACIMIENTO,
-                                                options: [ ] }) %>
-                                                <%- include('../components/select-float',{
-                                                colsm: "6", colmd: "4", collg: "3",
-                                                name:"CODGEOALDNACIMIENTO", iid: "CODGEOALDNACIMIENTO",
-                                                label: "Aldea", vale: row.CODGEOALDNACIMIENTO,
-                                                options: [ ] }) %>
-                                            </div>
-                                            <div class="row">
                                                 <%- include('../components/select-float',{
                                                 colsm: "6", colmd: "4", collg: "3",
                                                 name:"CODNACIONALIDAD", iid: "CODNACIONALIDAD",
@@ -170,7 +147,29 @@ var row = customer === undefined ? {
                                                 colsm: "6", colmd: "4", collg: "3",
                                                 name: "MOVIL", iid: "MOVIL",
                                                 label:"Celular", type: "text", vale: row.MOVIL }) %>
-
+                                            </div>
+                                            <div class="row">
+                                                <span class="fw-bold mb-2">Lugar de nacimiento</span>
+                                                <%- include('../components/select-float',{
+                                                colsm: "6", colmd: "4", collg: "3",
+                                                name:"CODGEOPAISNACIMIENTO", iid: "CODGEOPAISNACIMIENTO",
+                                                label: "País", vale: row.CODGEOPAISNACIMIENTO,
+                                                options: [ ] }) %>
+                                                <%- include('../components/select-float',{
+                                                colsm: "6", colmd: "4", collg: "3",
+                                                name:"CODGEODEPNACIMIENTO", iid: "CODGEODEPNACIMIENTO",
+                                                label: "Departamento", vale: row.CODGEODEPNACIMIENTO,
+                                                options: [ ] }) %>
+                                                <%- include('../components/select-float',{
+                                                colsm: "6", colmd: "4", collg: "3",
+                                                name:"CODGEOMUNNACIMIENTO", iid: "CODGEOMUNNACIMIENTO",
+                                                label: "Municipio", vale: row.CODGEOMUNNACIMIENTO,
+                                                options: [ ] }) %>
+                                                <%- include('../components/select-float',{
+                                                colsm: "6", colmd: "4", collg: "3",
+                                                name:"CODGEOALDNACIMIENTO", iid: "CODGEOALDNACIMIENTO",
+                                                label: "Aldea", vale: row.CODGEOALDNACIMIENTO,
+                                                options: [ ] }) %>
                                             </div>
                                             <div class="row">
                                                 <span class="fw-bold mb-1">Dirección de Residencia</span>
@@ -232,13 +231,21 @@ var row = customer === undefined ? {
     var hostUrl = "assets/";
     const url = `${window.location.origin}/api`;
     const [a, b, c, d, e, codcliente] = window.location.pathname.split('/');
+    var DefaultDataCustomer;
 </script>
 <%- include('../../components/web-footer') %>
 <script src="assets/js/custom/widgets.js"></script>
 <script src="assets/js/custom/customers/customers-byid.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        KTCustomer.init();
+        KTCustomer.init()
+
+        if (codcliente.toString() !== '0'){
+            DefaultDataCustomer = JSON.parse('<%- JSON.stringify(row)%>');
+            KTCustomer.initEditCustomer();
+        }else{
+            KTCustomer.initNewCustomer();
+        }
     });
 </script>
 </body>
