@@ -133,6 +133,61 @@ const KTCustomer = function () {
                     return $('<div class="mt-2">' + item.text + '</div>')
                 }
             })
+
+            select_codgeoaldnacimiento = $("#CODGEOALDNACIMIENTO").select2({
+                placeholder: "Seleccione una opción",
+                ajax: {
+                    url: `${url}/catalogue/financiero.vw_aldea/codine/txtvalue`,
+                    type: "get",
+                    dataType: "json",
+                    data: {
+                        cname: 'CODINEP',
+                        cvalue: select_codgeomunnacimiento.val()
+                    }
+                },
+                templateSelection: function(item){
+                    return $('<div class="mt-2">'+ item.text +'</div>')
+                }
+            })
+
+            select_codgeopaisresidencia = $("#CODGEOPAISRESIDENCIA").select2({
+                placeholder: 'Seleccione una opción',
+                ajax: {
+                    url: `${url}/catalogue/financiero.vw_paises/ISO31661N/txtvalue`,
+                    dataType: 'json'
+                },
+                templateSelection: function (item) {
+                    return $('<div class="mt-2">' + item.text + '</div>')
+                }
+            })
+
+            select_codgeodepresidencia = $("#CODGEODEPRESIDENCIA").select2({
+                placeholder: "Seleccione una opción",
+                ajax: {
+                    url: `${url}/catalogue/financiero.vw_deptos/codine/txtvalue`,
+                    dataType: 'json'
+                },
+                templateSelection: function (item) {
+                    return $('<div class="mt-2">' + item.text + '</div>')
+                }
+            })
+
+            select_codgeomunresidencia = $("#CODGEOMUNRESIDENCIA").select2({
+                placeholder: "Seleccione una opción",
+                ajax: {
+                    url: `${url}/catalogue/financiero.vw_mun/codine/txtvalue`,
+                    type: 'get',
+                    dataType: 'json',
+                    data: {
+                        cname: 'CODINEP',
+                        cvalue: select_codgeodeptonacimiento.val()
+                    }
+                },
+                templateSelection: function (item) {
+                    return $('<div class="mt-2">' + item.text + '</div>')
+                }
+            })
+
             handle();
         },
         initNewCustomer: function () {
