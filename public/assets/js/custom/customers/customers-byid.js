@@ -20,7 +20,19 @@ const KTCustomer = function () {
     let input_codgenero;
     function handle() {
         toggleApellidoCasada();
-
+        form_customer.addEventListener('submit', function(e){
+            e.preventDefault();
+            console.log('sending...')
+            let data = {
+                id: "0320"
+            }
+            select_codgeopaisnacimiento.trigger({
+                type: 'select2:select',
+                params: {
+                    data: '0320'
+                }
+            });
+        })
 
     }
 
@@ -30,13 +42,13 @@ const KTCustomer = function () {
             if (input_codestadocivil.val() === 'C')
                 input_apellidocasada.prop('readonly', false);
 
-
     }
 
     return {
         init: function () {
 
             cif = document.getElementById('CODCLIENTE').value;
+            form_customer = document.getElementById('frm-customer');
             input_apellidocasada = $("#T_APELLIDO");
             input_codgenero = $("#CODGENERO");
             input_codestadocivil = $("#CODESTADOCIVIL");
@@ -188,12 +200,40 @@ const KTCustomer = function () {
                 }
             })
 
+            select_codgeoaldresidencia = $("#CODGEOALDRESIDENCIA").select2({
+                placeholder: "Seleccione una opción",
+                ajax: {
+                    url: `${url}/catalogue/financiero.vw_aldea/codine/txtvalue`,
+                    type: "get",
+                    dataType: "json",
+                    data: {
+                        cname: 'CODINEP',
+                        cvalue: select_codgeomunnacimiento.val()
+                    }
+                },
+                templateSelection: function(item){
+                    return $('<div class="mt-2">'+ item.text +'</div>')
+                }
+            })
+
             handle();
         },
         initNewCustomer: function () {
 
         },
         initEditCustomer: function () {
+            console.log(DefaultDataCustomer, DefaultDataCustomer.CODGEOPAISNACIMIENTO.trim().padStart(4,'0'))
+            // $("#CODGEOPAISNACIMIENTO").val(`${DefaultDataCustomer.CODGEOPAISNACIMIENTO.trim().padStart(4,'0')}`)
+            let data = {
+                "id": "0320"
+            }
+            console.log("data", data)
+            select_codgeopaisnacimiento.trigger({
+                type: 'select2:select',
+                params: {
+                    data: data
+                }
+            });
 
         }
     }
