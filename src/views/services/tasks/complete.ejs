@@ -100,6 +100,8 @@
     const filterSearch = document.querySelector('[data-kt-filter="search"]');
     
     const dtTaskPending = $("#kt_datatable").DataTable({
+        serverSide: true,
+        paging: false,
         ordering: false,
         search: true,
         ajax: `${url}/tasks/complete`,

@@ -58,6 +58,12 @@ export async function get_task_complete(req, res) {
 
     const {Username, Database, Password} = get_credentials(req);
     let Connection = null
+    let whr = "";
+    let top = 10;
+    const {search} = req.query;
+
+    whr = (search !== undefined) ? `WHERE lower(STRNOMBRESER) like '%${search.value}%'` : '';
+    top = req.query.length > 0  ? req.query.length : 10;
 
     try {
         Connection = await get_connection(Username, Password, `${config.DB.HOST}`, `PLR00${Database}`);
@@ -66,8 +72,9 @@ export async function get_task_complete(req, res) {
             throw {code: Connection.code, message: Connection.message}
 
         const stmt = await Connection.request()
-        stmt.query(`SELECT *
+        stmt.query(`SELECT top(${top}) *
                     FROM servicios.vw_actividades_completadas
+                    ${whr}
                     order by _FCHFINALIZADO desc`, (err, result) => {
             if (err) {
                 res.status(500).send(json_out('500', 'Error in controller getAll', err));
