@@ -1,11 +1,16 @@
+<%
+ let isSelected = false;
+ %>
 <div class="col-12 col-sm-<%= colsm %>> col-md-<%= colmd %> col-lg-<%= collg %>">
     <div class="form-floating border rounded mb-7">
         <select name="<%= name %>"
                 id="<%= iid %>"
                 class="form-select form-select-transparent"
                 aria-label="<%= label %>" >
-            <option value="" <%- vale === "" ? "selected" : "" %> disabled>Seleccione una opción</option>
             <% options.forEach(function(value, index, array){ %>
+            <%
+                isSelected = value.selected === true ? true : false;
+            %>
                 <option  value="<%= value.id %>" <%- value.id === vale ? "selected" : "" %>><%= value.text %></option>
             <% }) %>
         </select>

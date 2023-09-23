@@ -1,7 +1,5 @@
 <%
-function inputfloat(...spread) {
-    return ''
-}
+
 
 var row = customer === undefined ? {
     CODCLIENTE: "987",
@@ -69,8 +67,10 @@ var row = customer === undefined ? {
                                                 name:"CODGENERO", iid: "CODGENERO",
                                                 label: "Genero ", vale: row.CODGENERO,
                                                 options: [
+                                                {id: "", text: "Seleccione una opción", selected: true},
                                                 {id: "M", text: "MASCULINO"},
-                                                {id: "F", text: "FEMENINO"} ] }) %>
+                                                {id: "F", text: "FEMENINO"}
+                                                ] }) %>
                                                 <%- include('../components/select-float',{
                                                 colsm: "6", colmd: "4", collg: "3",
                                                 name:"CODESTADOCIVIL", iid: "CODESTADOCIVIL",
