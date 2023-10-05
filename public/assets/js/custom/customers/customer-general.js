@@ -24,7 +24,6 @@ const TKCustomers = function (){
                     {data: "MOVIL"},
                     {data: "CUI"},
                     {data: "NIT"}
-
                 ],
                 columnDefs: [
                     {
