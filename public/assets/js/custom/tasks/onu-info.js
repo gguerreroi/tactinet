@@ -20,6 +20,7 @@ const TNOnuInfo = function () {
     let button_reset_factory;
     let button_restart;
     let button_enable_catv;
+    let onu_service_ports;
 
     const onu_alert = function (title, description, type) {
         return `<div class="alert alert-dismissible bg-light-${type} border border-${type} d-flex flex-column flex-sm-row p-5 mb-10 mt-4">
@@ -148,6 +149,14 @@ const TNOnuInfo = function () {
         }).done(function (status_admin) {
 
             const {administrative_status, catv, board, port, service_ports} = status_admin.data.onu_details;
+            let row="";
+            service_ports.forEach(function(value, index, array){
+                const {cvlan, download_speed, service_port, svlan, tag_transform_mode, upload_speed, vlan} = value;
+                row+= `<tr><td>${service_port}</td><td>${tag_transform_mode}</td><td>${vlan}</td>`;
+                row+= `<td>${svlan}</td><td>${cvlan}</td><td>${download_speed}</td><td>${upload_speed}</td></tr>`;
+            })
+            onu_service_ports.empty();
+            onu_service_ports.append(row);
 
             if (administrative_status === "Disabled") {
                 var e = {code: 'ONU_DISABLED', message: 'la ONU fue desactivada'}
@@ -459,8 +468,7 @@ const TNOnuInfo = function () {
             onu_signal_catv_input = document.getElementById('onu-signal-catv-input');
             txt_onu_details = document.getElementById('txt-onu-info');
             onu_signal_catv_icon = $("#onu-signal-catv-icon");
-            onu_bw_up_input = document.getElementById('onu-bw-up-input');
-            onu_bw_dw_input = document.getElementById('onu-bw-dw-input');
+            onu_service_ports = $("#tb-service-port tbody");
             onu_id = document.getElementById('input-codservicio').value;
             onu_div_alert = $("#div-onu-alert");
             button_enable_catv = document.getElementById('button-enable-catv');
