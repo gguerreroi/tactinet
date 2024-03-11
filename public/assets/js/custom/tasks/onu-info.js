@@ -10,6 +10,7 @@ const TNOnuInfo = function () {
     let onu_status_input;
     let onu_bw_up_input;
     let onu_bw_dw_input;
+    let onu_service_port_id;
     let onu_signal_rx_icon;
     let onu_signal_rx_input;
     let onu_signal_tx_icon;
@@ -20,7 +21,9 @@ const TNOnuInfo = function () {
     let button_reset_factory;
     let button_restart;
     let button_enable_catv;
-    let onu_service_ports;
+    let onu_service_ports; // Tabla de Service Port
+    let onu_vlan;
+    let button_change_velocity;
 
     const onu_alert = function (title, description, type) {
         return `<div class="alert alert-dismissible bg-light-${type} border border-${type} d-flex flex-column flex-sm-row p-5 mb-10 mt-4">
@@ -152,6 +155,8 @@ const TNOnuInfo = function () {
             let row="";
             service_ports.forEach(function(value, index, array){
                 const {cvlan, download_speed, service_port, svlan, tag_transform_mode, upload_speed, vlan} = value;
+                onu_service_port_id.value = service_port;
+                onu_vlan.value = vlan;
                 row+= `<tr><td>${service_port}</td><td>${tag_transform_mode}</td><td>${vlan}</td>`;
                 row+= `<td>${svlan}</td><td>${cvlan}</td><td>${download_speed}</td><td>${upload_speed}</td></tr>`;
             })
@@ -421,6 +426,82 @@ const TNOnuInfo = function () {
         })
     }
 
+    function set_velocity(btn){
+     try {
+         $.ajax({
+             url: `${url}/onu/${onu_id}/speedprofile`,
+             type: 'POST',
+             data: {
+                 service_port: onu_service_port_id.value,
+                 vlan: onu_vlan.value,
+                 upload_speed_profile_name: onu_bw_up_input.value,
+                 download_speed_profile_name: onu_bw_dw_input.value
+             }
+         }).done(function(resp){
+             const {response} = resp.data;
+             console.log(resp)
+             Swal.fire({
+                 text: response,
+                 icon: 'success',
+                 buttonsStyling: false,
+                 confirmButtonText: 'Ok',
+                 customClass: {
+                     confirmButton: 'btn btn-success'
+                 }
+             }).then(function(resu){
+                 if (resu.isConfirmed){
+                     let btnfinish = document.getElementById('btnfinish');
+                     btnfinish.click()
+                 }
+             })
+         }).fail(function(err){
+             const msj = err.responseJSON;
+
+             let message = msj.state.Message != undefined ? msj.state.Message : "Se produjo un error";
+
+             Swal.fire({
+                 text: message,
+                 icon: 'error',
+                 buttonsStyling: false,
+                 confirmButtonText: 'Ok',
+                 customClass: {
+                     confirmButton: 'btn btn-danger'
+                 }
+             })
+         }).always(function(){
+             btn.disabled = false;
+             btn.removeAttribute('data-kt-indicator');
+         })
+     } catch (e) {
+         console.log('error in e')
+         console.log(e)
+     }
+    }
+
+    function btn_change_velocity(event){
+        const btn = this;
+        event.preventDefault()
+        btn.disabled = true;
+        btn.setAttribute('data-kt-indicator','on');
+        if (!onu_service_port_id.value == ""){
+            set_velocity(btn);
+        }else{
+
+            Swal.fire({
+                text: 'El service port no puede estar vacio',
+                icon: 'warning',
+                buttonsStyling: false,
+                confirmButtonText: 'Ok',
+                customClass: {
+                    confirmButton: 'btn btn-danger'
+                }
+            }).then(function(){
+                btn.disabled = false;
+                btn.removeAttribute('data-kt-indicator');
+            })
+        }
+    }
+
     const handle = function () {
         submit_button.addEventListener('click', function (e) {
             e.preventDefault();
@@ -448,6 +529,8 @@ const TNOnuInfo = function () {
         })
 
         button_enable_catv.addEventListener('click', enableCatv);
+
+        button_change_velocity.addEventListener('click', btn_change_velocity);
     }
 
 
@@ -472,6 +555,11 @@ const TNOnuInfo = function () {
             onu_id = document.getElementById('input-codservicio').value;
             onu_div_alert = $("#div-onu-alert");
             button_enable_catv = document.getElementById('button-enable-catv');
+            button_change_velocity = document.getElementById('btn-set-cv');
+            onu_bw_up_input = document.getElementById('input-bw-up');
+            onu_bw_dw_input = document.getElementById('input-bw-dw');
+            onu_service_port_id = document.getElementById('input-service-port');
+            onu_vlan = document.getElementById('input-vlan');
             handle();
         }
     };

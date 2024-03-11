@@ -182,7 +182,7 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                                                     <a href="tel:<%- tasks.MOVIL %>"><%- tasks.MOVIL %></a>
                                                 </div>
                                             </div>
-                                            <div class="col-12 hide">
+                                            <div class="col-12 hide ">
                                                 <input type="number" id="input-codservicio"
                                                        value="<%- tasks.CODSERVICIO %>" readonly>
                                                 <input type="text" id="input-strnombreser"
@@ -193,6 +193,8 @@ const tasks = task.CODACTIVIDAD === undefined ? {
                                                        value="<%- tasks.OLT_SP_DW_NAME %>" readonly>
                                                 <input type="text" id="input-bw-up"
                                                        value="<%- tasks.OLT_SP_UP_NAME %>" readonly>
+                                                <input type="text" id="input-service-port" value="" readonly>
+                                                <input type="text" id="input-vlan" value="" readonly>
                                             </div>
                                         </div>
                                     </div>

@@ -112,7 +112,7 @@ export async function get_onu_details_status_by_id(req, res) {
 
 export async function catv_enable_onu_by_id(req, res) {
     const {id} = req.params;
-    const catv = axios.post(`${API_URL}/onu/enable_catv/${id}`, {},{
+    const catv = axios.post(`${API_URL}/onu/enable_catv/${id}`, {}, {
         headers: {
             'X-Token': API_KEY
         }
@@ -142,7 +142,7 @@ export async function catv_enable_onu_bulk(req, res) {
 
 export async function onu_enable_by_id(req, res) {
     const {id} = req.params;
-    const enable_onu = axios.post(`${API_URL}/onu/enable/${id}`,{}, {
+    const enable_onu = axios.post(`${API_URL}/onu/enable/${id}`, {}, {
         headers: {
             'X-Token': API_KEY
         }
@@ -157,7 +157,7 @@ export async function onu_enable_by_id(req, res) {
 
 export async function onu_disable_by_id(req, res) {
     const {id} = req.params;
-    const disable_onu = axios.post(`${API_URL}/onu/disable/${id}`, {},{
+    const disable_onu = axios.post(`${API_URL}/onu/disable/${id}`, {}, {
         headers: {
             'X-Token': API_KEY
         }
@@ -169,9 +169,9 @@ export async function onu_disable_by_id(req, res) {
     });
 }
 
-export async function onu_delete_by_id(req, res){
+export async function onu_delete_by_id(req, res) {
     const {id} = req.params;
-    const delete_onu = axios.post(`${API_URL}/onu/delete/${id}`, {},{
+    const delete_onu = axios.post(`${API_URL}/onu/delete/${id}`, {}, {
         headers: {
             'X-Token': API_KEY
         }
@@ -186,7 +186,7 @@ export async function onu_delete_by_id(req, res){
     })
 }
 
-export async function get_onu_speed_profile_by_id(req, res){
+export async function get_onu_speed_profile_by_id(req, res) {
     const {id} = req.params;
     const spo = axios.get(`${API_URL}/onu/get_onu_speed_profiles/${id}`, {
         headers: {
@@ -204,7 +204,7 @@ export async function get_onu_speed_profile_by_id(req, res){
     })
 }
 
-export async function get_onu_all_unconfigured(req, res){
+export async function get_onu_all_unconfigured(req, res) {
     const {id} = req.params;
     const spo = axios.get(`${API_URL}/onu/get_onu_speed_profiles/${id}`, {
         headers: {
@@ -222,9 +222,9 @@ export async function get_onu_all_unconfigured(req, res){
     })
 }
 
-export async function onu_restore_factory_by_id(req, res){
+export async function onu_restore_factory_by_id(req, res) {
     const {id} = req.params;
-    const default_onu = axios.post(`${API_URL}/onu/restore_factory_defaults/${id}`, {},{
+    const default_onu = axios.post(`${API_URL}/onu/restore_factory_defaults/${id}`, {}, {
         headers: {
             'X-Token': API_KEY
         }
@@ -239,9 +239,9 @@ export async function onu_restore_factory_by_id(req, res){
     })
 }
 
-export async function onu_reboot_by_id(req, res){
+export async function onu_reboot_by_id(req, res) {
     const {id} = req.params;
-    const default_onu = axios.post(`${API_URL}/onu/reboot/${id}`, {},{
+    const default_onu = axios.post(`${API_URL}/onu/reboot/${id}`, {}, {
         headers: {
             'X-Token': API_KEY
         }
@@ -257,13 +257,12 @@ export async function onu_reboot_by_id(req, res){
 }
 
 
-
-export async function onu_bulk_disabled_by_id(req, res){
+export async function onu_bulk_disabled_by_id(req, res) {
     const {onu_ids} = req.body;
     if (onu_ids === undefined)
         throw new Error('onu_ids is undefined');
 
-    const bulk_onu = axios.post(`${API_URL}/onu/bulk_disable`, {onus_external_ids: onu_ids},{
+    const bulk_onu = axios.post(`${API_URL}/onu/bulk_disable`, {onus_external_ids: onu_ids}, {
         headers: {
             'X-Token': API_KEY
         }
@@ -278,24 +277,24 @@ export async function onu_bulk_disabled_by_id(req, res){
     })
 }
 
-export async function onu_upload_label(req, res){
+export async function onu_upload_label(req, res) {
     const {id} = req.params;
     const {file} = req.files;
-    const path_img =__dirname + '/../../public/assets/media/labels/'
-    try{
+    const path_img = __dirname + '/../../public/assets/media/labels/'
+    try {
 
         if (file === undefined) throw new Error("file undefined");
-        if (!file.mimetype.includes('image')) throw new Error ("file is not image");
+        if (!file.mimetype.includes('image')) throw new Error("file is not image");
 
-        file.mv(path_img + id +"." + file.name.split('.')[1]);
+        file.mv(path_img + id + "." + file.name.split('.')[1]);
 
         res.status(200).send(json_out("200", "Imagen cargada con exito", null))
-    }catch(e){
+    } catch (e) {
         res.status(400).send(json_out("400", e.message, e))
     }
 }
 
-export async function onu_authorize(req, res){
+export async function onu_authorize(req, res) {
     const {id} = req.params;
     const {body} = req;
     let data = new FormData();
@@ -316,28 +315,69 @@ export async function onu_authorize(req, res){
     data.append('download_speed_profile_name', body.download_speed_profile_name)
     data.append('onu_external_id', body.onu_external_id)
 
-    try{
+    try {
         const config = {
             method: 'post',
             maxBodyLength: Infinity,
             url: `${API_URL}/onu/authorize_onu`,
             headers: {
                 'X-Token': API_KEY,
-                    ...data.getHeaders()
+                ...data.getHeaders()
             },
             data: data
         }
-        axios(config).then(function(res_auth){
+        axios(config).then(function (res_auth) {
             console.log('res_auth', res_auth)
             res.status(200).send(json_out(200, 'OK', res_auth.data));
-        }).catch(function (error){
+        }).catch(function (error) {
             let status = error.status === undefined ? error.response.status : error.status;
             let data = error.data === undefined ? error.response.error : error.data;
             data = data === undefined ? error.response.data.error : data;
             res.status(status).send(json_out(status, data, data));
         })
 
-    }catch(e){
+    } catch (e) {
+        res.status(400).send(json_out("400", e.message, e))
+    }
+}
+
+export async function onu_update_sport(req, res) {
+    const {id} = req.params;
+    const {
+        service_port,
+        upload_speed_profile_name,
+        download_speed_profile_name,
+        vlan,
+    } = req.body;
+
+    let data = new FormData();
+
+    data.append('service_port', service_port);
+    data.append('vlan', vlan);
+    data.append('upload_speed_profile_name', upload_speed_profile_name);
+    data.append('download_speed_profile_name', download_speed_profile_name);
+
+    try {
+        const config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `${API_URL}/onu/update_service_port/${id}`,
+            headers: {
+                'X-Token': API_KEY,
+                ...data.getHeaders()
+            },
+            data: data
+        }
+        axios(config).then(function (res_auth) {
+            console.log('res_auth', res_auth)
+            res.status(200).send(json_out(200, 'OK', res_auth.data));
+        }).catch(function (error) {
+            let status = error.status === undefined ? error.response.status : error.status;
+            let data = error.data === undefined ? error.response.error : error.data;
+            data = data === undefined ? error.response.data.error : data;
+            res.status(status).send(json_out(status, data, data));
+        })
+    } catch (e) {
         res.status(400).send(json_out("400", e.message, e))
     }
 }

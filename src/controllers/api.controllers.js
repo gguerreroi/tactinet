@@ -590,3 +590,49 @@ export async function get_customers_by_id(req, res) {
         res.status(500).send(json_out('500', 'Error general in controller getAll customer ', e));
     }
 }
+
+export async function get_cash_dairy(req, res){
+    const {Username, Database, Password} = get_credentials(req);
+    const {dairy_date} = req.query;
+    let whr = '';
+    let sql = '';
+    let Connection = null;
+    let codoperador, codagencia, coddocumento;
+
+    try{
+        Connection = await get_connection(Username, Password, `${config.DB.HOST}`, `PLR00${Database}`);
+
+        if (Connection.code === 500)
+            throw {code: Connection.code, message: Connection.message};
+
+        const stmt = await Connection.request();
+
+        if (dairy_date)
+            whr += `where mvm.fchaplicacion = '${dairy_date}'`
+
+        sql = `select  mvm.codoperador,
+                        seguridad.fn_strusuariodb(mvm.codoperador) strusuario,
+                        empleados.fn_strnomempleado(mvm.codoperador) fullname,
+                        mvm.codagencia,
+                        financiero.fn_strareafinanciera(mvm.codagencia) 'stragencia'
+                from caja.mvm mvm 
+                ${whr}
+                group by mvm.codoperador, mvm.codagencia`;
+
+        stmt.query(`${sql}`, function(err, result){
+            if (err)
+                return res.status(500).send(json_out('500', `Error in query get_cash_dairy [${sql}]`, err))
+
+            let temp = result.recordset.map(function(value, index, array){
+                let oper, agen;
+
+            });
+
+
+
+            return res.status(200).json(json_out('200', 'Run OK', temp));
+        })
+    }catch(e){
+        return res.status(500).send(json_out('500', 'Error general in get_cash_dairy', null));
+    }
+}

@@ -74,6 +74,7 @@ r.get("/onu/:id/status/details", is_auth_api, onu.get_onu_details_status_by_id)
 r.get("/onu/:id/status/catv", is_auth_api, onu.get_onu_catv_status_by_id)
 r.get("/onu/:id/status/full", is_auth_api, onu.get_onu_full_status_by_id)
 r.get("/onu/:id/speedprofile", is_auth_api, onu.get_onu_speed_profile_by_id);
+r.post("/onu/:id/speedprofile", is_auth_api, onu.onu_update_sport);
 r.post("/onu/bulk/disable", is_auth_api, onu.onu_bulk_disabled_by_id);
 
 r.delete("/onu/:id", is_auth_api, onu.onu_delete_by_id);
@@ -82,6 +83,7 @@ r.post("/onu/:id", is_auth_api, onu.onu_reboot_by_id);
 
 r.get('/cash/dairy/resume', is_auth_api, apic.get_cash_dairy_resume)
 r.get('/cash/dairy/details', is_auth_api, apic.get_cash_dairy_details)
+r.get('/cash/dairy', is_auth_api, apic.get_cash_dairy)
 
 r.get('/documents/details/:id', is_auth_api, apic.get_document_by_id)
 r.get('/documents/details/:id/details', is_auth_api, apic.get_document_details_by_id)

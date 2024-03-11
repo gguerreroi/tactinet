@@ -158,6 +158,7 @@ const TNDairyInfo = function () {
             get_dairy_info();
         });
     }
+    
     return {
         init: function () {
             form_dairy = document.getElementById('form-dairy');
