@@ -60,9 +60,10 @@ r.get('/tasks/details/:id/comments', is_auth_api, apic.get_comments_by_task)
 r.post('/tasks/details/:id/comments', is_auth_api, apic.add_comment_to_task)
 r.post('/tasks/pending/:id/images', is_auth_api, apic.add_image_to_task)
 
-r.get('/onu/:id/unconfigured', is_auth_api, onu.get_onu_unconfigured)
-r.get('/onu/:id/signal', is_auth_api, onu.get_onu_signal_by_id)
-r.post("/onu/:id/enable", is_auth_api, onu.onu_enable_by_id)
+r.get('/onu', is_auth_api, onu.get_full_onus);
+r.get('/onu/:id/unconfigured', is_auth_api, onu.get_onu_unconfigured);
+r.get('/onu/:id/signal', is_auth_api, onu.get_onu_signal_by_id);
+r.post("/onu/:id/enable", is_auth_api, onu.onu_enable_by_id);
 r.post("/onu/:id/disabled", is_auth_api, onu.onu_disable_by_id);
 r.post("/onu/:id/upload", is_auth_api, onu.onu_upload_label);
 r.post("/onu/:id/authorize", is_auth_api, onu.onu_authorize);

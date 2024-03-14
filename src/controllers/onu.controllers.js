@@ -381,3 +381,21 @@ export async function onu_update_sport(req, res) {
         res.status(400).send(json_out("400", e.message, e))
     }
 }
+
+export async function get_full_onus(req, res) {
+
+    const aget = axios.get(`${API_URL}/onu/get_all_onus_details`, {
+        headers: {
+            'X-Token': API_KEY
+        }
+    });
+    Promise.all([aget]).then(values => {
+        res.status(200).send(json_out(200, 'Ok', values[0].data))
+    }).catch(error => {
+        console.log('otro error', error)
+        let status = error.status === undefined ? error.response.status : error.status;
+        let data = error.data === undefined ? error.response.error : error.data;
+        data = data === undefined ? error.response.data.error : data;
+        res.status(status).send(json_out(status, data, data));
+    })
+}
